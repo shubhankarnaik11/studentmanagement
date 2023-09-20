@@ -26,10 +26,18 @@ public class Mark {
     @JoinColumn(name = "studentId")
     private Student student;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "gradeNo")
+    private Grade grade;
 
     @ManyToOne
     @JoinColumn(name = "subjectId")
     private Subject subject;
+
+    @Column(nullable = false)
+    private Integer attempt;
+
 
     public Mark(Float mark, Student student, Subject subject){
         this.mark = mark;

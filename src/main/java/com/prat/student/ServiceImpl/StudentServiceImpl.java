@@ -77,7 +77,7 @@ public class StudentServiceImpl implements StudentService {
     public void updateStudentMark(Integer studentId, HashMap<String, Float> subjectMark){
         Student student = studentRepo.findByStudentId(studentId);
         if(student == null) throw new StudentNotFoundException();
-        Grade grade = student.getGradeNo();
+        Grade grade = student.getCurrentGrade();
         List<Subject> sub = grade.getSubjects();
         for(Subject s : sub){
             Mark mark = markRepo.findBySubjectAndStudent(s,student);

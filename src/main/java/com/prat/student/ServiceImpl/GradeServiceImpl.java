@@ -40,7 +40,7 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public void createGrade(GradeRequest grade){
-        Grade newGrade = new Grade(grade.getGradeNo());
+        Grade newGrade = new Grade(grade.getCurrentGrade());
         List<Subject> subjects = new ArrayList<>();
         List<String> subjectList = grade.getSubjects();
         for(String sub : subjectList){

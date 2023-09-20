@@ -26,7 +26,7 @@ public class Grade {
     private List<Subject> subjects;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "gradeNo")
+    @OneToMany(mappedBy = "currentGrade")
     private List<Student> student;
 
     public Grade(Integer gradeNo){

@@ -26,6 +26,15 @@ public class Subject {
     @Column(nullable = false)
     private String subjectName;
 
+    @Column(nullable = false)
+    private Integer maxMark;
+
+    @Column(nullable = false)
+    private Integer passMark;
+
+    @Column(nullable = false)
+    private Integer maxAttempt;
+
     @JsonIgnore
     @OneToMany(mappedBy = "subject")
     private List<Mark> marks;

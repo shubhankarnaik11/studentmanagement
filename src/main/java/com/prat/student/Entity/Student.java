@@ -1,6 +1,5 @@
 package com.prat.student.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,13 +35,16 @@ public class Student {
     private String motherName;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "gradeNo")
-    private Grade gradeNo;
+    @JoinColumn(name = "currentGrade")
+    private Grade currentGrade;
+
+    @OneToMany
+    private List<Grade> previousGrades;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
     private List<Mark> marks;
 
-    public Student(Integer studentId, String studentName, Integer rollNo, String address, Long contactNumber, String fatherName, String motherName, Grade gradeNo){
+    public Student(Integer studentId, String studentName, Integer rollNo, String address, Long contactNumber, String fatherName, String motherName, Grade currentGrade){
         this.studentId = studentId;
         this.studentName = studentName;
         this.rollNo = rollNo;
@@ -50,7 +52,7 @@ public class Student {
         this.contactNumber = contactNumber;
         this.fatherName = fatherName;
         this.motherName = motherName;
-        this.gradeNo = gradeNo;
+        this.currentGrade = currentGrade;
     }
 
 
