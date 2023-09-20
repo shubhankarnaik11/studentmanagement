@@ -27,10 +27,10 @@ public class Subject {
     private String subjectName;
 
     @Column(nullable = false)
-    private Integer maxMark;
+    private Float maxMark;
 
     @Column(nullable = false)
-    private Integer passMark;
+    private Float passMark;
 
     @Column(nullable = false)
     private Integer maxAttempt;
@@ -39,9 +39,12 @@ public class Subject {
     @OneToMany(mappedBy = "subject")
     private List<Mark> marks;
 
-    public Subject(Integer subjectId, String subjectName){
+    public Subject(Integer subjectId, String subjectName, Float maxMark, Float passMark, Integer maxAttempt){
         this.subjectId = subjectId;
         this.subjectName = subjectName;
+        this.maxMark = maxMark;
+        this.passMark = passMark;
+        this.maxAttempt = maxAttempt;
     }
 
 }

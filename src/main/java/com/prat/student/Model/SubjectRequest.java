@@ -7,6 +7,19 @@ import lombok.Getter;
 public class SubjectRequest {
     private Integer subjectId;
 
-    @Column(nullable = false)
     private String subjectName;
+
+    private Float maxMark;
+
+    private Float passMark;
+
+    private Integer maxAttempt;
+
+    public SubjectRequest(Integer subjectId, String subjectName, Float maxMark, Float passMark, Integer maxAttempt){
+        this.subjectId = subjectId;
+        this.subjectName = subjectName;
+        this.maxMark = maxMark;
+        this.passMark = passMark;
+        this.maxAttempt = maxAttempt;
+    }
 }
