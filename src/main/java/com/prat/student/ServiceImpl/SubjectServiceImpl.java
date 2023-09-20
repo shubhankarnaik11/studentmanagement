@@ -20,7 +20,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public void createSubject(SubjectRequest subject){
-        Subject newSubject = new Subject(subject.getSubjectId(), subject.getSubjectName(),subject.getMaxMark(),
+        Subject newSubject = new Subject(subject.getSubjectName(),subject.getMaxMark(),
                 subject.getPassMark(),subject.getMaxAttempt());
         subjectRepo.save(newSubject);
 

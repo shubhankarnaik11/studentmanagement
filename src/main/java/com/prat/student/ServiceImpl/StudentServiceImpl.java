@@ -4,10 +4,7 @@ import com.prat.student.Entity.Grade;
 import com.prat.student.Entity.Mark;
 import com.prat.student.Entity.Student;
 import com.prat.student.Entity.Subject;
-import com.prat.student.Exception.GradeNotFoundException;
-import com.prat.student.Exception.InvalidMarkException;
-import com.prat.student.Exception.StudentNotFoundException;
-import com.prat.student.Exception.SubjectNotFoundException;
+import com.prat.student.Exception.*;
 import com.prat.student.Model.StudentRequest;
 import com.prat.student.Repository.GradeRepository;
 import com.prat.student.Repository.MarkRepository;
@@ -19,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.lang.Math;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -75,24 +73,41 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void updateStudentMark(Integer studentId, HashMap<String, Float> subjectMark){
+        //getGradeIdFromStudent
+        //getMaxAttemptsFromSubjectDefn
+        // getTotalNoOfAttempts from MArks table
+        // if(Attemts+1 > maxAttempts) throw MAxAtteptExceededError
+        // new MArks(marks.save(new Marks(studentId,subjectId, gradeId, Attempt+1)))
+
+
+
+
+
         Student student = studentRepo.findByStudentId(studentId);
         if(student == null) throw new StudentNotFoundException();
+
         Grade grade = student.getCurrentGrade();
         List<Subject> sub = grade.getSubjects();
+
         for(Subject s : sub){
-            Mark mark = markRepo.findBySubjectAndStudent(s,student);
+            List<Mark> mark = markRepo.findBySubjectAndStudentAndGrade(s,student,grade);
+
             if(subjectMark.containsKey(s.getSubjectName())){
+
+                int attemptNo = Math.max(mark.size(), 1);
+
                 Float singleMark = subjectMark.get(s.getSubjectName());
-                if(singleMark<0 || singleMark>100) throw new InvalidMarkException();
-                if(mark != null) {
-                    mark.setMark(singleMark);
-                }
-                else{
-                        mark = new Mark(singleMark,student,s);
-                }
+
+                if ( attemptNo+1 > s.getMaxAttempt()) throw new MaxAttemptExceededException();
+
+                if(singleMark<0 || singleMark>s.getMaxMark()) throw new InvalidMarkException();
+
+                Mark newMark = new Mark(singleMark,student,s, grade, attemptNo+1);
+                markRepo.save(newMark);
             }
             else throw new SubjectNotFoundException();
-            markRepo.save(mark);
+
+
         }
     }
 

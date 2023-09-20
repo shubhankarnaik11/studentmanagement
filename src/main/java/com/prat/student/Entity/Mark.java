@@ -39,10 +39,12 @@ public class Mark {
     private Integer attempt;
 
 
-    public Mark(Float mark, Student student, Subject subject){
+    public Mark(Float mark, Student student, Subject subject, Grade grade, Integer attempt){
         this.mark = mark;
         this.student = student;
         this.subject = subject;
+        this.grade = grade;
+        this.attempt = attempt;
     }
 
 }

@@ -10,5 +10,4 @@ public interface SubjectService {
     public abstract void createSubject(SubjectRequest subject);
     public abstract List<Subject> getAllSubjects();
     public abstract Optional<Subject> getSubjectById(Integer subjectId);
-
 }
