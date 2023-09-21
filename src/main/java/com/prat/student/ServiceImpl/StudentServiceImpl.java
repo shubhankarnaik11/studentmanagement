@@ -4,10 +4,7 @@ import com.prat.student.Entity.Grade;
 import com.prat.student.Entity.Mark;
 import com.prat.student.Entity.Student;
 import com.prat.student.Entity.Subject;
-import com.prat.student.Exception.GradeNotFoundException;
-import com.prat.student.Exception.InvalidMarkException;
-import com.prat.student.Exception.StudentNotFoundException;
-import com.prat.student.Exception.SubjectNotFoundException;
+import com.prat.student.Exception.*;
 import com.prat.student.Model.StudentRequest;
 import com.prat.student.Repository.GradeRepository;
 import com.prat.student.Repository.MarkRepository;
@@ -16,9 +13,11 @@ import com.prat.student.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.lang.Math;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -49,7 +48,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void createStudent(StudentRequest newStudent){
-        Student student = new Student(newStudent.getStudentId(),newStudent.getStudentName(),newStudent.getRollNo(),
+        Student student = new Student(newStudent.getStudentName(),newStudent.getRollNo(),
                 newStudent.getAddress(), newStudent.getContactNumber(), newStudent.getFatherName(),
                 newStudent.getMotherName(), gradeRepo.findById(newStudent.getGradeNo()).orElseThrow(GradeNotFoundException::new));
         studentRepo.save(student);
@@ -67,7 +66,7 @@ public class StudentServiceImpl implements StudentService {
     public void updateStudent(StudentRequest updatedStudent) {
 
 
-        Student student = new Student(updatedStudent.getStudentId(), updatedStudent.getStudentName(), updatedStudent.getRollNo(),
+        Student student = new Student(updatedStudent.getStudentName(), updatedStudent.getRollNo(),
                 updatedStudent.getAddress(), updatedStudent.getContactNumber(), updatedStudent.getFatherName(),
                 updatedStudent.getMotherName(), gradeRepo.findById(updatedStudent.getGradeNo()).orElseThrow(GradeNotFoundException::new));
         studentRepo.save(student);
@@ -75,25 +74,45 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void updateStudentMark(Integer studentId, HashMap<String, Float> subjectMark){
+        //getGradeIdFromStudent
+        //getMaxAttemptsFromSubjectDefn
+        // getTotalNoOfAttempts from MArks table
+        // if(Attemts+1 > maxAttempts) throw MAxAtteptExceededError
+        // new MArks(marks.save(new Marks(studentId,subjectId, gradeId, Attempt+1)))
+
+
+
+
+
         Student student = studentRepo.findByStudentId(studentId);
         if(student == null) throw new StudentNotFoundException();
+
         Grade grade = student.getCurrentGrade();
         List<Subject> sub = grade.getSubjects();
+        List<Mark> markList = new ArrayList<>();
         for(Subject s : sub){
-            Mark mark = markRepo.findBySubjectAndStudent(s,student);
+            List<Mark> mark = markRepo.findBySubjectAndStudentAndGrade(s,student,grade);
+            System.out.println(s.getSubjectName()+" "+subjectMark.containsKey(s.getSubjectName()));
             if(subjectMark.containsKey(s.getSubjectName())){
+
+
+                int attemptNo = Math.max(mark.size()+1, 1);
+
                 Float singleMark = subjectMark.get(s.getSubjectName());
-                if(singleMark<0 || singleMark>100) throw new InvalidMarkException();
-                if(mark != null) {
-                    mark.setMark(singleMark);
-                }
-                else{
-                        mark = new Mark(singleMark,student,s);
-                }
+
+                if ( attemptNo > s.getMaxAttempt()) throw new MaxAttemptExceededException();
+
+                if(singleMark<0 || singleMark>s.getMaxMark()) throw new InvalidMarkException();
+
+                Mark newMark = new Mark(singleMark,student,s, grade, attemptNo);
+                markList.add(newMark);
+                subjectMark.remove(s.getSubjectName());
             }
-            else throw new SubjectNotFoundException();
-            markRepo.save(mark);
+
+
         }
+        if(!subjectMark.isEmpty()) throw new SubjectNotFoundException();
+        markRepo.saveAll(markList);
     }
 
 }

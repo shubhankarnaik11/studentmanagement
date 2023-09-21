@@ -1,10 +1,7 @@
 package com.prat.student.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +17,11 @@ import java.util.List;
 public class Subject {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Integer subjectId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String subjectName;
 
     @Column(nullable = false)
@@ -39,8 +37,8 @@ public class Subject {
     @OneToMany(mappedBy = "subject")
     private List<Mark> marks;
 
-    public Subject(Integer subjectId, String subjectName, Float maxMark, Float passMark, Integer maxAttempt){
-        this.subjectId = subjectId;
+    public Subject(String subjectName, Float maxMark, Float passMark, Integer maxAttempt){
+
         this.subjectName = subjectName;
         this.maxMark = maxMark;
         this.passMark = passMark;

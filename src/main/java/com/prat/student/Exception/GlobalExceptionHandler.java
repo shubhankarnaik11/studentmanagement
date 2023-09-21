@@ -30,12 +30,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidMarkException.class)
     public ResponseEntity<Object> exception(InvalidMarkException exception) {
-        return new ResponseEntity<>("Invalid Mark, should be between 0 and 100", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Invalid Mark, should be between 0 and 100", HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(SubjectAlreadyExistsException.class)
     public ResponseEntity<Object> exception(SubjectAlreadyExistsException exception) {
-        return new ResponseEntity<>("Subject Already Exists for the Grade", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Subject Already Exists for the Grade", HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(MaxAttemptExceededException.class)
+    public ResponseEntity<Object> exception(MaxAttemptExceededException exception) {
+        return new ResponseEntity<>("Max Attempt Exceeded for the Subject", HttpStatus.NOT_ACCEPTABLE);
     }
 
 }

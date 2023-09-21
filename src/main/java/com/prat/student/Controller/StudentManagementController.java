@@ -10,6 +10,7 @@ import com.prat.student.ServiceImpl.GradeServiceImpl;
 import com.prat.student.ServiceImpl.StudentServiceImpl;
 import com.prat.student.ServiceImpl.SubjectServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,8 +74,7 @@ public class StudentManagementController {
 
     @Operation(summary = "Update Student Marks")
     @PutMapping("/updateStudentMarks/{studentId}")
-    public ResponseEntity<String> updateStudentMarks(@PathVariable Integer studentId,
-                                                     @RequestBody HashMap<String, Float> subjectMark) {
+    public ResponseEntity<String> updateStudentMarks(@PathVariable Integer studentId, @RequestBody HashMap<String, Float> subjectMark) {
         studentService.updateStudentMark(studentId, subjectMark);
         return new ResponseEntity<>("Updated Marks", HttpStatus.OK);
     }
@@ -126,7 +126,7 @@ public class StudentManagementController {
 
     @Operation(summary = "Add new Subject")
     @PostMapping("/createSubject")
-    public ResponseEntity<String> createSubject(@RequestBody SubjectRequest subject) {
+    public ResponseEntity<String> createSubject(@Valid @RequestBody SubjectRequest subject) {
         subjectService.createSubject(subject);
         return new ResponseEntity<>(" Subject Created Successfully", HttpStatus.CREATED);
     }

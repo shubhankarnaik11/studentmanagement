@@ -8,8 +8,6 @@ import lombok.Setter;
 @Getter
 public class StudentRequest {
 
-    private Integer studentId;
-
     private String studentName;
 
     private Integer rollNo;
@@ -23,4 +21,6 @@ public class StudentRequest {
     private String motherName;
 
     private Integer gradeNo;
+
+
 }

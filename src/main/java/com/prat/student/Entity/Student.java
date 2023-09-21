@@ -44,8 +44,7 @@ public class Student {
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
     private List<Mark> marks;
 
-    public Student(Integer studentId, String studentName, Integer rollNo, String address, Long contactNumber, String fatherName, String motherName, Grade currentGrade){
-        this.studentId = studentId;
+    public Student(String studentName, Integer rollNo, String address, Long contactNumber, String fatherName, String motherName, Grade currentGrade){
         this.studentName = studentName;
         this.rollNo = rollNo;
         this.address = address;
