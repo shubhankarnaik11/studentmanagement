@@ -5,7 +5,9 @@ import com.prat.student.Model.GradeRequest;
 import com.prat.student.ServiceImpl.GradeServiceImpl;
 import com.prat.student.response.ResponseDataObject;
 import com.prat.student.response.ResponseObject;
+
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +42,7 @@ public class GradeController {
 
     @Operation(summary = "Add A Grade")
     @PostMapping("/createGrade")
-    public ResponseEntity<ResponseDataObject> createGrade(@RequestBody GradeRequest grade) {
+    public ResponseEntity<ResponseDataObject> createGrade(@RequestBody @Valid GradeRequest grade) {
         gradeService.createGrade(grade);
         return ResponseObject.getResponseObject(
                 new ResponseDataObject(HttpStatus.CREATED, null,"Successful", true)
