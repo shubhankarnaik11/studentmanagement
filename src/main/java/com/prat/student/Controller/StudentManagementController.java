@@ -109,27 +109,25 @@ public class StudentManagementController {
     }
 
 
-    @Operation(summary = "Get list of all Subjects")
-    @GetMapping("/getAllSubjects")
-    public ResponseEntity<List<Subject>> getAllSubjects() {
-        List<Subject> subjectList = subjectService.getAllSubjects();
-        return new ResponseEntity<>(subjectList, HttpStatus.OK);
-    }
-
-    @Operation(summary = "Get Subject By Id")
-    @GetMapping("/getSubject/{subjectId}")
-    public ResponseEntity<Optional<Subject>> getSubject(@PathVariable Integer subjectId) {
-        Optional<Subject> subject = subjectService.getSubjectById(subjectId);
-
-        return new ResponseEntity<>(subject, HttpStatus.OK);
-    }
-
-    @Operation(summary = "Add new Subject")
-    @PostMapping("/createSubject")
-    public ResponseEntity<String> createSubject(@Valid @RequestBody SubjectRequest subject) {
-        subjectService.createSubject(subject);
-        return new ResponseEntity<>(" Subject Created Successfully", HttpStatus.CREATED);
-    }
+//    @Operation(summary = "Get list of all Subjects")
+//    @GetMapping("/getAllSubjects")
+//    public ResponseEntity<List<Subject>> getAllSubjects() {
+//        List<Subject> subjectList = subjectService.getAllSubjects();
+//        return new ResponseEntity<>(subjectList, HttpStatus.OK);
+//    }
+//    @Operation(summary = "Get Subject By Id")
+//    @GetMapping("/getSubject/{subjectId}")
+//    public ResponseEntity<Optional<Subject>> getSubject(@PathVariable Integer subjectId) {
+//        Optional<Subject> subject = subjectService.getSubjectById(subjectId);
+//        return new ResponseEntity<>(subject, HttpStatus.OK);
+//    }
+//
+//    @Operation(summary = "Add new Subject")
+//    @PostMapping("/createSubject")
+//    public ResponseEntity<String> createSubject(@Valid @RequestBody SubjectRequest subject) {
+//        subjectService.createSubject(subject);
+//        return new ResponseEntity<>(" Subject Created Successfully", HttpStatus.CREATED);
+//    }
 
 
 }

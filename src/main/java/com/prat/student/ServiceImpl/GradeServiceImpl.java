@@ -44,7 +44,8 @@ public class GradeServiceImpl implements GradeService {
         List<Subject> subjects = new ArrayList<>();
         List<String> subjectList = grade.getSubjects();
         for(String sub : subjectList){
-            if(subjectRepo.findBySubjectName(sub) == null) throw new SubjectNotFoundException();
+            if(subjectRepo.findBySubjectName(sub) == null)
+                throw new SubjectNotFoundException();
             else{
                 newGrade.getSubjects().add(subjectRepo.findBySubjectName(sub));
             }
