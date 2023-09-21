@@ -30,24 +30,25 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private MarkRepository markRepo;
 
-    @Override
-    public List<Student> getAllStudents(){
-        List<Student> studentList = studentRepo.findAll();
-        return studentList;
+    private Student findStudentByStudentId(Integer studentId){
+        Student student = studentRepo.findByStudentId(studentId);
+        if(student == null) throw new StudentNotFoundException();
+        return student;
     }
 
     @Override
-    public Optional<Student> getStudentById(Integer studentId){
+    public List<Student> getAllStudents(){
+        return studentRepo.findAll();
+    }
 
-        if(studentRepo.findById(studentId).isEmpty()){
-            throw new StudentNotFoundException();
-        }
-
-        return studentRepo.findById(studentId);
+    @Override
+    public Student getStudentById(Integer studentId){
+        return findStudentByStudentId(studentId);
     }
 
     @Override
     public void createStudent(StudentRequest newStudent){
+
         Student student = new Student(newStudent.getStudentName(),newStudent.getRollNo(),
                 newStudent.getAddress(), newStudent.getContactNumber(), newStudent.getFatherName(),
                 newStudent.getMotherName(), gradeRepo.findById(newStudent.getGradeNo()).orElseThrow(GradeNotFoundException::new));
@@ -56,16 +57,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudent(Integer studentId){
-        if(studentRepo.findById(studentId).isEmpty()){
-            throw new StudentNotFoundException();
-        }
+        findStudentByStudentId(studentId);
         studentRepo.deleteById(studentId);
     }
 
     @Override
     public void updateStudent(StudentRequest updatedStudent) {
-
-
         Student student = new Student(updatedStudent.getStudentName(), updatedStudent.getRollNo(),
                 updatedStudent.getAddress(), updatedStudent.getContactNumber(), updatedStudent.getFatherName(),
                 updatedStudent.getMotherName(), gradeRepo.findById(updatedStudent.getGradeNo()).orElseThrow(GradeNotFoundException::new));
@@ -74,44 +71,30 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void updateStudentMark(Integer studentId, HashMap<String, Float> subjectMark){
-        //getGradeIdFromStudent
-        //getMaxAttemptsFromSubjectDefn
-        // getTotalNoOfAttempts from MArks table
-        // if(Attemts+1 > maxAttempts) throw MAxAtteptExceededError
-        // new MArks(marks.save(new Marks(studentId,subjectId, gradeId, Attempt+1)))
 
-
-
-
-
-        Student student = studentRepo.findByStudentId(studentId);
-        if(student == null) throw new StudentNotFoundException();
+        Student student = findStudentByStudentId(studentId);
 
         Grade grade = student.getCurrentGrade();
         List<Subject> sub = grade.getSubjects();
         List<Mark> markList = new ArrayList<>();
+
         for(Subject s : sub){
+
             List<Mark> mark = markRepo.findBySubjectAndStudentAndGrade(s,student,grade);
-            System.out.println(s.getSubjectName()+" "+subjectMark.containsKey(s.getSubjectName()));
+
             if(subjectMark.containsKey(s.getSubjectName())){
-
-
                 int attemptNo = Math.max(mark.size()+1, 1);
-
                 Float singleMark = subjectMark.get(s.getSubjectName());
-
                 if ( attemptNo > s.getMaxAttempt()) throw new MaxAttemptExceededException();
-
-                if(singleMark<0 || singleMark>s.getMaxMark()) throw new InvalidMarkException();
-
+                if( singleMark<0 || singleMark>s.getMaxMark()) throw new InvalidMarkException();
                 Mark newMark = new Mark(singleMark,student,s, grade, attemptNo);
                 markList.add(newMark);
                 subjectMark.remove(s.getSubjectName());
             }
-
-
         }
+
         if(!subjectMark.isEmpty()) throw new SubjectNotFoundException();
+
         markRepo.saveAll(markList);
     }
 
