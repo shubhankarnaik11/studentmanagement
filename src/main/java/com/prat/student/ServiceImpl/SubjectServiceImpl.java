@@ -23,7 +23,6 @@ public class SubjectServiceImpl implements SubjectService {
         Subject newSubject = new Subject(subject.getSubjectName(),subject.getMaxMark(),
                 subject.getPassMark(),subject.getMaxAttempt());
         subjectRepo.save(newSubject);
-
     }
 
     @Override
@@ -34,12 +33,12 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Optional<Subject> getSubjectById(Integer subjectId){
-        if(subjectRepo.findById(subjectId).isEmpty()){
+    public Subject getSubjectById(Integer subjectId){
+        Subject subject = subjectRepo.findBySubjectId(subjectId);
+        if(subject == null){
             throw new SubjectNotFoundException();
         }
-
-        return subjectRepo.findById(subjectId);
+        return subject;
     }
 
 

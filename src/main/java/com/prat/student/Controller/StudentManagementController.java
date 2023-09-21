@@ -79,57 +79,55 @@ public class StudentManagementController {
         return new ResponseEntity<>("Updated Marks", HttpStatus.OK);
     }
 
-    @Operation(summary = "Get list of all Grades")
-    @GetMapping("/getAllGrade")
-    public ResponseEntity<List<?>> getGrades() {
-        List<Grade> classList = gradeService.getGrades();
-        return new ResponseEntity<>(classList, HttpStatus.OK);
-    }
+//    @Operation(summary = "Get list of all Grades")
+//    @GetMapping("/getAllGrade")
+//    public ResponseEntity<List<?>> getGrades() {
+//        List<Grade> classList = gradeService.getGrades();
+//        return new ResponseEntity<>(classList, HttpStatus.OK);
+//    }
+//
+//    @Operation(summary = "Get Grade By Grade Number")
+//    @GetMapping("/getGradeById/{gradeNo}")
+//    public ResponseEntity<Optional<Grade>> getGradeById(@PathVariable Integer gradeNo) {
+//        Optional<Grade> grade = gradeService.getGradeById(gradeNo);
+//
+//        return new ResponseEntity<>(grade, HttpStatus.OK);
+//    }
+//
+//    @Operation(summary = "Add A Grade")
+//    @PostMapping("/createGrade")
+//    public ResponseEntity<String> createGrade(@RequestBody GradeRequest grade) {
+//        gradeService.createGrade(grade);
+//        return new ResponseEntity<>("Grade Created Successfully", HttpStatus.CREATED);
+//    }
+//
+//    @Operation(summary = "Add more Subjects to a Grade")
+//    @PutMapping("/addSubjectsToGrade/{gradeNo}")
+//    public ResponseEntity<String> addSubjectsToGrade(@PathVariable Integer gradeNo, @RequestBody List<String> subjects) {
+//        gradeService.addSubjectsToGrade(gradeNo, subjects);
+//        return new ResponseEntity<>("Subjects Added to Grade Successfully", HttpStatus.OK);
+//    }
 
-    @Operation(summary = "Get Grade By Grade Number")
-    @GetMapping("/getGradeById/{gradeNo}")
-    public ResponseEntity<Optional<Grade>> getGradeById(@PathVariable Integer gradeNo) {
-        Optional<Grade> grade = gradeService.getGradeById(gradeNo);
 
-        return new ResponseEntity<>(grade, HttpStatus.OK);
-    }
-
-    @Operation(summary = "Add A Grade")
-    @PostMapping("/createGrade")
-    public ResponseEntity<String> createGrade(@RequestBody GradeRequest grade) {
-        gradeService.createGrade(grade);
-        return new ResponseEntity<>("Grade Created Successfully", HttpStatus.CREATED);
-    }
-
-    @Operation(summary = "Add more Subjects to a Grade")
-    @PutMapping("/addSubjectsToGrade/{gradeNo}")
-    public ResponseEntity<String> addSubjectsToGrade(@PathVariable Integer gradeNo, @RequestBody List<String> subjects) {
-        gradeService.addSubjectsToGrade(gradeNo, subjects);
-        return new ResponseEntity<>("Subjects Added to Grade Successfully", HttpStatus.OK);
-    }
-
-
-    @Operation(summary = "Get list of all Subjects")
-    @GetMapping("/getAllSubjects")
-    public ResponseEntity<List<Subject>> getAllSubjects() {
-        List<Subject> subjectList = subjectService.getAllSubjects();
-        return new ResponseEntity<>(subjectList, HttpStatus.OK);
-    }
-
-    @Operation(summary = "Get Subject By Id")
-    @GetMapping("/getSubject/{subjectId}")
-    public ResponseEntity<Optional<Subject>> getSubject(@PathVariable Integer subjectId) {
-        Optional<Subject> subject = subjectService.getSubjectById(subjectId);
-
-        return new ResponseEntity<>(subject, HttpStatus.OK);
-    }
-
-    @Operation(summary = "Add new Subject")
-    @PostMapping("/createSubject")
-    public ResponseEntity<String> createSubject(@Valid @RequestBody SubjectRequest subject) {
-        subjectService.createSubject(subject);
-        return new ResponseEntity<>(" Subject Created Successfully", HttpStatus.CREATED);
-    }
+//    @Operation(summary = "Get list of all Subjects")
+//    @GetMapping("/getAllSubjects")
+//    public ResponseEntity<List<Subject>> getAllSubjects() {
+//        List<Subject> subjectList = subjectService.getAllSubjects();
+//        return new ResponseEntity<>(subjectList, HttpStatus.OK);
+//    }
+//    @Operation(summary = "Get Subject By Id")
+//    @GetMapping("/getSubject/{subjectId}")
+//    public ResponseEntity<Optional<Subject>> getSubject(@PathVariable Integer subjectId) {
+//        Optional<Subject> subject = subjectService.getSubjectById(subjectId);
+//        return new ResponseEntity<>(subject, HttpStatus.OK);
+//    }
+//
+//    @Operation(summary = "Add new Subject")
+//    @PostMapping("/createSubject")
+//    public ResponseEntity<String> createSubject(@Valid @RequestBody SubjectRequest subject) {
+//        subjectService.createSubject(subject);
+//        return new ResponseEntity<>(" Subject Created Successfully", HttpStatus.CREATED);
+//    }
 
 
 }

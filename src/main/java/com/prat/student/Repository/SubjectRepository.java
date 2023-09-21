@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface SubjectRepository extends JpaRepository<Subject,Integer> {
 
+    public Subject findBySubjectId(Integer subjectId);
     public Subject findBySubjectName(String subjectName);
 
 }
