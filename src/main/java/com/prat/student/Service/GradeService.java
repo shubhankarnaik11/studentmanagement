@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface GradeService {
 
     public abstract List<Grade> getGrades();
-    public abstract Optional<Grade> getGradeById(Integer gradeNo);
+    public abstract Grade getGradeByGradeNo(Integer gradeNo);
     public abstract void createGrade(GradeRequest grade);
     public abstract void addSubjectsToGrade(Integer grade, List<String> subjects);
 }

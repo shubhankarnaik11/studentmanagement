@@ -5,15 +5,17 @@ import com.prat.student.Model.SubjectRequest;
 import com.prat.student.ServiceImpl.SubjectServiceImpl;
 import com.prat.student.response.ResponseDataObject;
 import com.prat.student.response.ResponseObject;
+
 import io.swagger.v3.oas.annotations.Operation;
+
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/subjects")

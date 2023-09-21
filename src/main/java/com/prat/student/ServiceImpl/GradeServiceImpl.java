@@ -24,49 +24,51 @@ public class GradeServiceImpl implements GradeService {
     @Autowired
     private SubjectRepository subjectRepo;
 
-    @Override
-    public List<Grade> getGrades(){
+    private Subject findBySubjectName(String subjectName){
+        Subject s = subjectRepo.findBySubjectName(subjectName);
+        if( s == null) throw new SubjectNotFoundException();
+        return s;
+    }
 
-        List<Grade> gradeList = gradeRepo.findAll();
-        return gradeList;
+    private Grade findByGradeNo(Integer gradeNo){
+        Grade grade = gradeRepo.findByGradeNo(gradeNo);
+        if(grade == null) throw new GradeNotFoundException();
+        return grade;
     }
 
     @Override
-    public Optional<Grade> getGradeById(Integer gradeNo){
-        Optional<Grade> grade = gradeRepo.findById(gradeNo);
-        if(grade.isEmpty()) throw new GradeNotFoundException();
-        return grade;
+    public List<Grade> getGrades(){
+        return gradeRepo.findAll();
+    }
+
+    @Override
+    public Grade getGradeByGradeNo(Integer gradeNo){
+        return findByGradeNo(gradeNo);
     }
 
     @Override
     public void createGrade(GradeRequest grade){
         Grade newGrade = new Grade(grade.getGradeNo());
-        List<Subject> subjects = new ArrayList<>();
         List<String> subjectList = grade.getSubjects();
-        for(String sub : subjectList){
-            if(subjectRepo.findBySubjectName(sub) == null)
-                throw new SubjectNotFoundException();
-            else{
-                newGrade.getSubjects().add(subjectRepo.findBySubjectName(sub));
-            }
-        }
 
+        for(String sub : subjectList){
+            Subject s = findBySubjectName(sub);
+            newGrade.getSubjects().add(subjectRepo.findBySubjectName(sub));
+        }
         gradeRepo.save(newGrade);
     }
 
+
+
     @Override
     public void addSubjectsToGrade(Integer gradeNo, List<String> subjects){
-        Grade grade = gradeRepo.findByGradeNo(gradeNo);
-        if(grade == null) throw new GradeNotFoundException();
-        for(String sub : subjects){
-            Subject s = subjectRepo.findBySubjectName(sub);
-            if( s == null) throw new SubjectNotFoundException();
-            else{
-                Optional<Subject> gradeSubject = grade.getSubjects().stream().filter( su -> su.equals(s)).findFirst();
-                if(gradeSubject.isPresent()) throw new SubjectAlreadyExistsException();
-                grade.getSubjects().add(s);
-            }
+        Grade grade = findByGradeNo(gradeNo);
 
+        for(String sub : subjects){
+            Subject s = findBySubjectName(sub);
+            Optional<Subject> gradeSubject = grade.getSubjects().stream().filter( su -> su.equals(s)).findFirst();
+            if(gradeSubject.isPresent()) throw new SubjectAlreadyExistsException();
+            grade.getSubjects().add(s);
         }
         gradeRepo.save(grade);
     }
