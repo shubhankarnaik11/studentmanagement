@@ -3,6 +3,7 @@ package com.prat.student.Service;
 import com.prat.student.Entity.Grade;
 import com.prat.student.Entity.Subject;
 import com.prat.student.Repository.GradeRepository;
+import com.prat.student.Repository.SubjectRepository;
 import com.prat.student.ServiceImpl.GradeServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +24,9 @@ public class GradeServiceTest {
     @Mock
     GradeRepository gradeRepo;
 
+//    @Mock
+//    SubjectRepository subjectRepo;
+
     @InjectMocks
     GradeServiceImpl gradeService;
 
@@ -42,14 +46,21 @@ public class GradeServiceTest {
         grade.add(new Grade(2));
         when(gradeRepo.findAll()).thenReturn(grade);
 
-        List<Grade> expected = gradeService.getGrades();
-        assertEquals(grade,expected);
+        List<Grade> expectedGradeListGradeList);
 
     }
 
     @Test
     public void getGradeByIdTest(){
-
+        Integer gradeNo =10;
+        Grade grade = new Grade(1);
+        when(gradeRepo.findByGradeNo(gradeNo)).thenReturn(grade);
+        Grade expectedGrade = gradeService.getGradeByGradeNo(gradeNo);
+        assertEquals(grade,expectedGrade);
     }
+
+
+
+
 
 }

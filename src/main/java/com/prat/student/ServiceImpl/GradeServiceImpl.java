@@ -20,7 +20,7 @@ import java.util.Optional;
 public class GradeServiceImpl implements GradeService {
 
     @Autowired
-    GradeRepository gradeRepo;
+    private GradeRepository gradeRepo;
     @Autowired
     private SubjectRepository subjectRepo;
 
