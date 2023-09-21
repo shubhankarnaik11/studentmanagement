@@ -7,7 +7,7 @@ import java.util.List;
 @Getter
 public class GradeRequest {
 
-    private Integer currentGrade;
+    private Integer gradeNo;
 
     private List<String> subjects;
 
