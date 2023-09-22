@@ -1,6 +1,7 @@
 package com.prat.student.ServiceImpl;
 
 import com.prat.student.Entity.Subject;
+import com.prat.student.Exception.SubjectAlreadyExistsException;
 import com.prat.student.Exception.SubjectNotFoundException;
 import com.prat.student.Model.SubjectRequest;
 import com.prat.student.Repository.SubjectRepository;
@@ -20,9 +21,13 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public void createSubject(SubjectRequest subject){
-        Subject newSubject = new Subject(subject.getSubjectName(),subject.getMaxMark(),
-                subject.getPassMark(),subject.getMaxAttempt());
-        subjectRepo.save(newSubject);
+        Subject alreadyExistingSubject = subjectRepo.findBySubjectName(subject.getSubjectName());
+        if(alreadyExistingSubject == null) {
+            Subject newSubject = new Subject(subject.getSubjectName(), subject.getMaxMark(),
+                    subject.getPassMark(), subject.getMaxAttempt());
+            subjectRepo.save(newSubject);
+        }
+        else throw new SubjectAlreadyExistsException();
     }
 
     @Override

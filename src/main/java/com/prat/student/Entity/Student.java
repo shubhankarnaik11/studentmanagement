@@ -33,7 +33,7 @@ public class Student {
     @Column(nullable = false)
     private String motherName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "currentGrade")
     private Grade currentGrade;
 
