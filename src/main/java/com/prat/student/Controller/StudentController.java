@@ -70,6 +70,15 @@ public class StudentController {
     }
 
 
+    @Operation(summary = "Promote Student")
+    @PutMapping("/promote/{studentId}")
+    public ResponseEntity<ResponseDataObject> updateStudentMarks1(@PathVariable Integer studentId) {
+        HashMap<String, Object> promote = studentService.promoteStudent(studentId);
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.OK, promote,"Success", true)
+        );
+    }
+
 
 
 

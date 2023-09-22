@@ -13,11 +13,9 @@ import com.prat.student.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.lang.Math;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -34,6 +32,22 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepo.findByStudentId(studentId);
         if(student == null) throw new StudentNotFoundException();
         return student;
+    }
+
+    private Mark getMaxMark(LinkedList <Mark> marks){
+
+        if(marks.size() == 1){
+            return marks.getFirst();
+        }
+
+        else{
+            Mark m1 = marks.remove(1);
+            Mark m2 = getMaxMark(marks);
+            if(m2 == null) return m1;
+            if(m1.getMark() > m2.getMark()) return m1;
+            return m2;
+        }
+
     }
 
     @Override
@@ -97,5 +111,64 @@ public class StudentServiceImpl implements StudentService {
 
         markRepo.saveAll(markList);
     }
+
+    private boolean setStudentFinalMarks(Integer studentId){
+
+        List <Subject> failedSubjects = new LinkedList<>();
+
+        Student student =  findStudentByStudentId(studentId);
+
+        Grade grade = student.getCurrentGrade();
+
+        List<Subject> subjects = grade.getSubjects();
+
+        List<Mark> studentMarks = markRepo.findByStudent(student.getStudentId());
+
+        for(Subject subject: subjects){
+
+            List<Mark> subjectMarks =  studentMarks.stream().filter(s -> s.getSubject().equals(subject)).toList();
+
+            if(subjectMarks.isEmpty()) continue;
+
+            LinkedList<Mark> studentMarksList = new LinkedList<>(subjectMarks); ///doubt
+            Mark selectedAttemptMark = getMaxMark(studentMarksList);
+
+            if(selectedAttemptMark.getMark() < subject.getPassMark()){
+                failedSubjects.add(subject);
+            }
+
+            markRepo.deleteOtherAttempts(studentId, subject.getSubjectId(), selectedAttemptMark.getMarkId());
+
+        }
+        if(failedSubjects.isEmpty()){
+            markRepo.setCurrentYearFalse(studentId);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public HashMap<String, Object> promoteStudent(Integer studentId){
+        Student student = findStudentByStudentId(studentId);
+        boolean pass = setStudentFinalMarks(studentId);
+        HashMap<String, Object> retObject = new HashMap<>();
+
+        if(pass){
+            Grade currentGrade = student.getCurrentGrade();
+            Grade newGrade = gradeRepo.findByGradeNo(currentGrade.getGradeNo()+1);
+            student.setCurrentGrade(newGrade);
+            student.getPreviousGrades().add(currentGrade);
+
+            retObject.put("Student", student);
+            retObject.put("Promoted", true);
+            return retObject;
+        }
+
+        retObject.put("Student", student);
+        retObject.put("Promoted", false);
+        return retObject;
+    }
+
 
 }
