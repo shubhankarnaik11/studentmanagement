@@ -10,10 +10,8 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 public class Subject {
 
     @Id
@@ -38,7 +36,6 @@ public class Subject {
     private List<Mark> marks;
 
     public Subject(String subjectName, Float maxMark, Float passMark, Integer maxAttempt){
-
         this.subjectName = subjectName;
         this.maxMark = maxMark;
         this.passMark = passMark;

@@ -18,7 +18,7 @@ public interface MarkRepository extends JpaRepository<Mark,Integer> {
     public List<Mark> findByStudent(@Param("id") Integer studentId);
 
     @Modifying
-    @Query(value = "DELETE FROM mark WHERE student_id = :studentId and is_current_year_mark=true and subject_id = :subjectId and mark_id != :markId", nativeQuery = true)
+    @Query(value = "DELETE FROM mark WHERE student_id = :studentId and is_current_year_mark=true and subject_id = :subjectId and mark_id <> :markId", nativeQuery = true)
     public void deleteOtherAttempts(@Param("studentId") Integer studentId, @Param("subjectId") Integer subjectId, @Param("markId") Integer markId);
 
     @Modifying

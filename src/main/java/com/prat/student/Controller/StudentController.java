@@ -22,7 +22,7 @@ public class StudentController {
     @Autowired
     StudentServiceImpl studentService;
     @Operation(summary = "Get list of all Students")
-    @GetMapping("/getAllStudents")
+    @GetMapping("/get-all-students")
     public ResponseEntity<ResponseDataObject> getAllStudents() {
         List<Student> studentList = studentService.getAllStudents();
         return ResponseObject.getResponseObject(
@@ -31,7 +31,7 @@ public class StudentController {
     }
 
     @Operation(summary = "Add Student")
-    @PostMapping("/createStudent")
+    @PostMapping("/create-student")
     public ResponseEntity<ResponseDataObject> createStudent(@RequestBody StudentRequest newStudent) {
         studentService.createStudent(newStudent);
 
@@ -42,7 +42,7 @@ public class StudentController {
 
 
     @Operation(summary = "Delete Student By Id")
-    @DeleteMapping("/deleteStudent/{studentId}")
+    @DeleteMapping("/delete-student/{student-id}")
     public ResponseEntity<ResponseDataObject> deleteStudent(@PathVariable Integer studentId) {
         studentService.deleteStudent(studentId);
         return ResponseObject.getResponseObject(
@@ -51,7 +51,7 @@ public class StudentController {
     }
 
     @Operation(summary = "Update Student")
-    @PutMapping("/updateStudent")
+    @PutMapping("/update-student")
     public ResponseEntity<ResponseDataObject> updateStudent(@RequestBody @Valid StudentRequest updatedStudent) {
         studentService.updateStudent(updatedStudent);
         return ResponseObject.getResponseObject(
@@ -61,7 +61,7 @@ public class StudentController {
 
 
     @Operation(summary = "Update Student Marks")
-    @PutMapping("/updateStudentMarks/{studentId}")
+    @PutMapping("/update-student-marks/{student-id}")
     public ResponseEntity<ResponseDataObject> updateStudentMarks(@PathVariable Integer studentId, @RequestBody HashMap<String, Float> subjectMark) {
         studentService.updateStudentMark(studentId, subjectMark);
         return ResponseObject.getResponseObject(
@@ -71,7 +71,7 @@ public class StudentController {
 
 
     @Operation(summary = "Promote Student")
-    @PutMapping("/promote/{studentId}")
+    @PutMapping("/promote/{student-id}")
     public ResponseEntity<ResponseDataObject> updateStudentMarks1(@PathVariable Integer studentId) {
         HashMap<String, Object> promote = studentService.promoteStudent(studentId);
         return ResponseObject.getResponseObject(

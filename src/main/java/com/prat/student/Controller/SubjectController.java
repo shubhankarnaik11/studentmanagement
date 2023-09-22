@@ -24,14 +24,14 @@ public class SubjectController {
     SubjectServiceImpl subjectService;
 
     @Operation(summary = "Add new Subject")
-    @PostMapping("/createSubject")
+    @PostMapping("/create-subject")
     public ResponseEntity<String> createSubject(@Valid @RequestBody SubjectRequest subject) {
         subjectService.createSubject(subject);
         return new ResponseEntity<>(" Subject Created Successfully", HttpStatus.CREATED);
     }
 
     @Operation(summary = "Get list of all Subjects")
-    @GetMapping("/getAllSubjects")
+    @GetMapping("/get-all-subjects")
     public ResponseEntity<ResponseDataObject> getAllSubjects() {
         List<Subject> subjectList = subjectService.getAllSubjects();
         return ResponseObject.getResponseObject(
@@ -40,7 +40,7 @@ public class SubjectController {
     }
 
     @Operation(summary = "Get Subject By Id")
-    @GetMapping("/getSubject/{subjectId}")
+    @GetMapping("/get-subject/{subject-id}")
     public ResponseEntity<ResponseDataObject> getSubject(@PathVariable Integer subjectId) {
         Subject subject = subjectService.getSubjectById(subjectId);
         return ResponseObject.getResponseObject(

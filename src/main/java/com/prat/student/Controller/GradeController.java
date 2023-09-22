@@ -22,7 +22,7 @@ public class GradeController {
     GradeServiceImpl gradeService;
 
     @Operation(summary = "Get list of all Grades")
-    @GetMapping("/getAllGrades")
+    @GetMapping("/get-all-grades")
     public ResponseEntity<ResponseDataObject> getGrades() {
         List<Grade> classList = gradeService.getGrades();
         return ResponseObject.getResponseObject(
@@ -32,7 +32,7 @@ public class GradeController {
     }
 
     @Operation(summary = "Get Grade By Grade Number")
-    @GetMapping("/getGradeByGradeNo/{gradeNo}")
+    @GetMapping("/get-grade-by-grade-no/{grade-no}")
     public ResponseEntity<ResponseDataObject> getGradeByGradeNo(@PathVariable Integer gradeNo) {
         Grade grade = gradeService.getGradeByGradeNo(gradeNo);
         return ResponseObject.getResponseObject(
@@ -41,7 +41,7 @@ public class GradeController {
     }
 
     @Operation(summary = "Add A Grade")
-    @PostMapping("/createGrade")
+    @PostMapping("/create-grade")
     public ResponseEntity<ResponseDataObject> createGrade(@RequestBody @Valid GradeRequest grade) {
         gradeService.createGrade(grade);
         return ResponseObject.getResponseObject(
@@ -50,7 +50,7 @@ public class GradeController {
     }
 
     @Operation(summary = "Add more Subjects to a Grade")
-    @PutMapping("/addSubjectsToGrade/{gradeNo}")
+    @PutMapping("/add-subjects-to-grade/{grade-no}")
     public ResponseEntity<ResponseDataObject> addSubjectsToGrade(@PathVariable Integer gradeNo, @RequestBody List<String> subjects) {
         gradeService.addSubjectsToGrade(gradeNo, subjects);
         return ResponseObject.getResponseObject(
