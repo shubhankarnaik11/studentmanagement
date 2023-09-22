@@ -22,7 +22,7 @@ public class Grade {
     private Integer gradeNo;
 
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Subject> subjects;
 
     @JsonIgnore

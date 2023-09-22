@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @AllArgsConstructor
@@ -39,6 +40,11 @@ public class Mark {
     private Integer attempt;
 
 
+    @Column(nullable = false )
+    @Value("true")
+    private Boolean isCurrentYearMark;
+
+
     public Mark(Float mark, Student student, Subject subject, Grade grade, Integer attempt){
         this.mark = mark;
         this.student = student;
@@ -46,5 +52,6 @@ public class Mark {
         this.grade = grade;
         this.attempt = attempt;
     }
+
 
 }
