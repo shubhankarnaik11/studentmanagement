@@ -68,10 +68,4 @@ public class StudentController {
                 new ResponseDataObject(HttpStatus.OK, null,"Student Marks Updated Successfully", true)
         );
     }
-
-
-
-
-
-
 }
