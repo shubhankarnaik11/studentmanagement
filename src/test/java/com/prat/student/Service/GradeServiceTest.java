@@ -46,7 +46,8 @@ public class GradeServiceTest {
         grade.add(new Grade(2));
         when(gradeRepo.findAll()).thenReturn(grade);
 
-        List<Grade> expectedGradeListGradeList);
+        List<Grade> expectedGradeListGradeList = gradeService.getGrades();
+        assertEquals(grade, expectedGradeListGradeList);
 
     }
 
