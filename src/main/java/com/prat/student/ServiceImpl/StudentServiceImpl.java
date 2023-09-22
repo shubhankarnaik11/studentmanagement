@@ -10,6 +10,7 @@ import com.prat.student.Repository.GradeRepository;
 import com.prat.student.Repository.MarkRepository;
 import com.prat.student.Repository.StudentRepository;
 import com.prat.student.Service.StudentService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -112,6 +113,7 @@ public class StudentServiceImpl implements StudentService {
         markRepo.saveAll(markList);
     }
 
+    @Transactional
     private boolean setStudentFinalMarks(Integer studentId){
 
         List <Subject> failedSubjects = new LinkedList<>();
@@ -123,6 +125,9 @@ public class StudentServiceImpl implements StudentService {
         List<Subject> subjects = grade.getSubjects();
 
         List<Mark> studentMarks = markRepo.findByStudent(student.getStudentId());
+
+        if(studentMarks.isEmpty()) return false;
+
 
         for(Subject subject: subjects){
 
@@ -136,6 +141,9 @@ public class StudentServiceImpl implements StudentService {
             if(selectedAttemptMark.getMark() < subject.getPassMark()){
                 failedSubjects.add(subject);
             }
+            System.out.println(studentId);
+//            System.out.println(subject.getSubjectId());System.out.println(selectedAttemptMark.getMarkId());
+//
 
             markRepo.deleteOtherAttempts(studentId, subject.getSubjectId(), selectedAttemptMark.getMarkId());
 

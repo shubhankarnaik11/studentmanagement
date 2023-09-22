@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 @NoArgsConstructor
 @Getter
 @Setter
+
 public class Mark {
 
     @Id
@@ -51,6 +52,7 @@ public class Mark {
         this.subject = subject;
         this.grade = grade;
         this.attempt = attempt;
+        this.isCurrentYearMark = true;
     }
 
 
