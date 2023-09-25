@@ -128,7 +128,7 @@ public class StudentServiceImpl implements StudentService {
 
         List<Subject> subjects = grade.getSubjects();
 
-        List<Mark> studentMarks = markRepo.findByStudent(student.getStudentId());
+        List<Mark> studentMarks = markRepo.findByStudentAndAcademicYear(student, 2023);
 
         if(studentMarks.isEmpty()) return false;
 
@@ -145,11 +145,12 @@ public class StudentServiceImpl implements StudentService {
             LinkedList<Mark> studentMarksList = new LinkedList<>(subjectMarks); ///doubt
 
             Mark selectedAttemptMark = getMaxMark(studentMarksList);
-
+            selectedAttemptMark.setIsSelectedMark(true);
             if(selectedAttemptMark.getMark() < subject.getPassMark()){
                 failedSubjects.add(subject);
             }
-            System.out.println(studentId);
+            markRepo.save(selectedAttemptMark);
+            //System.out.println(studentId);
 //            System.out.println(subject.getSubjectId());System.out.println(selectedAttemptMark.getMarkId());
 //
 

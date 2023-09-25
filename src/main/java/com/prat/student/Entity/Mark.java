@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 public class Mark {
 
     @Id
@@ -37,10 +38,10 @@ public class Mark {
     @Column(nullable = false)
     private Integer attempt;
 
-
     @Column(nullable = false )
     private Integer academicYear;
 
+    private Boolean isSelectedMark;
 
     public Mark(Float mark, Student student, Subject subject, Grade grade, Integer attempt){
         this.mark = mark;
@@ -49,6 +50,7 @@ public class Mark {
         this.grade = grade;
         this.attempt = attempt;
         this.academicYear = 2023;
+        this.isSelectedMark = false;
     }
 
 }

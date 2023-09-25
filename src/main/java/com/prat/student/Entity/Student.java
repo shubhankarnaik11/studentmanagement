@@ -37,7 +37,7 @@ public class Student {
     @JoinColumn(name = "currentGrade")
     private Grade currentGrade;
 
-    @OneToMany
+    @ManyToMany
     private List<Grade> previousGrades;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)

@@ -14,8 +14,7 @@ public interface MarkRepository extends JpaRepository<Mark,Integer> {
 
     public List<Mark> findBySubjectAndStudentAndGrade(Subject subject, Student student, Grade grade);
 
-    @Query(value = "SELECT * FROM mark WHERE student_id = :id and is_current_year_mark=true", nativeQuery = true)
-    public List<Mark> findByStudent(@Param("id") Integer studentId);
+    public List<Mark> findByStudentAndAcademicYear(Student student, Integer academicYear);
 
 //    @Modifying
 //    @Query(value = "DELETE FROM mark WHERE student_id = :studentId and is_current_year_mark=true and subject_id = :subjectId and mark_id <> :markId", nativeQuery = true)

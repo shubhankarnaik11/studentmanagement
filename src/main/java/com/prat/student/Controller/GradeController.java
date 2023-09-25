@@ -1,6 +1,7 @@
 package com.prat.student.Controller;
 
 import com.prat.student.Entity.Grade;
+import com.prat.student.Entity.Student;
 import com.prat.student.Model.GradeRequest;
 import com.prat.student.ServiceImpl.GradeServiceImpl;
 import com.prat.student.response.ResponseDataObject;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -57,5 +59,33 @@ public class GradeController {
                 new ResponseDataObject(HttpStatus.CREATED, null ,"Successful", true)
         );
     }
+
+    @Operation(summary = "Get all students belonging to that grade")
+    @GetMapping("/get-grade-students/{gradeNo}")
+    public ResponseEntity<ResponseDataObject> getGradeStudents(@PathVariable Integer gradeNo) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.CREATED,  gradeService.getGradeStudents(gradeNo) ,"Successful", true)
+        );
+    }
+
+    @Operation(summary = "Promote Grade")
+    @PostMapping("/promote/{gradeNo}")
+    public ResponseEntity<ResponseDataObject> promoteGrade(@PathVariable Integer gradeNo){
+        List<HashMap<String, Object>> promotedStudent =  gradeService.promoteAllStudentsByGrade(gradeNo);
+
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.CREATED, promotedStudent ,"Successful", true)
+        );
+    }
+
+//    @Operation(summary = "Top Students in a grade")
+//    @GetMapping("/top/{gradeNo}/{n}")
+//    public ResponseEntity<ResponseDataObject> topNStudents(@PathVariable Integer gradeNo,@PathVariable Integer n){
+//        gradeService.getTopNStudents(gradeNo, n);
+//
+//        return ResponseObject.getResponseObject(
+//                new ResponseDataObject(HttpStatus.CREATED, null ,"Successful", true)
+//        );
+//    }
 
 }
