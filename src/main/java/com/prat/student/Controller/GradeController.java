@@ -78,6 +78,17 @@ public class GradeController {
         );
     }
 
+    @Operation(summary = "Get Highest marks of the grade")
+    @GetMapping("/get-toppers-list/{gradeNo}")
+    public ResponseEntity<ResponseDataObject> getToppersList(@PathVariable Integer gradeNo, @RequestParam Integer n){
+        Object topper =  gradeService.getNToppers(gradeNo);
+
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.CREATED, topper ,"Successful", true)
+        );
+
+    }
+
 //    @Operation(summary = "Top Students in a grade")
 //    @GetMapping("/top/{gradeNo}/{n}")
 //    public ResponseEntity<ResponseDataObject> topNStudents(@PathVariable Integer gradeNo,@PathVariable Integer n){

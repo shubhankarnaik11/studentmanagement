@@ -18,4 +18,9 @@ public interface GradeService {
     //public abstract List<> getTopNStudents(Integer gradeNo, Integer n);
 
     public abstract List<Student> getGradeStudents(Integer gradeNo);
+
+//    public abstract List<HashMap<Student, Float>> getNToppers(Integer gradeNo);
+
+    public abstract Object getNToppers(Integer gradeNo);
+
 }

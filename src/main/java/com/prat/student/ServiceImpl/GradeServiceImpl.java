@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.List;
 
 @Service
 public class GradeServiceImpl implements GradeService {
@@ -177,6 +178,22 @@ public class GradeServiceImpl implements GradeService {
         return gradeRepo.findByGradeNo(gradeNo).getStudent();
     }
 
+//    @Override
+//    public List<HashMap<Student, Float>> getNToppers(Integer gradeNo){
+//        Grade grade = findByGradeNo(gradeNo);
+//
+//        List<HashMap<Integer, Float>> toppers = gradeRepo.getToppers(grade.getGradeNo(), 2023);
+//
+//    }
+
+    @Override
+    public Object getNToppers(Integer gradeNo){
+        Grade grade = findByGradeNo(gradeNo);
+
+         List<Object> toppers = gradeRepo.getToppers(grade.getGradeNo(), 2023);
+        System.out.println(toppers);
+        return toppers;
+    }
 }
 
 
