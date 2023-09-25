@@ -40,7 +40,7 @@ public class SubjectController {
     }
 
     @Operation(summary = "Get Subject By Id")
-    @GetMapping("/get-subject/{subject-id}")
+    @GetMapping("/get-subject/{subjectId}")
     public ResponseEntity<ResponseDataObject> getSubject(@PathVariable Integer subjectId) {
         Subject subject = subjectService.getSubjectById(subjectId);
         return ResponseObject.getResponseObject(

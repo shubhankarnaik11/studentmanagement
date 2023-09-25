@@ -39,8 +39,7 @@ public class Mark {
 
 
     @Column(nullable = false )
-    @Value("true")
-    private Boolean isCurrentYearMark;
+    private Integer academicYear;
 
 
     public Mark(Float mark, Student student, Subject subject, Grade grade, Integer attempt){
@@ -49,8 +48,7 @@ public class Mark {
         this.subject = subject;
         this.grade = grade;
         this.attempt = attempt;
-        this.isCurrentYearMark = true;
+        this.academicYear = 2023;
     }
-
 
 }

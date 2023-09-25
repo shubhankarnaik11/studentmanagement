@@ -1,5 +1,6 @@
 package com.prat.student.ServiceImpl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prat.student.Entity.Grade;
 import com.prat.student.Entity.Mark;
 import com.prat.student.Entity.Student;
@@ -29,25 +30,28 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private MarkRepository markRepo;
 
+    public static ObjectMapper objectMapper = new ObjectMapper();
+
+    public <T> T entityToDTOConversion(Object entity, Class<T> T){
+        return objectMapper.convertValue(entity, T);
+    }
+
     private Student findStudentByStudentId(Integer studentId){
         Student student = studentRepo.findByStudentId(studentId);
+        //return entityToDTOConversion(studentRepo.findByStudentId(studentId), StudentRequest.class);
         if(student == null) throw new StudentNotFoundException();
         return student;
     }
 
     private Mark getMaxMark(LinkedList <Mark> marks){
 
-        if(marks.size() == 1){
-            return marks.getFirst();
+        Mark maxMark = marks.getFirst();
+        for(Mark mark : marks){
+            if(maxMark.getMark() < mark.getMark()){
+                maxMark = mark;
+            }
         }
-
-        else{
-            Mark m1 = marks.remove(1);
-            Mark m2 = getMaxMark(marks);
-            if(m2 == null) return m1;
-            if(m1.getMark() > m2.getMark()) return m1;
-            return m2;
-        }
+        return maxMark;
 
     }
 
@@ -133,9 +137,13 @@ public class StudentServiceImpl implements StudentService {
 
             List<Mark> subjectMarks =  studentMarks.stream().filter(s -> s.getSubject().equals(subject)).toList();
 
-            if(subjectMarks.isEmpty()) continue;
+            if(subjectMarks.isEmpty()) {
+                failedSubjects.add(subject);
+                continue;
+            };
 
             LinkedList<Mark> studentMarksList = new LinkedList<>(subjectMarks); ///doubt
+
             Mark selectedAttemptMark = getMaxMark(studentMarksList);
 
             if(selectedAttemptMark.getMark() < subject.getPassMark()){
@@ -145,15 +153,10 @@ public class StudentServiceImpl implements StudentService {
 //            System.out.println(subject.getSubjectId());System.out.println(selectedAttemptMark.getMarkId());
 //
 
-            markRepo.deleteOtherAttempts(studentId, subject.getSubjectId(), selectedAttemptMark.getMarkId());
+            //markRepo.deleteOtherAttempts(studentId, subject.getSubjectId(), selectedAttemptMark.getMarkId());
 
         }
-        if(failedSubjects.isEmpty()){
-            markRepo.setCurrentYearFalse(studentId);
-            return true;
-        }
-
-        return false;
+        return failedSubjects.isEmpty();
     }
 
     @Override

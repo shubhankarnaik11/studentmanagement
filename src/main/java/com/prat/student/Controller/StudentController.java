@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/grades")
+@RequestMapping("/student")
 public class StudentController {
 
     @Autowired
@@ -27,6 +27,15 @@ public class StudentController {
         List<Student> studentList = studentService.getAllStudents();
         return ResponseObject.getResponseObject(
                 new ResponseDataObject(HttpStatus.OK, studentList,"Successful", true)
+        );
+    }
+
+    @Operation
+    @GetMapping("/get-student/{studentId}")
+    public ResponseEntity<ResponseDataObject> getStudentById(@PathVariable Integer studentId){
+        Student student = studentService.getStudentById(studentId);
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.OK, student,"Successful", true)
         );
     }
 
@@ -42,7 +51,7 @@ public class StudentController {
 
 
     @Operation(summary = "Delete Student By Id")
-    @DeleteMapping("/delete-student/{student-id}")
+    @DeleteMapping("/delete-student/{studentId}")
     public ResponseEntity<ResponseDataObject> deleteStudent(@PathVariable Integer studentId) {
         studentService.deleteStudent(studentId);
         return ResponseObject.getResponseObject(
@@ -61,7 +70,7 @@ public class StudentController {
 
 
     @Operation(summary = "Update Student Marks")
-    @PutMapping("/update-student-marks/{student-id}")
+    @PutMapping("/update-student-marks/{studentId}")
     public ResponseEntity<ResponseDataObject> updateStudentMarks(@PathVariable Integer studentId, @RequestBody HashMap<String, Float> subjectMark) {
         studentService.updateStudentMark(studentId, subjectMark);
         return ResponseObject.getResponseObject(
@@ -71,7 +80,7 @@ public class StudentController {
 
 
     @Operation(summary = "Promote Student")
-    @PutMapping("/promote/{student-id}")
+    @PutMapping("/promote/{studentId}")
     public ResponseEntity<ResponseDataObject> updateStudentMarks1(@PathVariable Integer studentId) {
         HashMap<String, Object> promote = studentService.promoteStudent(studentId);
         return ResponseObject.getResponseObject(
