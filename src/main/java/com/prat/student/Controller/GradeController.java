@@ -89,14 +89,4 @@ public class GradeController {
 
     }
 
-//    @Operation(summary = "Top Students in a grade")
-//    @GetMapping("/top/{gradeNo}/{n}")
-//    public ResponseEntity<ResponseDataObject> topNStudents(@PathVariable Integer gradeNo,@PathVariable Integer n){
-//        gradeService.getTopNStudents(gradeNo, n);
-//
-//        return ResponseObject.getResponseObject(
-//                new ResponseDataObject(HttpStatus.CREATED, null ,"Successful", true)
-//        );
-//    }
-
 }
