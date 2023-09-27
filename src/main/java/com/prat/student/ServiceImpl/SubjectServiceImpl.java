@@ -39,9 +39,8 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Subject getSubjectById(Integer subjectId){
         Subject subject = subjectRepo.findBySubjectId(subjectId);
-        if(subject == null){
+        if(subject == null)
             throw new SubjectNotFoundException();
-        }
         return subject;
     }
 

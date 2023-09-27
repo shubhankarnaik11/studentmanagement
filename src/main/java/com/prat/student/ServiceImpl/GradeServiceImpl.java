@@ -65,6 +65,7 @@ public class GradeServiceImpl implements GradeService {
             newGrade.getSubjects().add(subjectRepo.findBySubjectName(sub));
         }
         gradeRepo.save(newGrade);
+
     }
 
 
