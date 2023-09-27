@@ -74,15 +74,16 @@ public class StudentControllerTest {
         assertEquals(200,mvcResult.getResponse().getStatus());
     }
 
-//    @Test
-//    public void updateStudentMarkTest() throws Exception{
-//        HashMap<String, Float> subjectMark = new HashMap<>();
-//        subjectMark.put("math",90f);
-//        when(studentService.updateStudentMark(1,subjectMark)).thenReturn();
-//        String content = new ObjectMapper().writeValueAsString(subjectMark);
-//        MvcResult mvcResult = mock.perform(put("/update-student-marks/"+studentId).contentType("application/json").content(content)).andReturn();
-//
-//        assertEquals(200,mvcResult.getResponse().getStatus());
-//    }
+    @Test
+    public void updateStudentMarkTest() throws Exception{
+        HashMap<String, Float> subjectMark = new HashMap<>();
+        subjectMark.put("math",90f);
+        when(studentService.updateStudentMark(1,subjectMark)).thenReturn(true);
+        String content = new ObjectMapper().writeValueAsString(subjectMark);
+        MvcResult mvcResult = mock.perform(put("/student/update-student-marks/"+studentId).contentType("application/json").content(content)).andReturn();
+
+        assertEquals(200,mvcResult.getResponse().getStatus());
+    }
+
 
 }

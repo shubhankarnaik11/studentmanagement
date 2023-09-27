@@ -99,7 +99,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void updateStudentMark(Integer studentId, HashMap<String, Float> subjectMark){
+    public boolean updateStudentMark(Integer studentId, HashMap<String, Float> subjectMark){
 
         Student student = findStudentByStudentId(studentId);
 
@@ -125,72 +125,7 @@ public class StudentServiceImpl implements StudentService {
         if(!subjectMark.isEmpty()) throw new SubjectNotFoundException();
 
         markRepo.saveAll(markList);
-
-    }
-
-    @Transactional
-    private boolean setStudentFinalMarks(Integer studentId){
-
-        List <Subject> failedSubjects = new LinkedList<>();
-
-        Student student =  findStudentByStudentId(studentId);
-
-        Grade grade = student.getCurrentGrade();
-
-        List<Subject> subjects = grade.getSubjects();
-
-        List<Mark> studentMarks = markRepo.findByStudentAndAcademicYear(student, 2023);
-
-        if(studentMarks.isEmpty()) return false;
-
-
-        for(Subject subject: subjects){
-
-            List<Mark> subjectMarks =  studentMarks.stream().filter(s -> s.getSubject().equals(subject)).toList();
-
-            if(subjectMarks.isEmpty()) {
-                failedSubjects.add(subject);
-                continue;
-            };
-
-            LinkedList<Mark> studentMarksList = new LinkedList<>(subjectMarks); ///doubt
-
-            Mark selectedAttemptMark = getMaxMark(studentMarksList);
-            selectedAttemptMark.setIsSelectedMark(true);
-            if(selectedAttemptMark.getMark() < subject.getPassMark()){
-                failedSubjects.add(subject);
-            }
-            markRepo.save(selectedAttemptMark);
-            //System.out.println(studentId);
-//            System.out.println(subject.getSubjectId());System.out.println(selectedAttemptMark.getMarkId());
-//
-
-            //markRepo.deleteOtherAttempts(studentId, subject.getSubjectId(), selectedAttemptMark.getMarkId());
-
-        }
-        return failedSubjects.isEmpty();
-    }
-
-    @Override
-    public HashMap<String, Object> promoteStudent(Integer studentId){
-        Student student = findStudentByStudentId(studentId);
-        boolean pass = setStudentFinalMarks(studentId);
-        HashMap<String, Object> retObject = new HashMap<>();
-
-        if(pass){
-            Grade currentGrade = student.getCurrentGrade();
-            Grade newGrade = gradeRepo.findByGradeNo(currentGrade.getGradeNo()+1);
-            student.setCurrentGrade(newGrade);
-            student.getPreviousGrades().add(currentGrade);
-
-            retObject.put("Student", student);
-            retObject.put("Promoted", true);
-            return retObject;
-        }
-
-        retObject.put("Student", student);
-        retObject.put("Promoted", false);
-        return retObject;
+        return true;
     }
 
 

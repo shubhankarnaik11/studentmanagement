@@ -14,7 +14,6 @@ public interface StudentService {
     public abstract Student createStudent(StudentRequest newStudent);
     public abstract Integer deleteStudent(Integer studentId);
     public abstract Student updateStudent(StudentRequest updatedStudent);
-    public abstract void updateStudentMark(Integer studentId, HashMap<String, Float> subjectMark);
-    public abstract HashMap<String, Object> promoteStudent(Integer studentId);
+    public abstract boolean updateStudentMark(Integer studentId, HashMap<String, Float> subjectMark);
 
 }
