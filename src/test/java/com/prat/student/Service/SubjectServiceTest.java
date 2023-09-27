@@ -48,15 +48,20 @@ public class SubjectServiceTest {
         assertEquals(subjectService.getSubjectById(1),s1);
     }
 
-    @Test
+    @Test()
     public void getSubjectByIdThrowsSubjectNotFoundException(){
-        when(subjectRepo.findBySubjectId(3)).thenReturn(null);
+        when(subjectRepo.findBySubjectId(1)).thenReturn(null);
         assertThrows(SubjectNotFoundException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
-                subjectService.getSubjectById(3);
+                subjectService.getSubjectById(1);
             }
         });
+
+    }
+
+    @Test
+    public void createSubjectTest(){
 
     }
 
