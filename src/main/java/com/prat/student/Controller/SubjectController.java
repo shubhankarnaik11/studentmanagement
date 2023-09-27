@@ -25,9 +25,11 @@ public class SubjectController {
 
     @Operation(summary = "Add new Subject")
     @PostMapping("/create-subject")
-    public ResponseEntity<String> createSubject(@Valid @RequestBody SubjectRequest subject) {
-        subjectService.createSubject(subject);
-        return new ResponseEntity<>(" Subject Created Successfully", HttpStatus.CREATED);
+    public ResponseEntity<ResponseDataObject> createSubject(@Valid @RequestBody SubjectRequest subject) {
+        Subject newSubject = subjectService.createSubject(subject);
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.CREATED, newSubject,"Subject Created Successfully", true)
+        );
     }
 
     @Operation(summary = "Get list of all Subjects")
