@@ -6,7 +6,6 @@ import com.prat.student.Model.GradeRequest;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 public interface GradeService {
 
@@ -21,6 +20,6 @@ public interface GradeService {
 
 //    public abstract List<HashMap<Student, Float>> getNToppers(Integer gradeNo);
 
-    public abstract Object getNToppers(Integer gradeNo);
+    public abstract List<HashMap<String, Object>> getNToppers(Integer gradeNo, Integer N);
 
 }

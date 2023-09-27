@@ -81,22 +81,13 @@ public class GradeController {
     @Operation(summary = "Get Highest marks of the grade")
     @GetMapping("/get-toppers-list/{gradeNo}")
     public ResponseEntity<ResponseDataObject> getToppersList(@PathVariable Integer gradeNo, @RequestParam Integer n){
-        Object topper =  gradeService.getNToppers(gradeNo);
+        List<HashMap <String, Object>> topper =  gradeService.getNToppers(gradeNo, n);
 
         return ResponseObject.getResponseObject(
-                new ResponseDataObject(HttpStatus.CREATED, topper ,"Successful", true)
+                new ResponseDataObject(HttpStatus.OK, topper ,"Successful", true)
         );
 
     }
 
-//    @Operation(summary = "Top Students in a grade")
-//    @GetMapping("/top/{gradeNo}/{n}")
-//    public ResponseEntity<ResponseDataObject> topNStudents(@PathVariable Integer gradeNo,@PathVariable Integer n){
-//        gradeService.getTopNStudents(gradeNo, n);
-//
-//        return ResponseObject.getResponseObject(
-//                new ResponseDataObject(HttpStatus.CREATED, null ,"Successful", true)
-//        );
-//    }
 
 }

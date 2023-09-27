@@ -11,6 +11,6 @@ public interface GradeRepository extends JpaRepository<Grade,Integer> {
 
     public Grade findByGradeNo(Integer gradeNo);
 
-    @Query(value = "Select student_id, sum(mark) as smarks FROM mark WHERE grade_no = :gradeNo and academic_year= :year and is_selected_mark = true group by student_id", nativeQuery = true)
-    public List<Object> getToppers(@Param("gradeNo") Integer gradeNo, @Param("year") Integer year);
+    @Query(value = "Select student_id, sum(mark) as smarks FROM mark WHERE grade_no = :gradeNo and academic_year= :year and is_selected_mark = true group by student_id order by smarks DESC", nativeQuery = true)
+    public List<List<Number>> getToppers(@Param("gradeNo") Integer gradeNo, @Param("year") Integer year);
 }

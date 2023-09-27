@@ -187,12 +187,29 @@ public class GradeServiceImpl implements GradeService {
 //    }
 
     @Override
-    public Object getNToppers(Integer gradeNo){
-        Grade grade = findByGradeNo(gradeNo);
+    public List<HashMap<String, Object>> getNToppers(Integer gradeNo, Integer N){
 
-         List<Object> toppers = gradeRepo.getToppers(grade.getGradeNo(), 2023);
-        System.out.println(toppers);
-        return toppers;
+        Grade grade = findByGradeNo(gradeNo);
+        List<List<Number>> toppers = gradeRepo.getToppers(grade.getGradeNo(), 2023);
+        List<HashMap <String, Object>> topperList = new LinkedList<HashMap <String, Object>>();
+        System.out.println(toppers.size());
+        int i = 1;
+        for (List<Number> topper : toppers) {
+
+            if(i>N) break;
+
+            Student s = studentRepo.findByStudentId((Integer)topper.get(0));
+            HashMap <String, Object> newTopper = new  HashMap <String, Object>();
+            newTopper.put("Position", i);
+            newTopper.put("Student", s.getStudentName());
+            newTopper.put("Total Marks", topper.get(1));
+            topperList.add(newTopper);
+
+            i++;
+        }
+
+
+        return topperList;
     }
 }
 
