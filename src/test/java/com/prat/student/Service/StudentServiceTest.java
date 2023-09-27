@@ -9,7 +9,6 @@ import com.prat.student.Repository.StudentRepository;
 import com.prat.student.ServiceImpl.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -17,7 +16,6 @@ import org.springframework.test.context.event.annotation.BeforeTestClass;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -75,6 +73,29 @@ public class StudentServiceTest {
 
     @Test
     public void createStudentThrowsGradeNotFoundException(){
+        when(gradeRepo.findByGradeNo(9)).thenReturn(null);
+        assertThrows(GradeNotFoundException.class, ()-> studentService.createStudent(studentReq));
+    }
+
+    @Test
+    public void deleteStudentTest(){
+        when(studentRepo.findByStudentId(1)).thenReturn(student1);
+        assertEquals(studentService.deleteStudent(1),1);
+    }
+
+    @Test
+    public void updateStudentTest(){
+        when(gradeRepo.findByGradeNo(9)).thenReturn(newGrade);
+        Student student = new Student(studentReq.getStudentName(),studentReq.getRollNo(),
+                studentReq.getAddress(), studentReq.getContactNumber(), studentReq.getFatherName(),
+                studentReq.getMotherName(), gradeRepo.findByGradeNo(studentReq.getGradeNo()));
+
+        Student newStudent = studentService.updateStudent(studentReq);
+        assertNotNull(newStudent);
+    }
+
+    @Test
+    public void updateStudentThrowsGradeNotFoundException(){
         when(gradeRepo.findByGradeNo(9)).thenReturn(null);
         assertThrows(GradeNotFoundException.class, ()-> studentService.createStudent(studentReq));
     }

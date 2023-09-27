@@ -83,17 +83,19 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStudent(Integer studentId){
+    public Integer deleteStudent(Integer studentId){
         findStudentByStudentId(studentId);
         studentRepo.deleteById(studentId);
+        return studentId;
     }
 
     @Override
-    public void updateStudent(StudentRequest updatedStudent) {
+    public Student updateStudent(StudentRequest updatedStudent) {
         Student student = new Student(updatedStudent.getStudentName(), updatedStudent.getRollNo(),
                 updatedStudent.getAddress(), updatedStudent.getContactNumber(), updatedStudent.getFatherName(),
-                updatedStudent.getMotherName(), gradeRepo.findById(updatedStudent.getGradeNo()).orElseThrow(GradeNotFoundException::new));
+                updatedStudent.getMotherName(), findByGradeNo(updatedStudent.getGradeNo()));
         studentRepo.save(student);
+        return student;
     }
 
     @Override
@@ -123,6 +125,7 @@ public class StudentServiceImpl implements StudentService {
         if(!subjectMark.isEmpty()) throw new SubjectNotFoundException();
 
         markRepo.saveAll(markList);
+
     }
 
     @Transactional
