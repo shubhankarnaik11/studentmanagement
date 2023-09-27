@@ -55,6 +55,12 @@ public class StudentServiceImpl implements StudentService {
 
     }
 
+    private Grade findByGradeNo(Integer gradeNo){
+        Grade grade = gradeRepo.findByGradeNo(gradeNo);
+        if(grade == null) throw new GradeNotFoundException();
+        return grade;
+    }
+
     @Override
     public List<Student> getAllStudents(){
         return studentRepo.findAll();
@@ -66,12 +72,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void createStudent(StudentRequest newStudent){
+    public Student createStudent(StudentRequest newStudent){
 
         Student student = new Student(newStudent.getStudentName(),newStudent.getRollNo(),
                 newStudent.getAddress(), newStudent.getContactNumber(), newStudent.getFatherName(),
-                newStudent.getMotherName(), gradeRepo.findById(newStudent.getGradeNo()).orElseThrow(GradeNotFoundException::new));
+                newStudent.getMotherName(), findByGradeNo(newStudent.getGradeNo()));
         studentRepo.save(student);
+
+        return student;
     }
 
     @Override

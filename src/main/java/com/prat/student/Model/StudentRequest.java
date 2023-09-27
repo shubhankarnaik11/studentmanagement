@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
+@AllArgsConstructor
 public class StudentRequest {
 
     private String studentName;

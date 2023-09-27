@@ -42,10 +42,10 @@ public class StudentController {
     @Operation(summary = "Add Student")
     @PostMapping("/create-student")
     public ResponseEntity<ResponseDataObject> createStudent(@RequestBody StudentRequest newStudent) {
-        studentService.createStudent(newStudent);
+        Student student = studentService.createStudent(newStudent);
 
         return ResponseObject.getResponseObject(
-                new ResponseDataObject(HttpStatus.CREATED, null,"Successful", true)
+                new ResponseDataObject(HttpStatus.CREATED, student,"Successful", true)
         );
     }
 
