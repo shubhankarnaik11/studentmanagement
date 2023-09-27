@@ -53,24 +53,16 @@ public class SubjectServiceTest {
     @Test()
     public void getSubjectByIdThrowsSubjectNotFoundException(){
         when(subjectRepo.findBySubjectId(1)).thenReturn(null);
-        assertThrows(SubjectNotFoundException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                subjectService.getSubjectById(1);
-            }
-        });
+        assertThrows(SubjectNotFoundException.class, ()-> subjectService.getSubjectById(1));
 
     }
 
     @Test
     public void createSubjectThrowsSubjectAlreadyExists(){
         when(subjectRepo.findBySubjectName("math")).thenReturn(s1);
-        assertThrows(SubjectAlreadyExistsException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                subjectService.createSubject(new SubjectRequest("math", 100f, 35f,  3));
-            }
-        });
+        assertThrows(SubjectAlreadyExistsException.class, ()-> subjectService.createSubject(new SubjectRequest("math", 100f, 35f,  3)));
+
+
     }
 
     @Test
