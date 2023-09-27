@@ -3,13 +3,17 @@ package com.prat.student.Service;
 import com.prat.student.Entity.Grade;
 import com.prat.student.Entity.Student;
 import com.prat.student.Entity.Subject;
+import com.prat.student.Exception.SubjectAlreadyExistsException;
 import com.prat.student.Model.GradeRequest;
+import com.prat.student.Model.SubjectRequest;
 import com.prat.student.Repository.GradeRepository;
 import com.prat.student.Repository.SubjectRepository;
 import com.prat.student.ServiceImpl.GradeServiceImpl;
+import com.prat.student.ServiceImpl.SubjectServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,7 +23,7 @@ import org.springframework.test.context.event.annotation.BeforeTestClass;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +37,9 @@ public class GradeServiceTest {
 
     @InjectMocks
     GradeServiceImpl gradeService;
+
+    @InjectMocks
+    SubjectServiceImpl subjectService;
 
     Integer gradeNo =10;
     @Mock
@@ -81,26 +88,28 @@ public class GradeServiceTest {
     }
 
 
+    @Test
+    public void createSubjectThrowsSubjectAlreadyExists(){
+        when(subjectRepo.findBySubjectName("math")).thenReturn(s1);
+        assertThrows(SubjectAlreadyExistsException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                subjectService.createSubject(new SubjectRequest("math", 100f, 35f,  3));
+            }
+        });
+    }
 
-//    @Test
-//    public void createGradeTest(){
-//        GradeRequest grade = new GradeRequest();
-//        grade.setGradeNo(1);
-//        List<String> subjects = new ArrayList<>();
-//        subjects.add("math");
-//        subjects.add("science");
-//        grade.setSubjects(subjects);
-//        when(subjectRepo.findBySubjectName("math")).thenReturn(s1);
-//        when(subjectRepo.findBySubjectName("science")).thenReturn(s2);
-//        List<Subject> subjectsList = new ArrayList<>();
-//        subjectsList.add(s1);
-//        subjectsList.add(s2);
-//        Grade newGrade = new Grade(1);
-//        newGrade.setSubjects(subjectsList);
-//        doNothing().when(gradeRepo).save(any());
-//
-//        verify(gradeService,times(1)).createGrade(grade);
-//    }
+    @Test
+    public void createSubjectSubject(){
+
+        when(subjectRepo.findBySubjectName("math")).thenReturn(null);
+
+        SubjectRequest subjectRequest = new SubjectRequest("math", 100f, 35f, 3);
+        Subject s6 = subjectService.createSubject(subjectRequest);
+        assertNotNull(s6);
+    }
+
+
 
 
 
