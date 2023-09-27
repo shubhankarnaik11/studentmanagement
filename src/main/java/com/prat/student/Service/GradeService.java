@@ -11,8 +11,8 @@ public interface GradeService {
 
     public abstract List<Grade> getGrades();
     public abstract Grade getGradeByGradeNo(Integer gradeNo);
-    public abstract void createGrade(GradeRequest grade);
-    public abstract void addSubjectsToGrade(Integer grade, List<String> subjects);
+    public abstract Grade createGrade(GradeRequest grade);
+    public abstract Grade addSubjectsToGrade(Integer grade, List<String> subjects);
     public abstract List<HashMap<String, Object>> promoteAllStudentsByGrade(Integer gradeNo);
     //public abstract List<> getTopNStudents(Integer gradeNo, Integer n);
 

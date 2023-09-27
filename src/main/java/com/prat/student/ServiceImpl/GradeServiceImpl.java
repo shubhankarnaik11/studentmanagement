@@ -45,6 +45,17 @@ public class GradeServiceImpl implements GradeService {
         return grade;
     }
 
+    private boolean isSubjectExistsInGrade(Subject subject, Grade grade){
+
+        Optional<Subject> gradeSubject = grade.getSubjects().stream().filter( su -> Objects.equals(su.getSubjectName(), subject.getSubjectName())).findFirst();
+
+        System.out.println("IsSubjectnot found : ");
+        System.out.print(gradeSubject.isPresent());
+
+        if(gradeSubject.isPresent()) throw new SubjectAlreadyExistsException();
+        return false;
+    }
+
     @Override
     public List<Grade> getGrades(){
         return gradeRepo.findAll();
@@ -56,37 +67,41 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public void createGrade(GradeRequest grade){
+    public Grade createGrade(GradeRequest grade){
         Grade newGrade = new Grade(grade.getGradeNo());
         List<String> subjectList = grade.getSubjects();
 
         for(String sub : subjectList){
             Subject s = findBySubjectName(sub);
-            newGrade.getSubjects().add(subjectRepo.findBySubjectName(sub));
+            newGrade.getSubjects().add(s);
         }
         gradeRepo.save(newGrade);
+        return newGrade;
 
     }
 
 
-
     @Override
-    public void addSubjectsToGrade(Integer gradeNo, List<String> subjects){
+    public Grade addSubjectsToGrade(Integer gradeNo, List<String> subjects){
+
         Grade grade = findByGradeNo(gradeNo);
+
 
         for(String sub : subjects){
             Subject s = findBySubjectName(sub);
-            Optional<Subject> gradeSubject = grade.getSubjects().stream().filter( su -> su.equals(s)).findFirst();
-            if(gradeSubject.isPresent()) throw new SubjectAlreadyExistsException();
-            grade.getSubjects().add(s);
+            if(!isSubjectExistsInGrade(s, grade))
+                grade.getSubjects().add(s);
         }
         gradeRepo.save(grade);
+        return grade;
     }
 
     @Override
     public List<HashMap<String, Object>> promoteAllStudentsByGrade(Integer gradeNo){
+
         Grade grade = findByGradeNo(gradeNo);
         List<HashMap<String, Object>> promotedList = new ArrayList<>();
+
         for(Student student : grade.getStudent()){
 
             boolean pass = setStudentFinalMarks(student.getStudentId());
@@ -98,16 +113,14 @@ public class GradeServiceImpl implements GradeService {
                 student.setCurrentGrade(newGrade);
                 student.getPreviousGrades().add(currentGrade);
                 studentRepo.save(student);
-
                 retObject.put("Promoted", true);
-                //return retObject;
             }
             else {
                 retObject.put("Promoted", false);
             }
             retObject.put("Student", student);
-            //return retObject;
             promotedList.add(retObject);
+
         }
         return promotedList;
     }
@@ -179,13 +192,7 @@ public class GradeServiceImpl implements GradeService {
         return gradeRepo.findByGradeNo(gradeNo).getStudent();
     }
 
-//    @Override
-//    public List<HashMap<Student, Float>> getNToppers(Integer gradeNo){
-//        Grade grade = findByGradeNo(gradeNo);
-//
-//        List<HashMap<Integer, Float>> toppers = gradeRepo.getToppers(grade.getGradeNo(), 2023);
-//
-//    }
+
 
     @Override
     public List<HashMap<String, Object>> getNToppers(Integer gradeNo, Integer N){
