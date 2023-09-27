@@ -18,15 +18,25 @@ public class SubjectServiceImpl implements SubjectService {
     @Autowired
     SubjectRepository subjectRepo;
 
+
+    private boolean checkIfSubjectPresent(String subjectName){
+        if(subjectRepo.findBySubjectName(subjectName) == null) return false;
+        throw new SubjectAlreadyExistsException();
+    }
+
     @Override
-    public void createSubject(SubjectRequest subject){
-        Subject alreadyExistingSubject = subjectRepo.findBySubjectName(subject.getSubjectName());
-        if(alreadyExistingSubject == null) {
-            Subject newSubject = new Subject(subject.getSubjectName(), subject.getMaxMark(),
-                    subject.getPassMark(), subject.getMaxAttempt());
-            subjectRepo.save(newSubject);
-        }
-        else throw new SubjectAlreadyExistsException();
+    public Subject createSubject(SubjectRequest subject){
+        boolean isSubjectPresent = checkIfSubjectPresent(subject.getSubjectName());
+
+        Subject newSubject = new Subject(
+                subject.getSubjectName(),
+                subject.getMaxMark(),
+                subject.getPassMark(),
+                subject.getMaxAttempt()
+        );
+        subjectRepo.save(newSubject);
+        return newSubject;
+
     }
 
     @Override
