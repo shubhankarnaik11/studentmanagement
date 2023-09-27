@@ -87,30 +87,4 @@ public class GradeServiceTest {
 
     }
 
-
-    @Test
-    public void createSubjectThrowsSubjectAlreadyExists(){
-        when(subjectRepo.findBySubjectName("math")).thenReturn(s1);
-        assertThrows(SubjectAlreadyExistsException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                subjectService.createSubject(new SubjectRequest("math", 100f, 35f,  3));
-            }
-        });
-    }
-
-    @Test
-    public void createSubjectSubject(){
-
-        when(subjectRepo.findBySubjectName("math")).thenReturn(null);
-
-        SubjectRequest subjectRequest = new SubjectRequest("math", 100f, 35f, 3);
-        Subject s6 = subjectService.createSubject(subjectRequest);
-        assertNotNull(s6);
-    }
-
-
-
-
-
 }

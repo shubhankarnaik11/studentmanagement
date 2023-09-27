@@ -1,7 +1,9 @@
 package com.prat.student.Service;
 
 import com.prat.student.Entity.Subject;
+import com.prat.student.Exception.SubjectAlreadyExistsException;
 import com.prat.student.Exception.SubjectNotFoundException;
+import com.prat.student.Model.SubjectRequest;
 import com.prat.student.Repository.SubjectRepository;
 import com.prat.student.ServiceImpl.SubjectServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -14,8 +16,8 @@ import org.springframework.test.context.event.annotation.BeforeTestClass;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -61,9 +63,23 @@ public class SubjectServiceTest {
     }
 
     @Test
-    public void createSubjectTest(){
-
+    public void createSubjectThrowsSubjectAlreadyExists(){
+        when(subjectRepo.findBySubjectName("math")).thenReturn(s1);
+        assertThrows(SubjectAlreadyExistsException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                subjectService.createSubject(new SubjectRequest("math", 100f, 35f,  3));
+            }
+        });
     }
 
+    @Test
+    public void createSubjectSubject(){
 
+        when(subjectRepo.findBySubjectName("math")).thenReturn(null);
+
+        SubjectRequest subjectRequest = new SubjectRequest("math", 100f, 35f, 3);
+        Subject s6 = subjectService.createSubject(subjectRequest);
+        assertNotNull(s6);
+    }
 }
