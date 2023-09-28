@@ -72,7 +72,6 @@ public class GradeController {
     @PostMapping("/promote/{gradeNo}")
     public ResponseEntity<ResponseDataObject> promoteGrade(@PathVariable Integer gradeNo){
         List<HashMap<String, Object>> promotedStudent =  gradeService.promoteAllStudentsByGrade(gradeNo);
-
         return ResponseObject.getResponseObject(
                 new ResponseDataObject(HttpStatus.CREATED, promotedStudent ,"Successful", true)
         );
@@ -82,7 +81,6 @@ public class GradeController {
     @GetMapping("/get-toppers-list/{gradeNo}")
     public ResponseEntity<ResponseDataObject> getToppersList(@PathVariable Integer gradeNo, @RequestParam Integer n){
         List<HashMap <String, Object>> topper =  gradeService.getNToppers(gradeNo, n);
-
         return ResponseObject.getResponseObject(
                 new ResponseDataObject(HttpStatus.OK, topper ,"Successful", true)
         );
