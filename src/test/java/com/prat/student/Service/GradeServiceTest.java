@@ -59,19 +59,19 @@ public class GradeServiceTest {
     @Mock
     Grade grade = new Grade(gradeNo);
     List<Subject> subjectList = new ArrayList<>();
-    Subject s1 = new Subject("math",100f, 35f,3);
-    Subject s2 = new Subject("science",100f, 35f,3);
-
+    Subject s1 = new Subject("math", 100f, 35f, 3);
+    Subject s2 = new Subject("science", 100f, 35f, 3);
 
 
     @BeforeTestClass
-    void before(){
+    void before() {
         subjectList.add(s1);
         subjectList.add(s2);
         grade.setSubjects(subjectList);
     }
+
     @Test
-    public void getGradeTest(){
+    public void getGradeTest() {
         List<Grade> grade = new ArrayList<>();
         grade.add(new Grade(1));
         grade.add(new Grade(2));
@@ -83,29 +83,29 @@ public class GradeServiceTest {
     }
 
     @Test
-    public void getGradeByGradeNoTest(){
+    public void getGradeByGradeNoTest() {
 
         when(gradeRepo.findByGradeNo(gradeNo)).thenReturn(grade);
         Grade expectedGrade = gradeService.getGradeByGradeNo(gradeNo);
-        assertEquals(grade,expectedGrade);
+        assertEquals(grade, expectedGrade);
     }
 
     @Test
-    public void getGradeStudentsTest(){
+    public void getGradeStudentsTest() {
 
-        Student student1 = new Student("Name1",1,"Address1",9087654321L,"FatherName","MotherName",grade);
-        Student student2 = new Student("Name2",2,"Address2",90876543281L,"Father_Name","Mother_Name",grade);
+        Student student1 = new Student("Name1", 1, "Address1", 9087654321L, "FatherName", "MotherName", grade);
+        Student student2 = new Student("Name2", 2, "Address2", 90876543281L, "Father_Name", "Mother_Name", grade);
         List<Student> studentList = new ArrayList<>();
         studentList.add(student1);
         studentList.add(student2);
         when(gradeRepo.findByGradeNo(gradeNo)).thenReturn(grade);
         when(grade.getStudent()).thenReturn(studentList);
-        assertEquals(gradeService.getGradeStudents(gradeNo),studentList);
+        assertEquals(gradeService.getGradeStudents(gradeNo), studentList);
 
     }
 
     @Test
-    public void createGradeTestThrowsSubjectNotFoundError(){
+    public void createGradeTestThrowsSubjectNotFoundError() {
         when(subjectRepo.findBySubjectName("english")).thenReturn(null);
         when(subjectRepo.findBySubjectName("math")).thenReturn(s1);
         when(subjectRepo.findBySubjectName("science")).thenReturn(s2);
@@ -117,11 +117,11 @@ public class GradeServiceTest {
 
         GradeRequest grade = new GradeRequest(1, subjects);
 
-        assertThrows(SubjectNotFoundException.class, ()-> gradeService.createGrade(grade));
+        assertThrows(SubjectNotFoundException.class, () -> gradeService.createGrade(grade));
     }
 
     @Test
-    public void createGradeReturnsGradeWithSubjects(){
+    public void createGradeReturnsGradeWithSubjects() {
         when(subjectRepo.findBySubjectName("english")).thenReturn(s1);
         when(subjectRepo.findBySubjectName("math")).thenReturn(s1);
         when(subjectRepo.findBySubjectName("science")).thenReturn(s2);
@@ -139,7 +139,7 @@ public class GradeServiceTest {
     }
 
     @Test
-    public void createGradeReturnsGradeWithoutSubjects(){
+    public void createGradeReturnsGradeWithoutSubjects() {
 
         List<String> subjects = new LinkedList<>();
 
@@ -151,36 +151,34 @@ public class GradeServiceTest {
     }
 
     @Test
-    public void addSubjectsToGradeThrowsGradeNotFoundError(){
+    public void addSubjectsToGradeThrowsGradeNotFoundError() {
         when(gradeRepo.findByGradeNo(10)).thenReturn(null);
-        assertThrows(GradeNotFoundException.class, ()-> gradeService.addSubjectsToGrade(10, new LinkedList<>()));
+        assertThrows(GradeNotFoundException.class, () -> gradeService.addSubjectsToGrade(10, new LinkedList<>()));
     }
 
     @Test
-    public void addSubjectsToGradeThrowsSubjectNotFoundException(){
-
+    public void addSubjectsToGradeThrowsSubjectNotFoundException() {
 
 
         when(gradeRepo.findByGradeNo(10)).thenReturn(grade);
-
 
 
         when(subjectRepo.findBySubjectName("math")).thenReturn(s1);
         when(subjectRepo.findBySubjectName("science")).thenReturn(s2);
         when(subjectRepo.findBySubjectName("english")).thenReturn(null);
 
-        List<String> subjects =  new LinkedList<>();
+        List<String> subjects = new LinkedList<>();
         subjects.add("math");
         subjects.add("science");
         subjects.add("english");
-        assertThrows(SubjectNotFoundException.class , ()-> gradeService.addSubjectsToGrade(10, subjects));
+        assertThrows(SubjectNotFoundException.class, () -> gradeService.addSubjectsToGrade(10, subjects));
     }
 
     @Test
-    public void addSubjectsToGradeThrowsSubjectAlreadyExistsException(){
+    public void addSubjectsToGradeThrowsSubjectAlreadyExistsException() {
 
         Grade newGrade = new Grade(10);
-        Subject newS1 = new Subject("math",100f, 35f,3);
+        Subject newS1 = new Subject("math", 100f, 35f, 3);
 
         List<Subject> newSubjectList = new LinkedList<Subject>();
         newSubjectList.add(newS1);
@@ -189,17 +187,17 @@ public class GradeServiceTest {
         when(gradeRepo.findByGradeNo(10)).thenReturn(newGrade);
         when(subjectRepo.findBySubjectName("math")).thenReturn(s1);
 
-        List<String> subjects =  new LinkedList<>();
+        List<String> subjects = new LinkedList<>();
         subjects.add("math");
 
-        assertThrows(SubjectAlreadyExistsException.class , ()-> gradeService.addSubjectsToGrade(10, subjects));
+        assertThrows(SubjectAlreadyExistsException.class, () -> gradeService.addSubjectsToGrade(10, subjects));
     }
 
     @Test
-    public void addSubjectToGradeReturnsGrade(){
+    public void addSubjectToGradeReturnsGrade() {
 
         Grade existingGrade = new Grade(10);
-        Subject existingS1 = new Subject("math",100f, 35f,3);
+        Subject existingS1 = new Subject("math", 100f, 35f, 3);
 
         List<Subject> existingSubjectList = new LinkedList<Subject>();
         existingSubjectList.add(existingS1);
@@ -209,7 +207,7 @@ public class GradeServiceTest {
         when(subjectRepo.findBySubjectName("science")).thenReturn(s2);
 
 
-        List<String> subjects =  new LinkedList<>();
+        List<String> subjects = new LinkedList<>();
         subjects.add("science");
 
         Grade existingGradeWithAddedSubject = gradeService.addSubjectsToGrade(10, subjects);
@@ -219,25 +217,25 @@ public class GradeServiceTest {
 
 
     @Test
-    public void getNToppersThrowsGradeNotFoundException(){
+    public void getNToppersThrowsGradeNotFoundException() {
         when(gradeRepo.findByGradeNo(10)).thenReturn(null);
 
-        assertThrows( GradeNotFoundException.class , () ->gradeService.getNToppers(10, 5));
+        assertThrows(GradeNotFoundException.class, () -> gradeService.getNToppers(10, 5));
     }
 
     @Test
-    public void getNToppers(){
+    public void getNToppers() {
         Subject s1 = new Subject("Maths", 100f, 35f, 3);
         Subject s2 = new Subject("Science", 100f, 35f, 3);
-        List <Subject> subjects = new ArrayList<Subject>();
+        List<Subject> subjects = new ArrayList<Subject>();
         subjects.add(s1);
         subjects.add(s2);
 
-        Grade grade = new Grade(1,subjects);
+        Grade grade = new Grade(1, subjects);
 
-        Student student1 = new Student("Krishna", 1,  "Somanath Nilaya, Maravanthe", 9087654321L, "Vijay shanbhag", "Hema", grade);
+        Student student1 = new Student("Krishna", 1, "Somanath Nilaya, Maravanthe", 9087654321L, "Vijay shanbhag", "Hema", grade);
         Student student2 = new Student("Shubhankar", 2, "Near Raghavendra Swami Temple, JPNagar", 9087654321L, "Father's Name", "Mother's Name", grade);
-        List <Student> students = new ArrayList<>();
+        List<Student> students = new ArrayList<>();
         students.add(student1);
         students.add(student2);
         grade.setStudent(students);
@@ -247,7 +245,7 @@ public class GradeServiceTest {
         Mark m3 = new Mark(100f, student1, s1, grade, 2);
         Mark m4 = new Mark(28f, student1, s2, grade, 2);
 
-        List <Mark> markList = new ArrayList<>();
+        List<Mark> markList = new ArrayList<>();
         markList.add(m1);
         markList.add(m2);
         markList.add(m3);
@@ -271,31 +269,31 @@ public class GradeServiceTest {
         when(studentRepo.findByStudentId(1)).thenReturn(student1);
 
 
-        assertNotNull(gradeService.getNToppers(1,5));
+        assertNotNull(gradeService.getNToppers(1, 5));
 
 
     }
 
     @Test
-    public void promoteAllStudentsByGradeThrowsGradeNotFoundError(){
+    public void promoteAllStudentsByGradeThrowsGradeNotFoundError() {
 
         when(gradeRepo.findByGradeNo(10)).thenReturn(null);
 
-        assertThrows( GradeNotFoundException.class , () ->gradeService.promoteAllStudentsByGrade(10));
+        assertThrows(GradeNotFoundException.class, () -> gradeService.promoteAllStudentsByGrade(10));
     }
 
     @Test
-    public void promoteAllStudentByGrade(){
+    public void promoteAllStudentByGrade() {
         Subject s1 = new Subject("Maths", 100f, 35f, 3);
         Subject s2 = new Subject("Science", 100f, 35f, 3);
-        List <Subject> subjects = new ArrayList<Subject>();
+        List<Subject> subjects = new ArrayList<Subject>();
         subjects.add(s1);
         subjects.add(s2);
 
-        Grade grade1 = new Grade(1,subjects);
-        Grade grade2 = new Grade(2,subjects);
+        Grade grade1 = new Grade(1, subjects);
+        Grade grade2 = new Grade(2, subjects);
 
-        Student student1 = new Student("Krishna", 1,  "Somanath Nilaya, Maravanthe", 9087654321L, "Vijay shanbhag", "Hema", grade1);
+        Student student1 = new Student("Krishna", 1, "Somanath Nilaya, Maravanthe", 9087654321L, "Vijay shanbhag", "Hema", grade1);
         Student student2 = new Student("Shubhankar", 2, "Near Raghavendra Swami Temple, JPNagar", 9087654321L, "Father's Name", "Mother's Name", grade1);
         Student student3 = new Student("Shubhankar2", 2, "Near Raghavendra Swami Temple, JPNagar", 9087654321L, "Father's Name", "Mother's Name", grade1);
         student1.setStudentId(1);
@@ -305,9 +303,9 @@ public class GradeServiceTest {
         student3.setStudentId(3);
         student3.setPreviousGrades(new ArrayList<>());
 
-        Student student1Promoted = new Student("Krishna", 1,  "Somanath Nilaya, Maravanthe", 9087654321L, "Vijay shanbhag", "Hema", grade2);
+        Student student1Promoted = new Student("Krishna", 1, "Somanath Nilaya, Maravanthe", 9087654321L, "Vijay shanbhag", "Hema", grade2);
 
-        List <Student> students = new ArrayList<>();
+        List<Student> students = new ArrayList<>();
         students.add(student1);
         students.add(student2);
         students.add(student3);
@@ -318,17 +316,17 @@ public class GradeServiceTest {
         Mark m3 = new Mark(100f, student1, s2, grade1, 2);
         Mark m4 = new Mark(28f, student2, s2, grade1, 2);
 
-        List <Mark> markList = new ArrayList<>();
+        List<Mark> markList = new ArrayList<>();
         markList.add(m1);
         markList.add(m2);
         markList.add(m3);
         markList.add(m4);
 
-        List <Mark> student1MarkList = new ArrayList<>();
+        List<Mark> student1MarkList = new ArrayList<>();
         student1MarkList.add(m1);
         student1MarkList.add(m3);
 
-        List <Mark> student2MarkList = new ArrayList<>();
+        List<Mark> student2MarkList = new ArrayList<>();
         student2MarkList.add(m2);
         student2MarkList.add(m4);
 
@@ -357,7 +355,7 @@ public class GradeServiceTest {
         when(markRepo.findByStudentAndAcademicYear(student2, 2023)).thenReturn(student2MarkList);
         when(markRepo.findByStudentAndAcademicYear(student3, 2023)).thenReturn(new ArrayList<>());
 
-        List<HashMap <String, Object>> promotedList = new ArrayList<HashMap <String, Object>>();
+        List<HashMap<String, Object>> promotedList = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> retObject1 = new HashMap<String, Object>();
         retObject1.put("promoted", true);
         retObject1.put("Student", student1Promoted);
@@ -374,7 +372,7 @@ public class GradeServiceTest {
         promotedList.add(retObject2);
         promotedList.add(retObject3);
 
-        List<HashMap <String, Object>> newPromotedList = gradeService.promoteAllStudentsByGrade(1);
+        List<HashMap<String, Object>> newPromotedList = gradeService.promoteAllStudentsByGrade(1);
 
 
         assertNotNull(newPromotedList);
