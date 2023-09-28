@@ -109,10 +109,8 @@ public class GradeServiceImpl implements GradeService {
             HashMap<String, Object> retObject = new HashMap<>();
 
             if(pass){
-                Grade currentGrade = student.getCurrentGrade();
-                Grade newGrade = gradeRepo.findByGradeNo(currentGrade.getGradeNo()+1);
-                student.setCurrentGrade(newGrade);
-                student.getPreviousGrades().add(currentGrade);
+                student.setCurrentGrade(gradeRepo.findByGradeNo(grade.getGradeNo()+1));
+                student.getPreviousGrades().add(grade);
                 studentRepo.save(student);
                 retObject.put("Promoted", true);
             }
@@ -159,11 +157,6 @@ public class GradeServiceImpl implements GradeService {
                 failedSubjects.add(subject);
             }
             markRepo.save(selectedAttemptMark);
-            //System.out.println(studentId);
-//            System.out.println(subject.getSubjectId());System.out.println(selectedAttemptMark.getMarkId());
-//
-
-            //markRepo.deleteOtherAttempts(studentId, subject.getSubjectId(), selectedAttemptMark.getMarkId());
 
         }
         return failedSubjects.isEmpty();
@@ -183,6 +176,7 @@ public class GradeServiceImpl implements GradeService {
 
     private Student findStudentByStudentId(Integer studentId){
         Student student = studentRepo.findByStudentId(studentId);
+        System.out.println(studentId);
         //return entityToDTOConversion(studentRepo.findByStudentId(studentId), StudentRequest.class);
         if(student == null) throw new StudentNotFoundException();
         return student;
