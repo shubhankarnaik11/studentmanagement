@@ -260,15 +260,11 @@ public class GradeServiceTest {
         toppers.add(topper1);
         toppers.add(topper2);
 
-
         when(gradeRepo.findByGradeNo(1)).thenReturn(grade);
         when(gradeRepo.getToppers(1, 2023)).thenReturn(toppers);
         when(studentRepo.findByStudentId(1)).thenReturn(student1);
 
-
-
         assertNotNull(gradeService.getNToppers(1,5));
-
 
     }
 

@@ -30,11 +30,11 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private MarkRepository markRepo;
 
-    public static ObjectMapper objectMapper = new ObjectMapper();
-
-    public <T> T entityToDTOConversion(Object entity, Class<T> T){
-        return objectMapper.convertValue(entity, T);
-    }
+//    public static ObjectMapper objectMapper = new ObjectMapper();
+//
+//    public <T> T entityToDTOConversion(Object entity, Class<T> T){
+//        return objectMapper.convertValue(entity, T);
+//    }
 
     private Student findStudentByStudentId(Integer studentId){
         Student student = studentRepo.findByStudentId(studentId);
