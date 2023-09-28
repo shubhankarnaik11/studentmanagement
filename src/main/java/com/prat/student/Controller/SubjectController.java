@@ -27,27 +27,21 @@ public class SubjectController {
     @PostMapping("/create-subject")
     public ResponseEntity<ResponseDataObject> createSubject(@Valid @RequestBody SubjectRequest subject) {
         Subject newSubject = subjectService.createSubject(subject);
-        return ResponseObject.getResponseObject(
-                new ResponseDataObject(HttpStatus.CREATED, newSubject,"Subject Created Successfully", true)
-        );
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, newSubject,"Subject Created Successfully", true));
     }
 
     @Operation(summary = "Get list of all Subjects")
     @GetMapping("/get-all-subjects")
     public ResponseEntity<ResponseDataObject> getAllSubjects() {
         List<Subject> subjectList = subjectService.getAllSubjects();
-        return ResponseObject.getResponseObject(
-                new ResponseDataObject(HttpStatus.CREATED, subjectList,"Successful", true)
-        );
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, subjectList,"Successful", true));
     }
 
     @Operation(summary = "Get Subject By Id")
     @GetMapping("/get-subject/{subjectId}")
     public ResponseEntity<ResponseDataObject> getSubject(@PathVariable Integer subjectId) {
         Subject subject = subjectService.getSubjectById(subjectId);
-        return ResponseObject.getResponseObject(
-                new ResponseDataObject(HttpStatus.OK, subject,"Successful", true)
-        );
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, subject,"Successful", true));
     }
 
 

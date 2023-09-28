@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -42,6 +43,8 @@ public class GradeControllerTest {
 
     List<String> newSubjectList = new ArrayList<>();
     GradeRequest gradeRequest = new GradeRequest();
+    List<HashMap<String, Object>> promotedList = new ArrayList<>();
+    HashMap<String, Object> studentPromotionList = new HashMap<>();
     @BeforeTestClass
     void before(){
         subjectList.add("math");
@@ -55,7 +58,7 @@ public class GradeControllerTest {
     public void getGradesTest() throws Exception{
         mock.perform(get("/grades/get-all-grades")).andExpect(status().isOk())
                 .andExpect(jsonPath("$.msg").value("Successful"))
-                .andExpect(jsonPath("$.success").value(true));;
+                .andExpect(jsonPath("$.success").value(true));
 
     }
 
@@ -73,7 +76,7 @@ public class GradeControllerTest {
         when(gradeService.createGrade(gradeRequest)).thenReturn(grade);
         mock.perform(post("/grades/create-grade").contentType("application/json").content(content)).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.msg").value("Successful"))
-                .andExpect(jsonPath("$.success").value(true));;
+                .andExpect(jsonPath("$.success").value(true));
     }
 
     @Test
@@ -95,6 +98,17 @@ public class GradeControllerTest {
 
     @Test
     public void promoteGradeTest() throws Exception{
-        //when(gradeService.promoteAllStudentsByGrade(gradeNo)).thenReturn();
+        when(gradeService.promoteAllStudentsByGrade(gradeNo)).thenReturn(promotedList);
+        mock.perform(post("/grades/promote/"+gradeNo)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.msg").value("Successful"))
+                .andExpect(jsonPath("$.success").value(true));
+    }
+
+    @Test
+    public void getToppersListTest() throws Exception{
+        when(gradeService.promoteAllStudentsByGrade(gradeNo)).thenReturn(promotedList);
+        mock.perform(get("/grades/get-toppers-list/"+gradeNo).param("n", "3")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.msg").value("Successful"))
+                .andExpect(jsonPath("$.success").value(true));
     }
 }
