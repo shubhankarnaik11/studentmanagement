@@ -1,6 +1,7 @@
 package com.prat.student.Service;
 
 import com.prat.student.Entity.Grade;
+import com.prat.student.Entity.Mark;
 import com.prat.student.Entity.Student;
 import com.prat.student.Entity.Subject;
 import com.prat.student.Exception.GradeNotFoundException;
@@ -9,6 +10,7 @@ import com.prat.student.Exception.SubjectNotFoundException;
 import com.prat.student.Model.GradeRequest;
 import com.prat.student.Model.SubjectRequest;
 import com.prat.student.Repository.GradeRepository;
+import com.prat.student.Repository.StudentRepository;
 import com.prat.student.Repository.SubjectRepository;
 import com.prat.student.ServiceImpl.GradeServiceImpl;
 import com.prat.student.ServiceImpl.SubjectServiceImpl;
@@ -32,6 +34,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class GradeServiceTest {
+
+    @Mock
+    StudentRepository studentRepo;
 
     @Mock
     GradeRepository gradeRepo;
@@ -205,6 +210,66 @@ public class GradeServiceTest {
         Grade existingGradeWithAddedSubject = gradeService.addSubjectsToGrade(10, subjects);
 
         assertNotNull(existingGradeWithAddedSubject);
+    }
+
+
+    @Test
+    public void getNToppersThrowsGradeNotFoundException(){
+        when(gradeRepo.findByGradeNo(10)).thenReturn(null);
+
+        assertThrows( GradeNotFoundException.class , () ->gradeService.getNToppers(10, 5));
+    }
+
+    @Test
+    public void getNToppersReturnsEmptyList(){
+        Subject s1 = new Subject("Maths", 100f, 35f, 3);
+        Subject s2 = new Subject("Science", 100f, 35f, 3);
+        List <Subject> subjects = new ArrayList<Subject>();
+        subjects.add(s1);
+        subjects.add(s2);
+
+        Grade grade = new Grade(1,subjects);
+
+        Student student1 = new Student("Krishna", 1,  "Somanath Nilaya, Maravanthe", 9087654321L, "Vijay shanbhag", "Hema", grade);
+        Student student2 = new Student("Shubhankar", 2, "Near Raghavendra Swami Temple, JPNagar", 9087654321L, "Father's Name", "Mother's Name", grade);
+        List <Student> students = new ArrayList<>();
+        students.add(student1);
+        students.add(student2);
+        grade.setStudent(students);
+
+        Mark m1 = new Mark(78f, student1, s1, grade, 1);
+        Mark m2 = new Mark(34f, student1, s2, grade, 1);
+        Mark m3 = new Mark(100f, student1, s1, grade, 2);
+        Mark m4 = new Mark(28f, student1, s2, grade, 2);
+
+        List <Mark> markList = new ArrayList<>();
+        markList.add(m1);
+        markList.add(m2);
+        markList.add(m3);
+        markList.add(m4);
+
+        List<List<Number>> toppers = new ArrayList<>();
+        List<Number> topper1 = new ArrayList<>();
+        topper1.add(1);
+        topper1.add(178);
+
+        List<Number> topper2 = new ArrayList<>();
+        topper2.add(1);
+        topper2.add(62);
+
+        toppers.add(topper1);
+        toppers.add(topper2);
+
+
+        when(gradeRepo.findByGradeNo(1)).thenReturn(grade);
+        when(gradeRepo.getToppers(1, 2023)).thenReturn(toppers);
+        when(studentRepo.findByStudentId(1)).thenReturn(student1);
+
+
+
+        assertNotNull(gradeService.getNToppers(1,5));
+
+
     }
 
 }

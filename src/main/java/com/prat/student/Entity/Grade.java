@@ -32,4 +32,10 @@ public class Grade {
         this.gradeNo = gradeNo;
         this.subjects = new ArrayList<Subject>();
     }
+
+
+    public Grade(Integer gradeNo, List<Subject> subjects){
+        this.gradeNo = gradeNo;
+        this.subjects = subjects;
+    }
 }

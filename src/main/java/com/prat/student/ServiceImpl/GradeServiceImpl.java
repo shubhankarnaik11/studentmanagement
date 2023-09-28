@@ -100,6 +100,7 @@ public class GradeServiceImpl implements GradeService {
     public List<HashMap<String, Object>> promoteAllStudentsByGrade(Integer gradeNo){
 
         Grade grade = findByGradeNo(gradeNo);
+
         List<HashMap<String, Object>> promotedList = new ArrayList<>();
 
         for(Student student : grade.getStudent()){
@@ -198,21 +199,24 @@ public class GradeServiceImpl implements GradeService {
     public List<HashMap<String, Object>> getNToppers(Integer gradeNo, Integer N){
 
         Grade grade = findByGradeNo(gradeNo);
+
         List<List<Number>> toppers = gradeRepo.getToppers(grade.getGradeNo(), 2023);
+
         List<HashMap <String, Object>> topperList = new LinkedList<HashMap <String, Object>>();
-        System.out.println(toppers.size());
+
         int i = 1;
         for (List<Number> topper : toppers) {
 
             if(i>N) break;
 
             Student s = studentRepo.findByStudentId((Integer)topper.get(0));
+
             HashMap <String, Object> newTopper = new  HashMap <String, Object>();
             newTopper.put("Position", i);
             newTopper.put("Student", s.getStudentName());
             newTopper.put("Total Marks", topper.get(1));
-            topperList.add(newTopper);
 
+            topperList.add(newTopper);
             i++;
         }
 
