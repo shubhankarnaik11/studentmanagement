@@ -43,18 +43,6 @@ public class StudentServiceImpl implements StudentService {
         return student;
     }
 
-    private Mark getMaxMark(LinkedList <Mark> marks){
-
-        Mark maxMark = marks.getFirst();
-        for(Mark mark : marks){
-            if(maxMark.getMark() < mark.getMark()){
-                maxMark = mark;
-            }
-        }
-        return maxMark;
-
-    }
-
     private Grade findByGradeNo(Integer gradeNo){
         Grade grade = gradeRepo.findByGradeNo(gradeNo);
         if(grade == null) throw new GradeNotFoundException();
