@@ -49,9 +49,6 @@ public class GradeServiceImpl implements GradeService {
 
         Optional<Subject> gradeSubject = grade.getSubjects().stream().filter( su -> Objects.equals(su.getSubjectName(), subject.getSubjectName())).findFirst();
 
-        System.out.println("IsSubjectnot found : ");
-        System.out.print(gradeSubject.isPresent());
-
         if(gradeSubject.isPresent()) throw new SubjectAlreadyExistsException();
         return false;
     }

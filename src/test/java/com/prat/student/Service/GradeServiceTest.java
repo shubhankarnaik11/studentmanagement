@@ -52,9 +52,6 @@ public class GradeServiceTest {
     @InjectMocks
     GradeServiceImpl gradeService;
 
-    @InjectMocks
-    SubjectServiceImpl subjectService;
-
     Integer gradeNo = 10;
     @Mock
     Grade grade = new Grade(gradeNo);

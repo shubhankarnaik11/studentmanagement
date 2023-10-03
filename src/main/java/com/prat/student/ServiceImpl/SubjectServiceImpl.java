@@ -26,7 +26,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public Subject createSubject(SubjectRequest subject){
-        boolean isSubjectPresent = checkIfSubjectPresent(subject.getSubjectName());
+        checkIfSubjectPresent(subject.getSubjectName());
 
         Subject newSubject = new Subject(
                 subject.getSubjectName(),
@@ -34,7 +34,7 @@ public class SubjectServiceImpl implements SubjectService {
                 subject.getPassMark(),
                 subject.getMaxAttempt()
         );
-        subjectRepo.save(newSubject);
+        subjectRepo.save(newSubject); //try catch here
         return newSubject;
 
     }
