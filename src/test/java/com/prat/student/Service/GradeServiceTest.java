@@ -239,17 +239,17 @@ public class GradeServiceTest {
         students.add(student1);
         students.add(student2);
         grade.setStudent(students);
-
-        Mark m1 = new Mark(78f, student1, s1, grade, 1);
-        Mark m2 = new Mark(34f, student1, s2, grade, 1);
-        Mark m3 = new Mark(100f, student1, s1, grade, 2);
-        Mark m4 = new Mark(28f, student1, s2, grade, 2);
-
-        List<Mark> markList = new ArrayList<>();
-        markList.add(m1);
-        markList.add(m2);
-        markList.add(m3);
-        markList.add(m4);
+//
+//        Mark m1 = new Mark(78f, student1, s1, grade, 1);
+//        Mark m2 = new Mark(34f, student1, s2, grade, 1);
+//        Mark m3 = new Mark(100f, student1, s1, grade, 2);
+//        Mark m4 = new Mark(28f, student1, s2, grade, 2);
+//
+//        List<Mark> markList = new ArrayList<>();
+//        markList.add(m1);
+//        markList.add(m2);
+//        markList.add(m3);
+//        markList.add(m4);
 
         List<List<Number>> toppers = new ArrayList<>();
         List<Number> topper1 = new ArrayList<>();
@@ -316,11 +316,11 @@ public class GradeServiceTest {
         Mark m3 = new Mark(100f, student1, s2, grade1, 2);
         Mark m4 = new Mark(28f, student2, s2, grade1, 2);
 
-        List<Mark> markList = new ArrayList<>();
-        markList.add(m1);
-        markList.add(m2);
-        markList.add(m3);
-        markList.add(m4);
+//        List<Mark> markList = new ArrayList<>();
+//        markList.add(m1);
+//        markList.add(m2);
+//        markList.add(m3);
+//        markList.add(m4);
 
         List<Mark> student1MarkList = new ArrayList<>();
         student1MarkList.add(m1);
@@ -330,17 +330,17 @@ public class GradeServiceTest {
         student2MarkList.add(m2);
         student2MarkList.add(m4);
 
-        List<List<Number>> toppers = new ArrayList<>();
-        List<Number> topper1 = new ArrayList<>();
-        topper1.add(1);
-        topper1.add(178);
-
-        List<Number> topper2 = new ArrayList<>();
-        topper2.add(1);
-        topper2.add(62);
-
-        toppers.add(topper1);
-        toppers.add(topper2);
+//        List<List<Number>> toppers = new ArrayList<>();
+//        List<Number> topper1 = new ArrayList<>();
+//        topper1.add(1);
+//        topper1.add(178);
+//
+//        List<Number> topper2 = new ArrayList<>();
+//        topper2.add(1);
+//        topper2.add(62);
+//
+//        toppers.add(topper1);
+//        toppers.add(topper2);
 
 
         when(gradeRepo.findByGradeNo(1)).thenReturn(grade1);
@@ -355,22 +355,22 @@ public class GradeServiceTest {
         when(markRepo.findByStudentAndAcademicYear(student2, 2023)).thenReturn(student2MarkList);
         when(markRepo.findByStudentAndAcademicYear(student3, 2023)).thenReturn(new ArrayList<>());
 
-        List<HashMap<String, Object>> promotedList = new ArrayList<HashMap<String, Object>>();
-        HashMap<String, Object> retObject1 = new HashMap<String, Object>();
-        retObject1.put("promoted", true);
-        retObject1.put("Student", student1Promoted);
-
-        HashMap<String, Object> retObject2 = new HashMap<String, Object>();
-        retObject2.put("Promoted", false);
-        retObject2.put("Student", student2);
-
-        HashMap<String, Object> retObject3 = new HashMap<String, Object>();
-        retObject2.put("Promoted", false);
-        retObject2.put("Student", student2);
-
-        promotedList.add(retObject1);
-        promotedList.add(retObject2);
-        promotedList.add(retObject3);
+//        List<HashMap<String, Object>> promotedList = new ArrayList<HashMap<String, Object>>();
+//        HashMap<String, Object> retObject1 = new HashMap<String, Object>();
+//        retObject1.put("promoted", true);
+//        retObject1.put("Student", student1Promoted);
+//
+//        HashMap<String, Object> retObject2 = new HashMap<String, Object>();
+//        retObject2.put("Promoted", false);
+//        retObject2.put("Student", student2);
+//
+//        HashMap<String, Object> retObject3 = new HashMap<String, Object>();
+//        retObject2.put("Promoted", false);
+//        retObject2.put("Student", student2);
+//
+//        promotedList.add(retObject1);
+//        promotedList.add(retObject2);
+//        promotedList.add(retObject3);
 
         List<HashMap<String, Object>> newPromotedList = gradeService.promoteAllStudentsByGrade(1);
 
