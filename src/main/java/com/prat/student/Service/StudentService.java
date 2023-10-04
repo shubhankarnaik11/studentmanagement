@@ -1,11 +1,10 @@
 package com.prat.student.Service;
 
-import com.prat.student.Entity.Student;
-import com.prat.student.Model.StudentRequest;
+import com.prat.student.entity.Student;
+import com.prat.student.model.StudentRequest;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 public interface StudentService {
 

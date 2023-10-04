@@ -1,8 +1,8 @@
 package com.prat.student.Service;
 
-import com.prat.student.Entity.Grade;
-import com.prat.student.Entity.Student;
-import com.prat.student.Model.GradeRequest;
+import com.prat.student.entity.Grade;
+import com.prat.student.entity.Student;
+import com.prat.student.model.GradeRequest;
 
 import java.util.HashMap;
 import java.util.List;

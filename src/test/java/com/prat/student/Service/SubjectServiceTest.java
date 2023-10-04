@@ -1,14 +1,13 @@
 package com.prat.student.Service;
 
-import com.prat.student.Entity.Subject;
-import com.prat.student.Exception.SubjectAlreadyExistsException;
-import com.prat.student.Exception.SubjectNotFoundException;
-import com.prat.student.Model.SubjectRequest;
-import com.prat.student.Repository.SubjectRepository;
-import com.prat.student.ServiceImpl.SubjectServiceImpl;
+import com.prat.student.entity.Subject;
+import com.prat.student.exception.SubjectAlreadyExistsException;
+import com.prat.student.exception.SubjectNotFoundException;
+import com.prat.student.model.SubjectRequest;
+import com.prat.student.repository.SubjectRepository;
+import com.prat.student.serviceimpl.SubjectServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
