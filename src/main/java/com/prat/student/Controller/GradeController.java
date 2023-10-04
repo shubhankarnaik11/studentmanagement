@@ -24,7 +24,7 @@ public class GradeController {
     GradeServiceImpl gradeService;
 
     @Operation(summary = "Get list of all Grades")
-    @GetMapping("/get-all-grades")
+    @GetMapping("/get")
     public ResponseEntity<ResponseDataObject> getGrades() {
         List<Grade> classList = gradeService.getGrades();
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, classList,"Successful", true));
@@ -32,21 +32,21 @@ public class GradeController {
     }
 
     @Operation(summary = "Get Grade By Grade Number")
-    @GetMapping("/get-grade-by-grade-no/{gradeNo}")
+    @GetMapping("/get/{gradeNo}")
     public ResponseEntity<ResponseDataObject> getGradeByGradeNo(@PathVariable Integer gradeNo) {
         Grade grade = gradeService.getGradeByGradeNo(gradeNo);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, grade,"Successful", true));
     }
 
     @Operation(summary = "Add A Grade")
-    @PostMapping("/create-grade")
+    @PostMapping("/create")
     public ResponseEntity<ResponseDataObject> createGrade(@RequestBody @Valid GradeRequest grade) {
         gradeService.createGrade(grade);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, null,"Successful", true));
     }
 
     @Operation(summary = "Add more Subjects to a Grade")
-    @PutMapping("/add-subjects-to-grade/{gradeNo}")
+    @PutMapping("/add/{gradeNo}")
     public ResponseEntity<ResponseDataObject> addSubjectsToGrade(@PathVariable Integer gradeNo, @RequestBody List<String> subjects) {
         gradeService.addSubjectsToGrade(gradeNo, subjects);
         return ResponseObject.getResponseObject(
@@ -54,7 +54,7 @@ public class GradeController {
     }
 
     @Operation(summary = "Get all students belonging to that grade")
-    @GetMapping("/get-grade-students/{gradeNo}")
+    @GetMapping("/students/{gradeNo}")
     public ResponseEntity<ResponseDataObject> getGradeStudents(@PathVariable Integer gradeNo) {
         gradeService.getGradeStudents(gradeNo);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED,  null ,"Successful", true));
@@ -68,7 +68,7 @@ public class GradeController {
     }
 
     @Operation(summary = "Get Highest marks of the grade")
-    @GetMapping("/get-toppers-list/{gradeNo}")
+    @GetMapping("/toppers-list/{gradeNo}")
     public ResponseEntity<ResponseDataObject> getToppersList(@PathVariable Integer gradeNo, @RequestParam Integer n){
         List<HashMap <String, Object>> topper =  gradeService.getNToppers(gradeNo, n);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, topper ,"Successful", true));
