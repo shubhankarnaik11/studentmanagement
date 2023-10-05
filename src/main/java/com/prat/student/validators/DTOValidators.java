@@ -4,14 +4,18 @@ import com.prat.student.config.ValidationsConfig;
 import com.prat.student.dto.SubjectDto;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import static com.prat.student.validators.baseValidators.NumericValidator.*;
 import static com.prat.student.validators.baseValidators.StringValidator.*;
 
-@NoArgsConstructor
+@Component
 public class DTOValidators {
 
-    public ValidatorObject isSubjectValid(SubjectDto subjectDto, ValidationsConfig config){
+    @Autowired
+    ValidationsConfig config;
+
+    public ValidatorObject isSubjectValid(SubjectDto subjectDto){
 
         ValidatorObject validObj = new ValidatorObject(true, "");
 

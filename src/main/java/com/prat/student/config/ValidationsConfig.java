@@ -1,15 +1,15 @@
 package com.prat.student.config;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 
 @Getter
 @Setter
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @ConfigurationProperties(prefix = "validations")
 public class ValidationsConfig {
     private String subjectNameRegexp;
@@ -19,8 +19,6 @@ public class ValidationsConfig {
     private Integer subjectPassMarksMinPercent;
     private Integer subjectAttemptMax;
     private Integer subjectAttemptMin;
-
-
 
     public String toString(){
         return "subjectNameRegexp : " + subjectNameRegexp + "\n" +
