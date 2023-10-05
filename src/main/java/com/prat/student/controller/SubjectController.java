@@ -1,6 +1,5 @@
 package com.prat.student.controller;
 
-import com.prat.student.config.ValidationsConfig;
 import com.prat.student.dto.SubjectDto;
 import com.prat.student.entity.Subject;
 import com.prat.student.exception.InvalidInputException;
@@ -12,7 +11,6 @@ import com.prat.student.validators.DTOValidators;
 import com.prat.student.validators.ValidatorObject;
 import io.swagger.v3.oas.annotations.Operation;
 
-import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,15 +26,12 @@ public class SubjectController {
     SubjectServiceImpl subjectService;
 
     @Autowired
-    ValidationsConfig validConfig;
-
-    @Autowired
     DTOValidators dtoValidators;
 
     @Operation(summary = "Add new Subject")
     @PostMapping("/create")
     public ResponseEntity<ResponseDataObject> createSubject(@RequestBody SubjectDto subject) {
-        System.out.println(validConfig);
+    
 
         ValidatorObject validObj = dtoValidators.isSubjectValid(subject);
 
