@@ -13,10 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value={"validation.properties", "application.properties"})
 public class StudentApplication {
 	public static void main(String[] args) {
-		ApplicationContext apc = SpringApplication.run(StudentApplication.class, args);
-		for(String s : apc.getBeanDefinitionNames()){
-			System.out.println(s);
-		}
+		SpringApplication.run(StudentApplication.class, args);
 	}
 
 }
