@@ -31,7 +31,6 @@ public class SubjectController {
     @Operation(summary = "Add new Subject")
     @PostMapping("/create")
     public ResponseEntity<ResponseDataObject> createSubject(@RequestBody SubjectDto subject) {
-    
 
         ValidatorObject validObj = dtoValidators.isSubjectValid(subject);
 
