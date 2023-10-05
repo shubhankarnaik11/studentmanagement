@@ -16,7 +16,7 @@ public class DTOValidators {
     ValidationsConfig config;
 
     public ValidatorObject isSubjectValid(SubjectDto subjectDto){
-
+        System.out.println(config.getSubjectPassMarksMaxPercent() + " " + config.getSubjectPassMarksMinPercent() + " " + subjectDto.getMaxMark() + " " + (config.getSubjectPassMarksMinPercent()/Double.valueOf(subjectDto.getMaxMark())));
         ValidatorObject validObj = new ValidatorObject(true, "");
         if(isZero(subjectDto.getMaxMark())){
             validObj.setSuccess(false);
@@ -25,11 +25,11 @@ public class DTOValidators {
         }
 
         Integer maxPassMark = Double.valueOf(
-                Math.ceil((double)(config.getSubjectPassMarksMaxPercent()/subjectDto.getMaxMark())*100)
+                Math.ceil(config.getSubjectPassMarksMaxPercent()*100/Double.valueOf(subjectDto.getMaxMark()))
         ).intValue();
 
         Integer minPassMark = Double.valueOf(
-                Math.ceil((double)(config.getSubjectPassMarksMinPercent()/subjectDto.getMaxMark())*100)
+                Math.ceil(config.getSubjectPassMarksMinPercent()*100/Double.valueOf(subjectDto.getMaxMark()))
         ).intValue();
 
         if(patternMismatch(subjectDto.getSubjectName(), config.getSubjectNameRegexp())){
@@ -37,33 +37,23 @@ public class DTOValidators {
             validObj.setErrorMsg("Subject Name is invalid ");
         }
 
-        if(greaterThan(subjectDto.getMaxMark(), config.getSubjectMarkMax())){
+
+        if(isNotInRange(subjectDto.getMaxMark(), config.getSubjectMarkMin(), config.getSubjectMarkMax())){
             validObj.setSuccess(false);
-            validObj.setErrorMsg("maxMark must be less than" + config.getSubjectMarkMax().toString());
-        }
-        if(lesserThan(subjectDto.getMaxMark(), config.getSubjectMarkMin())){
-            validObj.setSuccess(false);
-            validObj.setErrorMsg("maxMark must be greater than" + config.getSubjectMarkMax().toString());
+            validObj.setErrorMsg("maxMark range is [" + config.getSubjectMarkMin().toString() + " , " + config.getSubjectMarkMax().toString() + "]");
         }
 
-        if(greaterThan(subjectDto.getPassMark(), maxPassMark)){
+        if(isNotInRange(subjectDto.getPassMark(), minPassMark, maxPassMark)){
             validObj.setSuccess(false);
-            validObj.setErrorMsg("passMark must be lesser than" + maxPassMark);
-        }
-        if(lesserThan(subjectDto.getPassMark(), minPassMark)){
-            validObj.setSuccess(false);
-            validObj.setErrorMsg("passMark must be greater than" + minPassMark);
+            validObj.setErrorMsg("passMark range is [" + minPassMark.toString() + " , " + maxPassMark.toString() + "]");
         }
 
-        if(greaterThan(subjectDto.getMaxAttempt(), config.getSubjectAttemptMax())){
+        if(isNotInRange(subjectDto.getMaxAttempt(), config.getSubjectAttemptMin(), config.getSubjectAttemptMax())){
             validObj.setSuccess(false);
-            validObj.setErrorMsg("passMark must be lesser than" + maxPassMark);
-        }
-        if(lesserThan(subjectDto.getMaxAttempt(), config.getSubjectAttemptMin())){
-            validObj.setSuccess(false);
-            validObj.setErrorMsg("passMark must be greater than" + minPassMark);
+            validObj.setErrorMsg("maxAttempt range is [" +config.getSubjectAttemptMin() + " , " + config.getSubjectAttemptMax() + "]");
         }
 
+        System.out.println(validObj.toString());
         return  validObj;
     }
 

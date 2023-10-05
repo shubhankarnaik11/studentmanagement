@@ -16,7 +16,7 @@ public class ValidatorObject {
     String errorMsg;
 
     public void setErrorMsg(String errorMsg){
-        this.errorMsg += "\n" + errorMsg;
+        this.errorMsg += "\\n" + errorMsg;
     }
 
     public String toString(){
