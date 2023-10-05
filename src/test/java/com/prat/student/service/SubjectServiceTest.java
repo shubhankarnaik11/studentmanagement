@@ -1,4 +1,4 @@
-package com.prat.student.Service;
+package com.prat.student.service;
 
 import com.prat.student.entity.Subject;
 import com.prat.student.exception.SubjectAlreadyExistsException;

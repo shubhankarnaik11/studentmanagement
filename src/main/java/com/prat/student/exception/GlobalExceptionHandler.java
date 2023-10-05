@@ -1,5 +1,7 @@
 package com.prat.student.exception;
 
+import com.prat.student.response.ResponseDataObject;
+import com.prat.student.response.ResponseObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,38 +11,59 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(StudentNotFoundException.class)
-    public ResponseEntity<Object> exception(StudentNotFoundException exception) {
-        return new ResponseEntity<>("Student not found", HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseDataObject> exception(StudentNotFoundException exception) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_FOUND, null ,"Subject Created Successfully", false)
+        );
     }
 
     @ExceptionHandler(SubjectNotFoundException.class)
-    public ResponseEntity<Object> exception(SubjectNotFoundException exception) {
-        return new ResponseEntity<>("Subject not found", HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseDataObject> exception(SubjectNotFoundException exception) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_FOUND, null ,"Subject not found", false)
+        );
     }
 
     @ExceptionHandler(GradeNotFoundException.class)
-    public ResponseEntity<Object> exception(GradeNotFoundException exception) {
-        return new ResponseEntity<>("Grade not found", HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseDataObject> exception(GradeNotFoundException exception) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_FOUND, null ,"Grade not found", false)
+        );
     }
 
     @ExceptionHandler(MarkNotFoundException.class)
-    public ResponseEntity<Object> exception(MarkNotFoundException exception) {
-        return new ResponseEntity<>("Mark Id not found", HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseDataObject> exception(MarkNotFoundException exception) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_FOUND, null ,"No marks found", false)
+        );
     }
 
     @ExceptionHandler(InvalidMarkException.class)
-    public ResponseEntity<Object> exception(InvalidMarkException exception) {
-        return new ResponseEntity<>("Invalid Mark, should be between 0 and 100", HttpStatus.NOT_ACCEPTABLE);
+    public ResponseEntity<ResponseDataObject> exception(InvalidMarkException exception) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,"Invalid Mark, should be between 0 and 100", false)
+        );
     }
 
     @ExceptionHandler(SubjectAlreadyExistsException.class)
-    public ResponseEntity<Object> exception(SubjectAlreadyExistsException exception) {
-        return new ResponseEntity<>("Subject Already Exists for the Grade", HttpStatus.NOT_ACCEPTABLE);
+    public ResponseEntity<ResponseDataObject> exception(SubjectAlreadyExistsException exception) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,"Subject Already Exists for the Grade", false)
+        );
     }
 
     @ExceptionHandler(MaxAttemptExceededException.class)
-    public ResponseEntity<Object> exception(MaxAttemptExceededException exception) {
-        return new ResponseEntity<>("Max Attempt Exceeded for the Subject", HttpStatus.NOT_ACCEPTABLE);
+    public ResponseEntity<ResponseDataObject> exception(MaxAttemptExceededException exception) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,"Max Attempt Exceeded for the Subject", false)
+        );
+    }
+
+    @ExceptionHandler(InvalidInputException.class)
+    public ResponseEntity<ResponseDataObject> exception(InvalidInputException exception) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,"Invalid Input : \n" + exception.getErrorMessage(), false)
+        );
     }
 
 }

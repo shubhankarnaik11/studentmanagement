@@ -9,7 +9,7 @@ import com.prat.student.model.StudentRequest;
 import com.prat.student.repository.GradeRepository;
 import com.prat.student.repository.MarkRepository;
 import com.prat.student.repository.StudentRepository;
-import com.prat.student.Service.StudentService;
+import com.prat.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

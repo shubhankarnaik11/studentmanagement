@@ -1,11 +1,15 @@
 package com.prat.student.controller;
 
+import com.prat.student.config.ValidationsConfig;
 import com.prat.student.dto.SubjectDto;
 import com.prat.student.entity.Subject;
+import com.prat.student.exception.InvalidInputException;
 import com.prat.student.serviceimpl.SubjectServiceImpl;
 import com.prat.student.response.ResponseDataObject;
 import com.prat.student.response.ResponseObject;
 
+import com.prat.student.validators.DTOValidators;
+import com.prat.student.validators.ValidatorObject;
 import io.swagger.v3.oas.annotations.Operation;
 
 import jakarta.validation.Valid;
@@ -23,9 +27,19 @@ public class SubjectController {
     @Autowired
     SubjectServiceImpl subjectService;
 
+    @Autowired
+    ValidationsConfig validConfig;
+
     @Operation(summary = "Add new Subject")
     @PostMapping("/create-subject")
-    public ResponseEntity<ResponseDataObject> createSubject(@Valid @RequestBody SubjectDto subject) {
+    public ResponseEntity<ResponseDataObject> createSubject(@RequestBody SubjectDto subject) {
+
+        ValidatorObject validObj = (new DTOValidators()).isSubjectValid(subject, validConfig);
+
+        if(!validObj.isSuccess()){
+            throw new InvalidInputException(validObj.getErrorMsg());
+        }
+
         Subject newSubject = subjectService.createSubject(subject);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, newSubject,"Subject Created Successfully", true));
     }
