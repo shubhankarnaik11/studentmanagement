@@ -24,17 +24,10 @@ public class StudentController {
 
 
     @Operation(summary = "Get list of all Students")
-    @GetMapping("/get-all-students")
+    @GetMapping("/get")
     public ResponseEntity<ResponseDataObject> getAllStudents() {
         List<Student> studentList = studentService.getAllStudents();
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, studentList,"Successful", true));
-    }
-
-    @Operation
-    @GetMapping("/get")
-    public ResponseEntity<ResponseDataObject> getStudents(@PathVariable Integer studentId){
-        Student student = studentService.getStudentById(studentId);
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, student,"Successful", true));
     }
 
     @Operation
@@ -45,7 +38,7 @@ public class StudentController {
     }
 
     @Operation(summary = "Add Student")
-    @PostMapping("/create-student")
+    @PostMapping("/create")
     public ResponseEntity<ResponseDataObject> createStudent(@RequestBody StudentRequest newStudent) {
 
 
@@ -57,14 +50,14 @@ public class StudentController {
 
 
     @Operation(summary = "Delete Student By Id")
-    @DeleteMapping("/delete-student/{studentId}")
+    @DeleteMapping("/delete/{studentId}")
     public ResponseEntity<ResponseDataObject> deleteStudent(@PathVariable Integer studentId) {
         studentService.deleteStudent(studentId);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, studentId,"Deleted student with Id"+studentId, true));
     }
 
     @Operation(summary = "Update Student")
-    @PutMapping("/update-student")
+    @PutMapping("/update")
     public ResponseEntity<ResponseDataObject> updateStudent(@RequestBody @Valid StudentRequest updatedStudent) {
         Student student = studentService.updateStudent(updatedStudent);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, student,"Student Updated Successfully", true));
@@ -72,7 +65,7 @@ public class StudentController {
 
 
     @Operation(summary = "Update Student Marks")
-    @PutMapping("/update-student-marks/{studentId}")
+    @PutMapping("/update-marks/{studentId}")
     public ResponseEntity<ResponseDataObject> updateStudentMarks(@PathVariable Integer studentId, @RequestBody HashMap<String, Float> subjectMark) {
         studentService.updateStudentMark(studentId, subjectMark);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, null,"Student Marks Updated Successfully", true));
