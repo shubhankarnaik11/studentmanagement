@@ -1,28 +1,30 @@
 package com.prat.student.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prat.student.config.ValidationsConfig;
 import com.prat.student.entity.Subject;
-import jakarta.validation.constraints.*;
+import com.prat.student.validators.ValidatorObject;
 import lombok.Getter;
+
+import static com.prat.student.validators.baseValidators.NumericValidator.*;
+import static com.prat.student.validators.baseValidators.StringValidator.*;
+
 
 @Getter
 public class SubjectDto {
 
-    @Pattern(regexp="")
+
     private String subjectName;
 
-    @Max(100)
-    private Float maxMark;
+    private Integer maxMark;
 
-    @Min(35)
-    @Max(40)
-    private Float passMark;
+    private Integer passMark;
 
-    @Min(1)
-    @Max(3)
     private Integer maxAttempt;
 
-    public SubjectDto( String subjectName, Float maxMark, Float passMark, Integer maxAttempt){
+
+
+    public SubjectDto( String subjectName, Integer maxMark, Integer passMark, Integer maxAttempt){
         this.subjectName = subjectName;
         this.maxMark = maxMark;
         this.passMark = passMark;

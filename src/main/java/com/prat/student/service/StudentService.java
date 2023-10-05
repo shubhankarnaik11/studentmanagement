@@ -1,4 +1,4 @@
-package com.prat.student.Service;
+package com.prat.student.service;
 
 import com.prat.student.entity.Student;
 import com.prat.student.model.StudentRequest;

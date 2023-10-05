@@ -1,11 +1,12 @@
 package com.prat.student.serviceimpl;
 
+import com.prat.student.config.ValidationsConfig;
 import com.prat.student.dto.SubjectDto;
 import com.prat.student.entity.Subject;
 import com.prat.student.exception.SubjectAlreadyExistsException;
 import com.prat.student.exception.SubjectNotFoundException;
 import com.prat.student.repository.SubjectRepository;
-import com.prat.student.Service.SubjectService;
+import com.prat.student.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,6 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public Subject createSubject(SubjectDto subject){
-
         Subject newSubject = SubjectDto.convertToEntity(subject);
 
         subjectRepo.save(newSubject); //try catch here

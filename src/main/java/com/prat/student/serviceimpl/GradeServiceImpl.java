@@ -13,7 +13,7 @@ import com.prat.student.repository.GradeRepository;
 import com.prat.student.repository.MarkRepository;
 import com.prat.student.repository.StudentRepository;
 import com.prat.student.repository.SubjectRepository;
-import com.prat.student.Service.GradeService;
+import com.prat.student.service.GradeService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
