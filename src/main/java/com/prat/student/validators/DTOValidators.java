@@ -2,25 +2,27 @@ package com.prat.student.validators;
 
 import com.prat.student.config.ValidationsConfig;
 import com.prat.student.dto.SubjectDto;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import static com.prat.student.validators.baseValidators.NumericValidator.*;
 import static com.prat.student.validators.baseValidators.StringValidator.*;
-
-@NoArgsConstructor
+@Component
 public class DTOValidators {
 
-    public ValidatorObject isSubjectValid(SubjectDto subjectDto, ValidationsConfig config){
+    @Autowired
+    ValidationsConfig config;
+
+    public  ValidatorObject isSubjectValid(SubjectDto subjectDto){
+
+        System.out.println(config.getSubjectMarkMin());
 
         ValidatorObject validObj = new ValidatorObject(true, "");
-
         if(isZero(subjectDto.getMaxMark())){
             validObj.setSuccess(false);
             validObj.setErrorMsg("maxMark must not be zero");
             return validObj;//returning because next step it is in the denominator
         }
-
 
         Integer maxPassMark = Double.valueOf(
                 Math.ceil((double)(config.getSubjectPassMarksMaxPercent()/subjectDto.getMaxMark())*100)

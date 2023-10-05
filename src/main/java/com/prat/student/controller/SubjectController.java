@@ -30,11 +30,15 @@ public class SubjectController {
     @Autowired
     ValidationsConfig validConfig;
 
+    @Autowired
+    DTOValidators dtoValidators;
+
     @Operation(summary = "Add new Subject")
     @PostMapping("/create")
     public ResponseEntity<ResponseDataObject> createSubject(@RequestBody SubjectDto subject) {
+        System.out.println(validConfig);
 
-        ValidatorObject validObj = (new DTOValidators()).isSubjectValid(subject, validConfig);
+        ValidatorObject validObj = dtoValidators.isSubjectValid(subject);
 
         if(!validObj.isSuccess()){
             throw new InvalidInputException(validObj.getErrorMsg());

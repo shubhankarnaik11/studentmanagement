@@ -28,7 +28,6 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Subject createSubject(SubjectDto subject){
         Subject newSubject = SubjectDto.convertToEntity(subject);
-
         subjectRepo.save(newSubject); //try catch here
         return newSubject;
 
