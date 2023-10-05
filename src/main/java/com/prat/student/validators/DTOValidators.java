@@ -25,11 +25,11 @@ public class DTOValidators {
         }
 
         Integer maxPassMark = Double.valueOf(
-                Math.ceil(config.getSubjectPassMarksMaxPercent()*100/Double.valueOf(subjectDto.getMaxMark()))
+                Math.ceil(config.getSubjectPassMarksMaxPercent()/100.00*subjectDto.getMaxMark())
         ).intValue();
 
         Integer minPassMark = Double.valueOf(
-                Math.ceil(config.getSubjectPassMarksMinPercent()*100/Double.valueOf(subjectDto.getMaxMark()))
+                Math.ceil(config.getSubjectPassMarksMinPercent()/100.00*subjectDto.getMaxMark())
         ).intValue();
 
         if(patternMismatch(subjectDto.getSubjectName(), config.getSubjectNameRegexp())){

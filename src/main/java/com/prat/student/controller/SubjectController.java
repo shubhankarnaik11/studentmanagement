@@ -39,7 +39,7 @@ public class SubjectController {
         }
 
         Subject newSubject = subjectService.createSubject(subject);
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, newSubject,"Subject Created Successfully", true));
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, SubjectDto.convertToDto(newSubject),"Subject Created Successfully", true));
     }
 
     @Operation(summary = "Get list of all Subjects")
