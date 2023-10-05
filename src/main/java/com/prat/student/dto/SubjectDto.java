@@ -3,14 +3,8 @@ package com.prat.student.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prat.student.config.ValidationsConfig;
 import com.prat.student.entity.Subject;
-import com.prat.student.validators.ValidatorObject;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import static com.prat.student.validators.baseValidators.NumericValidator.*;
-import static com.prat.student.validators.baseValidators.StringValidator.*;
 
 
 @Getter
@@ -32,13 +26,6 @@ public class SubjectDto {
         this.passMark = passMark;
         this.maxAttempt = maxAttempt;
     }
-
-//    public SubjectDto( String subjectName, Integer maxMark, Integer passMark, Integer maxAttempt){
-//        this.subjectName = subjectName;
-//        this.maxMark = maxMark;
-//        this.passMark = passMark;
-//        this.maxAttempt = maxAttempt;
-//    }
 
 
     public static SubjectDto convertToDto(Subject sub) {
