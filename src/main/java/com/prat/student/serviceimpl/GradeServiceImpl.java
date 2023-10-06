@@ -4,10 +4,7 @@ import com.prat.student.entity.Grade;
 import com.prat.student.entity.Mark;
 import com.prat.student.entity.Student;
 import com.prat.student.entity.Subject;
-import com.prat.student.exception.GradeNotFoundException;
-import com.prat.student.exception.StudentNotFoundException;
-import com.prat.student.exception.SubjectAlreadyExistsException;
-import com.prat.student.exception.SubjectNotFoundException;
+import com.prat.student.exception.*;
 import com.prat.student.model.GradeRequest;
 import com.prat.student.repository.GradeRepository;
 import com.prat.student.repository.MarkRepository;
@@ -65,6 +62,7 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public Grade createGrade(GradeRequest grade){
+        validateGrade(grade.getGradeNo());
         Grade newGrade = new Grade(grade.getGradeNo());
         List<String> subjects = grade.getSubjects();
 
@@ -90,7 +88,7 @@ public class GradeServiceImpl implements GradeService {
             if(!isSubjectExistsInGrade(s, grade))
                 grade.getSubjects().add(s);
         }
-        gradeRepo.save(grade);
+            gradeRepo.save(grade);
         return grade;
     }
 
@@ -214,6 +212,11 @@ public class GradeServiceImpl implements GradeService {
 
 
         return topperList;
+    }
+
+    private void validateGrade(Integer gradeNo) {
+        if(gradeRepo.findByGradeNo(gradeNo) != null)
+            throw new GradeAlreadyExistsException();
     }
 }
 

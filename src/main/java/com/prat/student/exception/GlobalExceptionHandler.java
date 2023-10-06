@@ -90,4 +90,11 @@ public class GlobalExceptionHandler {
                 new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,"Pass Mark should be be at least 30% and at most 35% of Max Mark", false)
         );
     }
+
+    @ExceptionHandler(GradeAlreadyExistsException.class)
+    public ResponseEntity<ResponseDataObject> exception(GradeAlreadyExistsException exception) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,"Grade already exists", false)
+        );
+    }
 }
