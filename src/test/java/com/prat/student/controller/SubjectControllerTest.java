@@ -1,7 +1,6 @@
 package com.prat.student.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prat.student.dto.SubjectDto;
 import com.prat.student.entity.Subject;
 import com.prat.student.model.SubjectRequest;
 import com.prat.student.serviceimpl.SubjectServiceImpl;

@@ -69,10 +69,17 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student updateStudent(StudentRequest updatedStudent) {
-        Student student = new Student(updatedStudent.getStudentName(), updatedStudent.getRollNo(),
-                updatedStudent.getAddress(), updatedStudent.getContactNumber(), updatedStudent.getFatherName(),
-                updatedStudent.getMotherName(), findByGradeNo(updatedStudent.getGradeNo()));
+    public Student updateStudent(StudentRequest updatedStudent, Integer studentId) {
+
+        Student student = findStudentByStudentId(studentId);
+
+        student.setStudentName(updatedStudent.getStudentName());
+        student.setRollNo(updatedStudent.getRollNo());
+        student.setAddress(updatedStudent.getAddress());
+        student.setFatherName(updatedStudent.getFatherName());
+        student.setMotherName(updatedStudent.getMotherName());
+        student.setCurrentGrade(findByGradeNo(updatedStudent.getGradeNo()));
+
         studentRepo.save(student);
         return student;
     }

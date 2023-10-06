@@ -12,7 +12,7 @@ public interface StudentService {
     public abstract Student getStudentById(Integer studentId);
     public abstract Student createStudent(StudentRequest newStudent);
     public abstract Integer deleteStudent(Integer studentId);
-    public abstract Student updateStudent(StudentRequest updatedStudent);
+    public abstract Student updateStudent(StudentRequest updatedStudent, Integer studentId);
     public abstract boolean updateStudentMark(Integer studentId, HashMap<String, Float> subjectMark);
 
 }

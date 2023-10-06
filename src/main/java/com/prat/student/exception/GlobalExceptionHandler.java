@@ -80,4 +80,11 @@ public class GlobalExceptionHandler {
                 new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,exception.getErrorMessage(), false)
         );
     }
+
+    @ExceptionHandler(GradeAlreadyExistsException.class)
+    public ResponseEntity<ResponseDataObject> exception(GradeAlreadyExistsException exception) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,"Grade already exists", false)
+        );
+    }
 }

@@ -1,5 +1,6 @@
 package com.prat.student.model;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,7 +14,8 @@ public class StudentRequest {
 
     private String address;
 
-    private Long contactNumber;
+    @Pattern(regexp = "^[1-9][0-9]{9}",message = "Phone number should be of length 10, first digit should not be 0")
+    private String contactNumber;
 
     private String fatherName;
 

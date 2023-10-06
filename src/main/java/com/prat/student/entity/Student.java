@@ -25,7 +25,7 @@ public class Student {
     private String address;
 
     @Column(nullable = false)
-    private Long contactNumber;
+    private String contactNumber;
 
     @Column(nullable = false)
     private String fatherName;
@@ -43,7 +43,7 @@ public class Student {
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
     private List<Mark> marks;
 
-    public Student(String studentName, Integer rollNo, String address, Long contactNumber, String fatherName, String motherName, Grade currentGrade){
+    public Student(String studentName, Integer rollNo, String address, String contactNumber, String fatherName, String motherName, Grade currentGrade){
         this.studentName = studentName;
         this.rollNo = rollNo;
         this.address = address;
