@@ -16,7 +16,9 @@ public class ErrorAttributes extends DefaultErrorAttributes {
         Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, options);
         errorAttributes.put("locale", webRequest.getLocale().toString());
         errorAttributes.remove("error");
-        System.out.println(errorAttributes);
+
+
+
         return errorAttributes;
 
     }

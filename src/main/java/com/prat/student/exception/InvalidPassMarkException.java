@@ -3,10 +3,9 @@ package com.prat.student.exception;
 import lombok.Getter;
 
 @Getter
-public class InvalidMarkException extends RuntimeException {
+public class InvalidPassMarkException extends RuntimeException {
     private String errorMessage;
-
-    public InvalidMarkException(String errorMessage) {
+    public InvalidPassMarkException(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 

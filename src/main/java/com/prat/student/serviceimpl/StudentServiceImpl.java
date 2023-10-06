@@ -27,22 +27,16 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private MarkRepository markRepo;
 
-//    public static ObjectMapper objectMapper = new ObjectMapper();
-//
-//    public <T> T entityToDTOConversion(Object entity, Class<T> T){
-//        return objectMapper.convertValue(entity, T);
-//    }
 
     private Student findStudentByStudentId(Integer studentId){
         Student student = studentRepo.findByStudentId(studentId);
-        //return entityToDTOConversion(studentRepo.findByStudentId(studentId), StudentRequest.class);
-        if(student == null) throw new StudentNotFoundException();
+        if(student == null) throw new StudentNotFoundException("Student (ID : " + studentId +")");
         return student;
     }
 
     private Grade findByGradeNo(Integer gradeNo){
         Grade grade = gradeRepo.findByGradeNo(gradeNo);
-        if(grade == null) throw new GradeNotFoundException();
+        if(grade == null) throw new GradeNotFoundException("Grade " + gradeNo + " not found");
         return grade;
     }
 
@@ -99,15 +93,19 @@ public class StudentServiceImpl implements StudentService {
             if(subjectMark.containsKey(s.getSubjectName())){
                 int attemptNo = Math.max(mark.size()+1, 1);
                 Float singleMark = subjectMark.get(s.getSubjectName());
-                if ( attemptNo > s.getMaxAttempt()) throw new MaxAttemptExceededException();
-                if( singleMark<0 || singleMark>s.getMaxMark()) throw new InvalidMarkException();
+                if ( attemptNo > s.getMaxAttempt()) throw new MaxAttemptExceededException("Max Attempt Exceeded for subject " + s.getSubjectName());
+                if( singleMark<0 || singleMark>s.getMaxMark()) throw new InvalidMarkException("Mark can be in the range [0,"+s.getMaxMark()+"] for " + s.getSubjectName());
                 Mark newMark = new Mark(singleMark,student,s, grade, attemptNo);
                 markList.add(newMark);
                 subjectMark.remove(s.getSubjectName());
             }
         }
 
-        if(!subjectMark.isEmpty()) throw new SubjectNotFoundException();
+        if(!subjectMark.isEmpty()){
+            String subjectName = subjectMark.entrySet().iterator().next().getKey();
+
+            throw new SubjectNotFoundException("Subject "+ subjectName + " does not exists ");
+        }
 
         markRepo.saveAll(markList);
         return true;

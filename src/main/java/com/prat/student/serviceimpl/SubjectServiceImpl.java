@@ -1,7 +1,7 @@
 package com.prat.student.serviceimpl;
 
 import com.prat.student.entity.Subject;
-import com.prat.student.exception.PassMarkMaxMarkException;
+import com.prat.student.exception.InvalidPassMarkException;
 import com.prat.student.exception.SubjectAlreadyExistsException;
 import com.prat.student.exception.SubjectNotFoundException;
 import com.prat.student.model.SubjectRequest;
@@ -24,14 +24,12 @@ public class SubjectServiceImpl implements SubjectService {
     public Subject createSubject(SubjectRequest subject){
 
         validateSubject(subject);
-
         Subject newSubject = new Subject(subject.getSubjectName(), subject.getMaxMark(), subject.getPassMark(), subject.getMaxAttempt());
-
         try{
             newSubject = subjectRepo.save(newSubject);
         }
         catch (Throwable e){
-            throw new SubjectAlreadyExistsException();
+            throw new SubjectAlreadyExistsException("Subject "+ subject.getSubjectName() +" already exists");
         }
         return newSubject;
 
@@ -49,7 +47,7 @@ public class SubjectServiceImpl implements SubjectService {
     public Subject getSubjectById(Integer subjectId){
         Subject subject = subjectRepo.findBySubjectId(subjectId);
         if(subject == null)
-            throw new SubjectNotFoundException();
+            throw new SubjectNotFoundException("Subject (ID:" + subjectId + ") not found");
         return subject;
     }
 
@@ -58,7 +56,7 @@ public class SubjectServiceImpl implements SubjectService {
         Integer passMark = subject.getPassMark();
 
         if(passMark > maxMark * 0.35 || passMark < maxMark * 0.30){
-            throw new PassMarkMaxMarkException();
+            throw new InvalidPassMarkException("Pass mark must be in the range [" + maxMark * 0.30 + "," + maxMark * 0.35 + "]");
         }
     }
 
