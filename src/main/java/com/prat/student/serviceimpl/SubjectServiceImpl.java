@@ -1,6 +1,5 @@
 package com.prat.student.serviceimpl;
 
-import com.prat.student.config.ValidationsConfig;
 import com.prat.student.dto.SubjectDto;
 import com.prat.student.entity.Subject;
 import com.prat.student.exception.SubjectAlreadyExistsException;
@@ -20,15 +19,15 @@ public class SubjectServiceImpl implements SubjectService {
     SubjectRepository subjectRepo;
 
 
-    private boolean checkIfSubjectPresent(String subjectName){
-        if(subjectRepo.findBySubjectName(subjectName) == null) return false;
-        throw new SubjectAlreadyExistsException();
-    }
-
     @Override
     public Subject createSubject(SubjectDto subject){
         Subject newSubject = SubjectDto.convertToEntity(subject);
-        subjectRepo.save(newSubject); //try catch here
+        try{
+            subjectRepo.save(newSubject); //try catch here
+        }
+        catch (Throwable e){
+            throw new SubjectAlreadyExistsException();
+        }
         return newSubject;
 
     }

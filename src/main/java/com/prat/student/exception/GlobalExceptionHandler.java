@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SubjectAlreadyExistsException.class)
     public ResponseEntity<ResponseDataObject> exception(SubjectAlreadyExistsException exception) {
         return ResponseObject.getResponseObject(
-                new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,"Subject Already Exists for the Grade", false)
+                new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,"Subject Already Exists", false)
         );
     }
 

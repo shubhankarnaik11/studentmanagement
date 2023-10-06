@@ -30,7 +30,7 @@ public class StudentController {
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, studentList,"Successful", true));
     }
 
-    @Operation
+    @Operation(summary = "Get a student")
     @GetMapping("/get/{studentId}")
     public ResponseEntity<ResponseDataObject> getStudentById(@PathVariable Integer studentId){
         Student student = studentService.getStudentById(studentId);
