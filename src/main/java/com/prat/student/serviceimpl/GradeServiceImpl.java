@@ -82,7 +82,6 @@ public class GradeServiceImpl implements GradeService {
 
         Grade grade = findByGradeNo(gradeNo);
 
-
         for(String sub : subjects){
             Subject s = findBySubjectName(sub);
             if(!isSubjectExistsInGrade(s, grade))
