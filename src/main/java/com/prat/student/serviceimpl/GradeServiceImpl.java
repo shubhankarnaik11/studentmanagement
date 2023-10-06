@@ -212,7 +212,7 @@ public class GradeServiceImpl implements GradeService {
 
     private void validateGrade(Integer gradeNo) {
         if(gradeRepo.findByGradeNo(gradeNo) != null)
-            throw new GradeAlreadyExistsException();
+            throw new GradeAlreadyExistsException("Grade "+gradeNo+" already exists");
     }
 }
 
