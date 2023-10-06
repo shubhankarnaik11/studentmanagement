@@ -38,7 +38,7 @@ public class GradeDto {
         List<GradeDto> gradeDtos = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         for(Grade g: grades){
-            gradeDtos.add(mapper.convertValue(g, GradeDto.class););
+            gradeDtos.add(mapper.convertValue(g, GradeDto.class));
         }
         return gradeDtos;
 
