@@ -1,7 +1,5 @@
 package com.prat.student.serviceimpl;
 
-import com.prat.student.dto.GradeDto;
-import com.prat.student.dto.SubjectDto;
 import com.prat.student.entity.Grade;
 import com.prat.student.entity.Mark;
 import com.prat.student.entity.Student;
@@ -66,12 +64,12 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public Grade createGrade(GradeDto grade){
+    public Grade createGrade(GradeRequest grade){
         Grade newGrade = new Grade(grade.getGradeNo());
-        List<SubjectDto> subjectDtos = grade.getSubjects();
+        List<String> subjects = grade.getSubjects();
 
-        for(SubjectDto sub : subjectDtos){
-            Subject s = findBySubjectName(sub.getSubjectName());
+        for(String sub : subjects){
+            Subject s = findBySubjectName(sub);
             newGrade.getSubjects().add(s);
         }
 

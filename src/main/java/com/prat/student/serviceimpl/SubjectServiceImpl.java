@@ -1,9 +1,9 @@
 package com.prat.student.serviceimpl;
 
-import com.prat.student.dto.SubjectDto;
 import com.prat.student.entity.Subject;
 import com.prat.student.exception.SubjectAlreadyExistsException;
 import com.prat.student.exception.SubjectNotFoundException;
+import com.prat.student.model.SubjectRequest;
 import com.prat.student.repository.SubjectRepository;
 import com.prat.student.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,12 @@ public class SubjectServiceImpl implements SubjectService {
 
 
     @Override
-    public Subject createSubject(SubjectDto subject){
-        Subject newSubject = SubjectDto.convertToEntity(subject);
+    public Subject createSubject(SubjectRequest subject){
+
+        Subject newSubject = new Subject(subject.getSubjectName(), subject.getMaxMark(), subject.getPassMark(), subject.getMaxAttempt());
+
         try{
-            subjectRepo.save(newSubject); //try catch here
+            newSubject = subjectRepo.save(newSubject);
         }
         catch (Throwable e){
             throw new SubjectAlreadyExistsException();
