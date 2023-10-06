@@ -24,13 +24,20 @@ public class StudentController {
 
 
     @Operation(summary = "Get list of all Students")
-    @GetMapping("/get")
+    @GetMapping("/get-all-students")
     public ResponseEntity<ResponseDataObject> getAllStudents() {
         List<Student> studentList = studentService.getAllStudents();
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, studentList,"Successful", true));
     }
 
-    @Operation(summary = "Get a student")
+    @Operation
+    @GetMapping("/get")
+    public ResponseEntity<ResponseDataObject> getStudents(@PathVariable Integer studentId){
+        Student student = studentService.getStudentById(studentId);
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, student,"Successful", true));
+    }
+
+    @Operation(summary = "Get a student By Id")
     @GetMapping("/get/{studentId}")
     public ResponseEntity<ResponseDataObject> getStudentById(@PathVariable Integer studentId){
         Student student = studentService.getStudentById(studentId);
@@ -38,7 +45,7 @@ public class StudentController {
     }
 
     @Operation(summary = "Add Student")
-    @PostMapping("/create")
+    @PostMapping("/create-student")
     public ResponseEntity<ResponseDataObject> createStudent(@RequestBody StudentRequest newStudent) {
 
 
@@ -50,14 +57,14 @@ public class StudentController {
 
 
     @Operation(summary = "Delete Student By Id")
-    @DeleteMapping("/delete/{studentId}")
+    @DeleteMapping("/delete-student/{studentId}")
     public ResponseEntity<ResponseDataObject> deleteStudent(@PathVariable Integer studentId) {
         studentService.deleteStudent(studentId);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, studentId,"Deleted student with Id"+studentId, true));
     }
 
     @Operation(summary = "Update Student")
-    @PutMapping("/update")
+    @PutMapping("/update-student")
     public ResponseEntity<ResponseDataObject> updateStudent(@RequestBody @Valid StudentRequest updatedStudent) {
         Student student = studentService.updateStudent(updatedStudent);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, student,"Student Updated Successfully", true));
@@ -65,7 +72,7 @@ public class StudentController {
 
 
     @Operation(summary = "Update Student Marks")
-    @PutMapping("/update-marks/{studentId}")
+    @PutMapping("/update-student-marks/{studentId}")
     public ResponseEntity<ResponseDataObject> updateStudentMarks(@PathVariable Integer studentId, @RequestBody HashMap<String, Float> subjectMark) {
         studentService.updateStudentMark(studentId, subjectMark);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, null,"Student Marks Updated Successfully", true));
