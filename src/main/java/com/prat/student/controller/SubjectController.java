@@ -33,11 +33,9 @@ public class SubjectController {
     public ResponseEntity<ResponseDataObject> createSubject(@RequestBody SubjectDto subject) {
 
         ValidatorObject validObj = dtoValidators.isSubjectValid(subject);
-
         if(!validObj.isSuccess()){
             throw new InvalidInputException(validObj.getErrorMsg());
         }
-
         Subject newSubject = subjectService.createSubject(subject);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, SubjectDto.convertToDto(newSubject),"Subject Created Successfully", true));
     }
@@ -46,14 +44,14 @@ public class SubjectController {
     @GetMapping("/get")
     public ResponseEntity<ResponseDataObject> getAllSubjects() {
         List<Subject> subjectList = subjectService.getAllSubjects();
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, subjectList,"Successful", true));
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, SubjectDto.convertToDto(subjectList),"Successful", true));
     }
 
     @Operation(summary = "Get Subject By Id")
     @GetMapping("/get/{subjectId}")
     public ResponseEntity<ResponseDataObject> getSubject(@PathVariable Integer subjectId) {
         Subject subject = subjectService.getSubjectById(subjectId);
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, subject,"Successful", true));
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, SubjectDto.convertToDto(subject),"Successful", true));
     }
 
 

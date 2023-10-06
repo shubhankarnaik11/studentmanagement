@@ -18,4 +18,8 @@ public class ValidationsConfig {
     private Integer subjectPassMarksMinPercent;
     private Integer subjectAttemptMax;
     private Integer subjectAttemptMin;
+
+    private Integer gradeNoMin;
+    private Integer gradeNoMax;
+
 }

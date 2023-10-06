@@ -1,6 +1,7 @@
 package com.prat.student.validators;
 
 import com.prat.student.config.ValidationsConfig;
+import com.prat.student.dto.GradeDto;
 import com.prat.student.dto.SubjectDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ public class DTOValidators {
     ValidationsConfig config;
 
     public ValidatorObject isSubjectValid(SubjectDto subjectDto){
-        System.out.println(config.getSubjectPassMarksMaxPercent() + " " + config.getSubjectPassMarksMinPercent() + " " + subjectDto.getMaxMark() + " " + (config.getSubjectPassMarksMinPercent()/Double.valueOf(subjectDto.getMaxMark())));
         ValidatorObject validObj = new ValidatorObject(true, "");
         if(isZero(subjectDto.getMaxMark())){
             validObj.setSuccess(false);
@@ -55,6 +55,15 @@ public class DTOValidators {
 
         System.out.println(validObj.toString());
         return  validObj;
+    }
+
+    public ValidatorObject isGradeValid(GradeDto gradeDto){
+        ValidatorObject validObj = new ValidatorObject(true, "");
+        if(isNotInRange(gradeDto.getGradeNo(), config.getGradeNoMin(), config.getGradeNoMax())){
+            validObj.setSuccess(false);
+            validObj.setErrorMsg("gradeNo range is [" +config.getGradeNoMin() + " , " + config.getGradeNoMax() + "]");
+        }
+        return validObj;
     }
 
 }

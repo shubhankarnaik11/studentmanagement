@@ -1,11 +1,15 @@
 package com.prat.student.controller;
 
+import com.prat.student.dto.GradeDto;
 import com.prat.student.entity.Grade;
+import com.prat.student.exception.InvalidInputException;
 import com.prat.student.model.GradeRequest;
 import com.prat.student.serviceimpl.GradeServiceImpl;
 import com.prat.student.response.ResponseDataObject;
 import com.prat.student.response.ResponseObject;
 
+import com.prat.student.validators.DTOValidators;
+import com.prat.student.validators.ValidatorObject;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -22,26 +27,32 @@ public class GradeController {
     @Autowired
     GradeServiceImpl gradeService;
 
+    @Autowired
+    DTOValidators dtoValidator;
+
     @Operation(summary = "Get list of all Grades")
     @GetMapping("/get")
     public ResponseEntity<ResponseDataObject> getGrades() {
-        List<Grade> classList = gradeService.getGrades();
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, classList,"Successful", true));
-
+        List <Grade> gradeList = gradeService.getGrades();
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, GradeDto.convertToDto(gradeList),"Successful", true));
     }
 
     @Operation(summary = "Get Grade By Grade Number")
     @GetMapping("/get/{gradeNo}")
     public ResponseEntity<ResponseDataObject> getGradeByGradeNo(@PathVariable Integer gradeNo) {
         Grade grade = gradeService.getGradeByGradeNo(gradeNo);
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, grade,"Successful", true));
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, GradeDto.convertToDto(grade),"Successful", true));
     }
 
     @Operation(summary = "Add A Grade")
     @PostMapping("/create")
-    public ResponseEntity<ResponseDataObject> createGrade(@RequestBody @Valid GradeRequest grade) {
-        gradeService.createGrade(grade);
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, null,"Successful", true));
+    public ResponseEntity<ResponseDataObject> createGrade(@RequestBody GradeDto grade) {
+        ValidatorObject validObj = dtoValidator.isGradeValid(grade);
+        if(!validObj.isSuccess()){
+            throw new InvalidInputException(validObj.getErrorMsg());
+        }
+        Grade newGrade = gradeService.createGrade(grade);
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, GradeDto.convertToDto(newGrade),"Successful", true));
     }
 
     @Operation(summary = "Add more Subjects to a Grade")
@@ -49,7 +60,8 @@ public class GradeController {
     public ResponseEntity<ResponseDataObject> addSubjectsToGrade(@PathVariable Integer gradeNo, @RequestBody List<String> subjects) {
         gradeService.addSubjectsToGrade(gradeNo, subjects);
         return ResponseObject.getResponseObject(
-                new ResponseDataObject(HttpStatus.CREATED, null ,"Successful", true));
+                new ResponseDataObject(HttpStatus.CREATED, null ,"Successful", true)
+        );
     }
 
     @Operation(summary = "Get all students belonging to that grade")
@@ -73,6 +85,5 @@ public class GradeController {
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, topper ,"Successful", true));
 
     }
-
 
 }

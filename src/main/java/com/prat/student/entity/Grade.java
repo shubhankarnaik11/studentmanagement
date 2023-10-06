@@ -27,6 +27,8 @@ public class Grade {
     @OneToMany(mappedBy = "currentGrade")
     private List<Student> student;
 
+
+
     public Grade(Integer gradeNo){
         this.gradeNo = gradeNo;
         this.subjects = new ArrayList<Subject>();

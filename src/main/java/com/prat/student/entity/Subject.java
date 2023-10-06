@@ -46,4 +46,8 @@ public class Subject {
         this.maxAttempt = maxAttempt;
     }
 
+//    public Subject( String subjectName) {
+//        this.subjectName = subjectName;
+//    }
+
 }
