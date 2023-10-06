@@ -4,8 +4,15 @@ import com.prat.student.response.ResponseDataObject;
 import com.prat.student.response.ResponseObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -66,4 +73,21 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResponseEntity<ResponseDataObject> exception(MethodArgumentNotValidException ex) {
+        BindingResult result = ex.getBindingResult();
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, result.getFieldError().getDefaultMessage() ,"", false)
+        );
+
+    }
+
+    @ExceptionHandler(PassMarkMaxMarkException.class)
+    public ResponseEntity<ResponseDataObject> exception(PassMarkMaxMarkException exception) {
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,"Pass Mark should be be at least 30% and at most 35% of Max Mark", false)
+        );
+    }
 }

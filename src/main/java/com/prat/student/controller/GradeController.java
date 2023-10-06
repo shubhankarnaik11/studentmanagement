@@ -2,7 +2,6 @@ package com.prat.student.controller;
 
 
 import com.prat.student.entity.Grade;
-import com.prat.student.exception.InvalidInputException;
 import com.prat.student.model.GradeRequest;
 import com.prat.student.serviceimpl.GradeServiceImpl;
 import com.prat.student.response.ResponseDataObject;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -41,13 +39,13 @@ public class GradeController {
 
     @Operation(summary = "Add A Grade")
     @PostMapping("/create")
-    public ResponseEntity<ResponseDataObject> createGrade(@RequestBody GradeRequest grade) {
+    public ResponseEntity<ResponseDataObject> createGrade(@RequestBody @Valid GradeRequest grade) {
         Grade newGrade = gradeService.createGrade(grade);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, newGrade,"Successful", true));
     }
 
     @Operation(summary = "Add more Subjects to a Grade")
-    @PutMapping("/add/{gradeNo}")
+    @PutMapping("/add-subject/{gradeNo}")
     public ResponseEntity<ResponseDataObject> addSubjectsToGrade(@PathVariable Integer gradeNo, @RequestBody List<String> subjects) {
         gradeService.addSubjectsToGrade(gradeNo, subjects);
         return ResponseObject.getResponseObject(
