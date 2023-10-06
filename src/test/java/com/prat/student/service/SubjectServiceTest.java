@@ -60,7 +60,7 @@ public class SubjectServiceTest {
     @Test
     public void createSubjectThrowsSubjectAlreadyExists(){
         when(subjectRepo.findBySubjectName("math")).thenReturn(s1);
-        assertThrows(SubjectAlreadyExistsException.class, ()-> subjectService.createSubject(new SubjectDto("math", 100, 35,  3)));
+        assertThrows(SubjectAlreadyExistsException.class, ()-> subjectService.createSubject(new SubjectRequest("math", 100, 35,  3)));
 
 
     }
@@ -70,7 +70,7 @@ public class SubjectServiceTest {
 
         when(subjectRepo.findBySubjectName("math")).thenReturn(null);
 
-        SubjectDto subjectRequest = new SubjectDto("math", 100, 35, 3);
+        SubjectRequest subjectRequest = new SubjectRequest("math", 100, 35, 3);
         Subject s6 = subjectService.createSubject(subjectRequest);
         assertNotNull(s6);
     }
