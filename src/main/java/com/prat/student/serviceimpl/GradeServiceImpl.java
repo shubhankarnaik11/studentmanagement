@@ -1,15 +1,10 @@
 package com.prat.student.serviceimpl;
 
-import com.prat.student.dto.GradeDto;
-import com.prat.student.dto.SubjectDto;
 import com.prat.student.entity.Grade;
 import com.prat.student.entity.Mark;
 import com.prat.student.entity.Student;
 import com.prat.student.entity.Subject;
-import com.prat.student.exception.GradeNotFoundException;
-import com.prat.student.exception.StudentNotFoundException;
-import com.prat.student.exception.SubjectAlreadyExistsException;
-import com.prat.student.exception.SubjectNotFoundException;
+import com.prat.student.exception.*;
 import com.prat.student.model.GradeRequest;
 import com.prat.student.repository.GradeRepository;
 import com.prat.student.repository.MarkRepository;
@@ -37,21 +32,20 @@ public class GradeServiceImpl implements GradeService {
 
     private Subject findBySubjectName(String subjectName){
         Subject s = subjectRepo.findBySubjectName(subjectName);
-        if( s == null) throw new SubjectNotFoundException();
+        if( s == null) throw new SubjectNotFoundException("Subject " + subjectName + " not found");
         return s;
     }
 
     private Grade findByGradeNo(Integer gradeNo){
         Grade grade = gradeRepo.findByGradeNo(gradeNo);
-        if(grade == null) throw new GradeNotFoundException();
+        if(grade == null) throw new GradeNotFoundException("Grade " + gradeNo + " not found");
         return grade;
     }
 
     private boolean isSubjectExistsInGrade(Subject subject, Grade grade){
 
         Optional<Subject> gradeSubject = grade.getSubjects().stream().filter( su -> Objects.equals(su.getSubjectName(), subject.getSubjectName())).findFirst();
-
-        if(gradeSubject.isPresent()) throw new SubjectAlreadyExistsException();
+        if(gradeSubject.isPresent()) throw new SubjectAlreadyExistsException(" Subject " + gradeSubject.get() + " already exists in this grade");
         return false;
     }
 
@@ -66,12 +60,13 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public Grade createGrade(GradeDto grade){
+    public Grade createGrade(GradeRequest grade){
+        validateGrade(grade.getGradeNo());
         Grade newGrade = new Grade(grade.getGradeNo());
-        List<SubjectDto> subjectDtos = grade.getSubjects();
+        List<String> subjects = grade.getSubjects();
 
-        for(SubjectDto sub : subjectDtos){
-            Subject s = findBySubjectName(sub.getSubjectName());
+        for(String sub : subjects){
+            Subject s = findBySubjectName(sub);
             newGrade.getSubjects().add(s);
         }
 
@@ -86,13 +81,12 @@ public class GradeServiceImpl implements GradeService {
 
         Grade grade = findByGradeNo(gradeNo);
 
-
         for(String sub : subjects){
             Subject s = findBySubjectName(sub);
             if(!isSubjectExistsInGrade(s, grade))
                 grade.getSubjects().add(s);
         }
-        gradeRepo.save(grade);
+            gradeRepo.save(grade);
         return grade;
     }
 
@@ -176,9 +170,7 @@ public class GradeServiceImpl implements GradeService {
 
     private Student findStudentByStudentId(Integer studentId){
         Student student = studentRepo.findByStudentId(studentId);
-        System.out.println(studentId);
-        //return entityToDTOConversion(studentRepo.findByStudentId(studentId), StudentRequest.class);
-        if(student == null) throw new StudentNotFoundException();
+        if(student == null) throw new StudentNotFoundException("Student (ID :" + studentId + " )");
         return student;
     }
 
@@ -216,6 +208,11 @@ public class GradeServiceImpl implements GradeService {
 
 
         return topperList;
+    }
+
+    private void validateGrade(Integer gradeNo) {
+        if(gradeRepo.findByGradeNo(gradeNo) != null)
+            throw new GradeAlreadyExistsException("Grade "+gradeNo+" already exists");
     }
 }
 

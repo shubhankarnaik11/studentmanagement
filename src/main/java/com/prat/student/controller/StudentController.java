@@ -23,14 +23,14 @@ public class StudentController {
     StudentServiceImpl studentService;
 
 
-    @Operation(summary = "Get list of all Students")
+    @Operation
     @GetMapping("/get")
-    public ResponseEntity<ResponseDataObject> getAllStudents() {
-        List<Student> studentList = studentService.getAllStudents();
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, studentList,"Successful", true));
+    public ResponseEntity<ResponseDataObject> getStudents(){
+        List<Student> students = studentService.getAllStudents();
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, students,"Successful", true));
     }
 
-    @Operation(summary = "Get a student")
+    @Operation(summary = "Get a student By Id")
     @GetMapping("/get/{studentId}")
     public ResponseEntity<ResponseDataObject> getStudentById(@PathVariable Integer studentId){
         Student student = studentService.getStudentById(studentId);
@@ -39,8 +39,7 @@ public class StudentController {
 
     @Operation(summary = "Add Student")
     @PostMapping("/create")
-    public ResponseEntity<ResponseDataObject> createStudent(@RequestBody StudentRequest newStudent) {
-
+    public ResponseEntity<ResponseDataObject> createStudent(@RequestBody @Valid StudentRequest newStudent) {
 
         Student student = studentService.createStudent(newStudent);
 
@@ -57,9 +56,9 @@ public class StudentController {
     }
 
     @Operation(summary = "Update Student")
-    @PutMapping("/update")
-    public ResponseEntity<ResponseDataObject> updateStudent(@RequestBody @Valid StudentRequest updatedStudent) {
-        Student student = studentService.updateStudent(updatedStudent);
+    @PutMapping("/update/{studentId}")
+    public ResponseEntity<ResponseDataObject> updateStudent(@RequestBody @Valid StudentRequest updatedStudent, @PathVariable Integer studentId) {
+        Student student = studentService.updateStudent(updatedStudent, studentId);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, student,"Student Updated Successfully", true));
     }
 

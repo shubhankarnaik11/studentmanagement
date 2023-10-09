@@ -1,7 +1,6 @@
 package com.prat.student.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prat.student.dto.SubjectDto;
 import com.prat.student.entity.Subject;
 import com.prat.student.model.SubjectRequest;
 import com.prat.student.serviceimpl.SubjectServiceImpl;
@@ -36,7 +35,7 @@ public class SubjectControllerTest {
     List<Subject> subjectList = new ArrayList<>();
     Subject s1 = new Subject("math",100f, 35f,3);
     Subject s2 = new Subject("science",100f, 35f,3);
-    SubjectDto subjectRequest = new SubjectDto("sciences",100,35,3);
+    SubjectRequest subjectRequest = new SubjectRequest("sciences",100,35,3);
 
     //List<SubjectRequest> subjectReqList = new ArrayList<>();
     @BeforeTestClass

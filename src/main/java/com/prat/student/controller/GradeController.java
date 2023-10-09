@@ -1,15 +1,11 @@
 package com.prat.student.controller;
 
-import com.prat.student.dto.GradeDto;
+
 import com.prat.student.entity.Grade;
-import com.prat.student.exception.InvalidInputException;
 import com.prat.student.model.GradeRequest;
 import com.prat.student.serviceimpl.GradeServiceImpl;
 import com.prat.student.response.ResponseDataObject;
 import com.prat.student.response.ResponseObject;
-
-import com.prat.student.validators.DTOValidators;
-import com.prat.student.validators.ValidatorObject;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -27,36 +22,30 @@ public class GradeController {
     @Autowired
     GradeServiceImpl gradeService;
 
-    @Autowired
-    DTOValidators dtoValidator;
 
     @Operation(summary = "Get list of all Grades")
     @GetMapping("/get")
     public ResponseEntity<ResponseDataObject> getGrades() {
         List <Grade> gradeList = gradeService.getGrades();
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, GradeDto.convertToDto(gradeList),"Successful", true));
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, gradeList,"Successful", true));
     }
 
     @Operation(summary = "Get Grade By Grade Number")
     @GetMapping("/get/{gradeNo}")
     public ResponseEntity<ResponseDataObject> getGradeByGradeNo(@PathVariable Integer gradeNo) {
         Grade grade = gradeService.getGradeByGradeNo(gradeNo);
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, GradeDto.convertToDto(grade),"Successful", true));
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, grade,"Successful", true));
     }
 
     @Operation(summary = "Add A Grade")
     @PostMapping("/create")
-    public ResponseEntity<ResponseDataObject> createGrade(@RequestBody GradeDto grade) {
-        ValidatorObject validObj = dtoValidator.isGradeValid(grade);
-        if(!validObj.isSuccess()){
-            throw new InvalidInputException(validObj.getErrorMsg());
-        }
+    public ResponseEntity<ResponseDataObject> createGrade(@RequestBody @Valid GradeRequest grade) {
         Grade newGrade = gradeService.createGrade(grade);
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, GradeDto.convertToDto(newGrade),"Successful", true));
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, newGrade,"Successful", true));
     }
 
     @Operation(summary = "Add more Subjects to a Grade")
-    @PutMapping("/add/{gradeNo}")
+    @PutMapping("/add-subject/{gradeNo}")
     public ResponseEntity<ResponseDataObject> addSubjectsToGrade(@PathVariable Integer gradeNo, @RequestBody List<String> subjects) {
         gradeService.addSubjectsToGrade(gradeNo, subjects);
         return ResponseObject.getResponseObject(

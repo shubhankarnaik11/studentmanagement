@@ -1,9 +1,10 @@
 package com.prat.student.serviceimpl;
 
-import com.prat.student.dto.SubjectDto;
 import com.prat.student.entity.Subject;
+import com.prat.student.exception.InvalidPassMarkException;
 import com.prat.student.exception.SubjectAlreadyExistsException;
 import com.prat.student.exception.SubjectNotFoundException;
+import com.prat.student.model.SubjectRequest;
 import com.prat.student.repository.SubjectRepository;
 import com.prat.student.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +21,20 @@ public class SubjectServiceImpl implements SubjectService {
 
 
     @Override
-    public Subject createSubject(SubjectDto subject){
-        Subject newSubject = SubjectDto.convertToEntity(subject);
+    public Subject createSubject(SubjectRequest subject){
+
+        validateSubject(subject);
+        Subject newSubject = new Subject(subject.getSubjectName(), subject.getMaxMark(), subject.getPassMark(), subject.getMaxAttempt());
         try{
-            subjectRepo.save(newSubject); //try catch here
+            newSubject = subjectRepo.save(newSubject);
         }
         catch (Throwable e){
-            throw new SubjectAlreadyExistsException();
+            throw new SubjectAlreadyExistsException("Subject "+ subject.getSubjectName() +" already exists");
         }
         return newSubject;
 
     }
+
 
     @Override
     public List<Subject> getAllSubjects(){
@@ -43,9 +47,17 @@ public class SubjectServiceImpl implements SubjectService {
     public Subject getSubjectById(Integer subjectId){
         Subject subject = subjectRepo.findBySubjectId(subjectId);
         if(subject == null)
-            throw new SubjectNotFoundException();
+            throw new SubjectNotFoundException("Subject (ID:" + subjectId + ") not found");
         return subject;
     }
 
+    private void validateSubject(SubjectRequest subject) {
+        Integer maxMark = subject.getMaxMark();
+        Integer passMark = subject.getPassMark();
+
+        if(passMark > maxMark * 0.35 || passMark < maxMark * 0.30){
+            throw new InvalidPassMarkException("Pass mark must be in the range [" + maxMark * 0.30 + "," + maxMark * 0.35 + "]");
+        }
+    }
 
 }

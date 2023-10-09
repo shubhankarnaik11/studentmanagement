@@ -3,11 +3,9 @@ package com.prat.student.exception;
 import lombok.Getter;
 
 @Getter
-public class InvalidMarkException extends RuntimeException {
+public class GradeAlreadyExistsException extends RuntimeException {
     private String errorMessage;
-
-    public InvalidMarkException(String errorMessage) {
+    public GradeAlreadyExistsException(String errorMessage) {
         this.errorMessage = errorMessage;
     }
-
 }
