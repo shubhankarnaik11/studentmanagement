@@ -63,13 +63,12 @@ public class GradeServiceImpl implements GradeService {
     public Grade createGrade(GradeRequest grade){
         validateGrade(grade.getGradeNo());
         Grade newGrade = new Grade(grade.getGradeNo());
+        System.out.println(newGrade);
         List<String> subjects = grade.getSubjects();
-
         for(String sub : subjects){
             Subject s = findBySubjectName(sub);
             newGrade.getSubjects().add(s);
         }
-
         gradeRepo.save(newGrade);
         return newGrade;
 

@@ -1,6 +1,5 @@
 package com.prat.student.service;
 
-import com.prat.student.dto.SubjectDto;
 import com.prat.student.entity.Subject;
 import com.prat.student.exception.SubjectAlreadyExistsException;
 import com.prat.student.exception.SubjectNotFoundException;
@@ -12,8 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.event.annotation.BeforeTestClass;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +30,10 @@ public class SubjectServiceTest {
     SubjectServiceImpl subjectService;
 
     List<Subject> subjectList = new ArrayList<>();
-    Subject s1 = new Subject("math",100f, 35f,3);
-    Subject s2 = new Subject("science",100f, 35f,3);
+    Subject s1 = new Subject("math",100, 35,3);
+    Subject s2 = new Subject("science",100, 35,3);
+
+    SubjectRequest subjectRequest = new SubjectRequest("math", 100, 35,  3);
 
     @BeforeTestClass
     void before(){
@@ -51,24 +54,24 @@ public class SubjectServiceTest {
     }
 
     @Test()
-    public void getSubjectByIdThrowsSubjectNotFoundException(){
+    public void getSubjectByIdThrowsSubjectNotFoundExceptionTest(){
         when(subjectRepo.findBySubjectId(1)).thenReturn(null);
         assertThrows(SubjectNotFoundException.class, ()-> subjectService.getSubjectById(1));
 
     }
 
     @Test
-    public void createSubjectThrowsSubjectAlreadyExists(){
-        when(subjectRepo.findBySubjectName("math")).thenReturn(s1);
-        assertThrows(SubjectAlreadyExistsException.class, ()-> subjectService.createSubject(new SubjectRequest("math", 100, 35,  3)));
+    public void createSubjectThrowsSubjectAlreadyExistsTest(){
+        when(subjectRepo.save(s1)).thenThrow(DataIntegrityViolationException.class);
+        assertThrows(SubjectAlreadyExistsException.class, ()-> subjectService.createSubject(subjectRequest));
 
 
     }
 
     @Test
-    public void createSubjectSubject(){
+    public void createSubjectTest(){
 
-        when(subjectRepo.findBySubjectName("math")).thenReturn(null);
+        when(subjectRepo.save(s1)).thenReturn(null);
 
         SubjectRequest subjectRequest = new SubjectRequest("math", 100, 35, 3);
         Subject s6 = subjectService.createSubject(subjectRequest);

@@ -37,8 +37,8 @@ public class GradeControllerTest {
     Grade grade = new Grade(gradeNo);
     List<String> subjectList = new ArrayList<>();
     List<Student> studentList = new ArrayList<>();
-    Student student1 = new Student("Name1",1,"Address1",9087654321L,"FatherName","MotherName",grade);
-    Student student2 = new Student("Name2",2,"Address2",90876543281L,"Father_Name","Mother_Name",grade);
+    Student student1 = new Student("Name1",1,"Address1","9087654321","FatherName","MotherName",grade);
+    Student student2 = new Student("Name2",2,"Address2","90876543281","Father_Name","Mother_Name",grade);
 
     List<String> newSubjectList = new ArrayList<>();
     GradeRequest gradeRequest = new GradeRequest();
@@ -55,7 +55,7 @@ public class GradeControllerTest {
 
     @Test
     public void getGradesTest() throws Exception{
-        mock.perform(get("/grades/get-all-grades")).andExpect(status().isOk())
+        mock.perform(get("/grades/get")).andExpect(status().isOk())
                 .andExpect(jsonPath("$.msg").value("Successful"))
                 .andExpect(jsonPath("$.success").value(true));
 
@@ -64,7 +64,7 @@ public class GradeControllerTest {
     @Test
     public void getGradeByGradeNoTest() throws Exception{
         when(gradeService.getGradeByGradeNo(10)).thenReturn(grade);
-        mock.perform(get("/grades/get-grade-by-grade-no/"+gradeNo)).andExpect(status().isOk())
+        mock.perform(get("/grades/get/"+gradeNo)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.msg").value("Successful"))
                 .andExpect(jsonPath("$.success").value(true));
     }
@@ -73,7 +73,7 @@ public class GradeControllerTest {
     public void createStudentTest() throws Exception{
         String content = new ObjectMapper().writeValueAsString(gradeRequest);
         when(gradeService.createGrade(gradeRequest)).thenReturn(grade);
-        mock.perform(post("/grades/create-grade").contentType("application/json").content(content)).andExpect(status().isCreated())
+        mock.perform(post("/grades/create").contentType("application/json").content(content)).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.msg").value("Successful"))
                 .andExpect(jsonPath("$.success").value(true));
     }
@@ -82,7 +82,7 @@ public class GradeControllerTest {
     public void addSubjectsToGradeTest() throws Exception{
         String content = new ObjectMapper().writeValueAsString(newSubjectList);
         when(gradeService.addSubjectsToGrade(gradeNo,subjectList)).thenReturn(grade);
-        mock.perform(put("/grades/add-subjects-to-grade/"+gradeNo).contentType("application/json").content(content)).andExpect(status().isCreated())
+        mock.perform(put("/grades/add-subject/"+gradeNo).contentType("application/json").content(content)).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.msg").value("Successful"))
                 .andExpect(jsonPath("$.success").value(true));
     }
@@ -90,7 +90,7 @@ public class GradeControllerTest {
     @Test
     public void getGradeStudentsTest() throws Exception{
         when(gradeService.getGradeStudents(gradeNo)).thenReturn(studentList);
-        mock.perform(get("/grades/get-grade-students/"+gradeNo)).andExpect(status().isCreated())
+        mock.perform(get("/grades/students/"+gradeNo)).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.msg").value("Successful"))
                 .andExpect(jsonPath("$.success").value(true));
     }
@@ -106,7 +106,7 @@ public class GradeControllerTest {
     @Test
     public void getToppersListTest() throws Exception{
         when(gradeService.promoteAllStudentsByGrade(gradeNo)).thenReturn(promotedList);
-        mock.perform(get("/grades/get-toppers-list/"+gradeNo).param("n", "3")).andExpect(status().isOk())
+        mock.perform(get("/grades/toppers-list/"+gradeNo).param("n", "3")).andExpect(status().isOk())
                 .andExpect(jsonPath("$.msg").value("Successful"))
                 .andExpect(jsonPath("$.success").value(true));
     }

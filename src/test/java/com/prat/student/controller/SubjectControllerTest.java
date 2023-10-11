@@ -33,8 +33,8 @@ public class SubjectControllerTest {
     SubjectServiceImpl subjectService;
 
     List<Subject> subjectList = new ArrayList<>();
-    Subject s1 = new Subject("math",100f, 35f,3);
-    Subject s2 = new Subject("science",100f, 35f,3);
+    Subject s1 = new Subject("math",100, 35,3);
+    Subject s2 = new Subject("science",100, 35,3);
     SubjectRequest subjectRequest = new SubjectRequest("sciences",100,35,3);
 
     //List<SubjectRequest> subjectReqList = new ArrayList<>();

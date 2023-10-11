@@ -44,12 +44,12 @@ public class StudentServiceTest {
     Grade grade = new Grade(gradeNo);
 
     Grade newGrade = new Grade(9);
-    StudentRequest studentReq = new StudentRequest("Name1",1,"Address1",9087654321L,"FatherName","MotherName",9);
-    Student student1 = new Student("Name1",1,"Address1",9087654321L,"FatherName","MotherName",grade);
-    Student student2 = new Student("Name2",2,"Address2",90876543281L,"Father_Name","Mother_Name",grade);
+    StudentRequest studentReq = new StudentRequest("Name1",1,"Address1","9087654321","FatherName","MotherName",9);
+    Student student1 = new Student("Name1",1,"Address1","9087654321","FatherName","MotherName",grade);
+    Student student2 = new Student("Name2",2,"Address2","90876543281","Father_Name","Mother_Name",grade);
     List<Student> studentList = new ArrayList<>();
-    Subject s1 = new Subject("math",100f, 35f,3);
-    Subject s2 = new Subject("science",100f, 35f,3);
+    Subject s1 = new Subject("math",100, 35,3);
+    Subject s2 = new Subject("science",100, 35,3);
     List<Subject> subjects = new ArrayList<>();
     @BeforeTestClass
     void before(){
@@ -102,7 +102,7 @@ public class StudentServiceTest {
                 studentReq.getAddress(), studentReq.getContactNumber(), studentReq.getFatherName(),
                 studentReq.getMotherName(), gradeRepo.findByGradeNo(studentReq.getGradeNo()));
 
-        Student newStudent = studentService.updateStudent(studentReq);
+        Student newStudent = studentService.updateStudent(studentReq,1);
         assertNotNull(newStudent);
     }
 

@@ -51,8 +51,8 @@ public class GradeServiceTest {
     @Mock
     Grade grade = new Grade(gradeNo);
     List<Subject> subjectList = new ArrayList<>();
-    Subject s1 = new Subject("math", 100f, 35f, 3);
-    Subject s2 = new Subject("science", 100f, 35f, 3);
+    Subject s1 = new Subject("math", 100, 35, 3);
+    Subject s2 = new Subject("science", 100, 35, 3);
 
 
     @BeforeTestClass
@@ -85,8 +85,8 @@ public class GradeServiceTest {
     @Test
     public void getGradeStudentsTest() {
 
-        Student student1 = new Student("Name1", 1, "Address1", 9087654321L, "FatherName", "MotherName", grade);
-        Student student2 = new Student("Name2", 2, "Address2", 90876543281L, "Father_Name", "Mother_Name", grade);
+        Student student1 = new Student("Name1", 1, "Address1", "9087654321", "FatherName", "MotherName", grade);
+        Student student2 = new Student("Name2", 2, "Address2", "90876543281", "Father_Name", "Mother_Name", grade);
         List<Student> studentList = new ArrayList<>();
         studentList.add(student1);
         studentList.add(student2);
@@ -170,7 +170,7 @@ public class GradeServiceTest {
     public void addSubjectsToGradeThrowsSubjectAlreadyExistsException() {
 
         Grade newGrade = new Grade(10);
-        Subject newS1 = new Subject("math", 100f, 35f, 3);
+        Subject newS1 = new Subject("math", 100, 35, 3);
 
         List<Subject> newSubjectList = new LinkedList<Subject>();
         newSubjectList.add(newS1);
@@ -189,7 +189,7 @@ public class GradeServiceTest {
     public void addSubjectToGradeReturnsGrade() {
 
         Grade existingGrade = new Grade(10);
-        Subject existingS1 = new Subject("math", 100f, 35f, 3);
+        Subject existingS1 = new Subject("math", 100, 35, 3);
 
         List<Subject> existingSubjectList = new LinkedList<Subject>();
         existingSubjectList.add(existingS1);
@@ -217,16 +217,16 @@ public class GradeServiceTest {
 
     @Test
     public void getNToppers() {
-        Subject s1 = new Subject("Maths", 100f, 35f, 3);
-        Subject s2 = new Subject("Science", 100f, 35f, 3);
+        Subject s1 = new Subject("Maths", 100, 35, 3);
+        Subject s2 = new Subject("Science", 100, 35, 3);
         List<Subject> subjects = new ArrayList<Subject>();
         subjects.add(s1);
         subjects.add(s2);
 
         Grade grade = new Grade(1, subjects);
 
-        Student student1 = new Student("Krishna", 1, "Somanath Nilaya, Maravanthe", 9087654321L, "Vijay shanbhag", "Hema", grade);
-        Student student2 = new Student("Shubhankar", 2, "Near Raghavendra Swami Temple, JPNagar", 9087654321L, "Father's Name", "Mother's Name", grade);
+        Student student1 = new Student("Krishna", 1, "Somanath Nilaya, Maravanthe", "9087654321", "Vijay shanbhag", "Hema", grade);
+        Student student2 = new Student("Shubhankar", 2, "Near Raghavendra Swami Temple, JPNagar", "9087654321", "Father's Name", "Mother's Name", grade);
         List<Student> students = new ArrayList<>();
         students.add(student1);
         students.add(student2);
@@ -276,8 +276,8 @@ public class GradeServiceTest {
 
     @Test
     public void promoteAllStudentByGrade() {
-        Subject s1 = new Subject("Maths", 100f, 35f, 3);
-        Subject s2 = new Subject("Science", 100f, 35f, 3);
+        Subject s1 = new Subject("Maths", 100, 35, 3);
+        Subject s2 = new Subject("Science", 100, 35, 3);
         List<Subject> subjects = new ArrayList<Subject>();
         subjects.add(s1);
         subjects.add(s2);
@@ -285,9 +285,9 @@ public class GradeServiceTest {
         Grade grade1 = new Grade(1, subjects);
         Grade grade2 = new Grade(2, subjects);
 
-        Student student1 = new Student("Krishna", 1, "Somanath Nilaya, Maravanthe", 9087654321L, "Vijay shanbhag", "Hema", grade1);
-        Student student2 = new Student("Shubhankar", 2, "Near Raghavendra Swami Temple, JPNagar", 9087654321L, "Father's Name", "Mother's Name", grade1);
-        Student student3 = new Student("Shubhankar2", 2, "Near Raghavendra Swami Temple, JPNagar", 9087654321L, "Father's Name", "Mother's Name", grade1);
+        Student student1 = new Student("Krishna", 1, "Somanath Nilaya, Maravanthe", "9087654321", "Vijay shanbhag", "Hema", grade1);
+        Student student2 = new Student("Shubhankar", 2, "Near Raghavendra Swami Temple, JPNagar", "9087654321", "Father's Name", "Mother's Name", grade1);
+        Student student3 = new Student("Shubhankar2", 2, "Near Raghavendra Swami Temple, JPNagar", "9087654321", "Father's Name", "Mother's Name", grade1);
         student1.setStudentId(1);
         student1.setPreviousGrades(new ArrayList<>());
         student2.setStudentId(2);
@@ -295,7 +295,7 @@ public class GradeServiceTest {
         student3.setStudentId(3);
         student3.setPreviousGrades(new ArrayList<>());
 
-        Student student1Promoted = new Student("Krishna", 1, "Somanath Nilaya, Maravanthe", 9087654321L, "Vijay shanbhag", "Hema", grade2);
+        Student student1Promoted = new Student("Krishna", 1, "Somanath Nilaya, Maravanthe", "9087654321", "Vijay shanbhag", "Hema", grade2);
 
         List<Student> students = new ArrayList<>();
         students.add(student1);
