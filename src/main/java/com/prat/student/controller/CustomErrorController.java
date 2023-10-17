@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Hidden
 public class CustomErrorController implements ErrorController {
 
-    @RequestMapping("/error")
-    public String handleError() {
-        return "error";
-    }
+//    @RequestMapping("/error")
+//    public String handleError() {
+//        return "error";
+//    }
 
 }

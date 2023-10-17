@@ -2,6 +2,7 @@ package com.prat.student.controller;
 
 
 import com.prat.student.entity.Grade;
+import com.prat.student.entity.Student;
 import com.prat.student.model.GradeRequest;
 import com.prat.student.serviceimpl.GradeServiceImpl;
 import com.prat.student.response.ResponseDataObject;
@@ -24,21 +25,21 @@ public class GradeController {
 
 
     @Operation(summary = "Get list of all Grades")
-    @GetMapping("/get")
+    @GetMapping("/")
     public ResponseEntity<ResponseDataObject> getGrades() {
         List <Grade> gradeList = gradeService.getGrades();
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, gradeList,"Successful", true));
     }
 
     @Operation(summary = "Get Grade By Grade Number")
-    @GetMapping("/get/{gradeNo}")
+    @GetMapping("/{gradeNo}")
     public ResponseEntity<ResponseDataObject> getGradeByGradeNo(@PathVariable Integer gradeNo) {
         Grade grade = gradeService.getGradeByGradeNo(gradeNo);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, grade,"Successful", true));
     }
 
     @Operation(summary = "Add A Grade")
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<ResponseDataObject> createGrade(@RequestBody @Valid GradeRequest grade) {
         Grade newGrade = gradeService.createGrade(grade);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, newGrade,"Successful", true));
@@ -54,10 +55,10 @@ public class GradeController {
     }
 
     @Operation(summary = "Get all students belonging to that grade")
-    @GetMapping("/students/{gradeNo}")
+    @GetMapping("/students-list/{gradeNo}")
     public ResponseEntity<ResponseDataObject> getGradeStudents(@PathVariable Integer gradeNo) {
-        gradeService.getGradeStudents(gradeNo);
-        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED,  null ,"Successful", true));
+        List<Student> studentList = gradeService.getGradeStudents(gradeNo);
+        return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK,  studentList ,"Successful", true));
     }
 
     @Operation(summary = "Promote Grade")

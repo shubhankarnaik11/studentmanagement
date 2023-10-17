@@ -1,5 +1,6 @@
 package com.prat.student.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,6 +39,7 @@ public class Student {
     private Grade currentGrade;
 
     @ManyToMany
+    @JsonIgnore
     private List<Grade> previousGrades;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)

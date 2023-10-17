@@ -97,10 +97,14 @@ public class StudentServiceTest {
 
     @Test
     public void updateStudentTest(){
+        when(studentRepo.findByStudentId(1)).thenReturn(student1);
         when(gradeRepo.findByGradeNo(9)).thenReturn(newGrade);
-        Student student = new Student(studentReq.getStudentName(),studentReq.getRollNo(),
-                studentReq.getAddress(), studentReq.getContactNumber(), studentReq.getFatherName(),
-                studentReq.getMotherName(), gradeRepo.findByGradeNo(studentReq.getGradeNo()));
+        student1.setStudentName(studentReq.getStudentName());
+        student1.setRollNo(studentReq.getRollNo());
+        student1.setAddress(studentReq.getAddress());
+        student1.setFatherName(studentReq.getFatherName());
+        student1.setMotherName(studentReq.getMotherName());
+        student1.setCurrentGrade(newGrade);
 
         Student newStudent = studentService.updateStudent(studentReq,1);
         assertNotNull(newStudent);
