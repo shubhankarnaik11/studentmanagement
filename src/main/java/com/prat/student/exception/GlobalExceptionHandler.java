@@ -87,4 +87,12 @@ public class GlobalExceptionHandler {
                 new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,exception.getErrorMessage(), false)
         );
     }
+
+    @ExceptionHandler(JSONParserException.class)
+    public ResponseEntity<ResponseDataObject> exception(JSONParserException exception) {
+        System.out.println("Here");
+        return ResponseObject.getResponseObject(
+                new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,exception.getErrorMessage(), false)
+        );
+    }
 }
