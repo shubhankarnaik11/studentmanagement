@@ -26,12 +26,15 @@ public class Subject {
     private String subjectName;
 
     @Column(nullable = false)
+    @JsonIgnore
     private Integer maxMark;
 
     @Column(nullable = false)
+    @JsonIgnore
     private Integer passMark;
 
     @Column(nullable = false)
+    @JsonIgnore
     private Integer maxAttempt;
 
     @JsonIgnore

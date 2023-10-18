@@ -62,7 +62,7 @@ public class GradeController {
     }
 
     @Operation(summary = "Promote Grade")
-    @PostMapping("/promote/{gradeNo}")
+    @GetMapping("/promote/{gradeNo}")
     public ResponseEntity<ResponseDataObject> promoteGrade(@PathVariable Integer gradeNo){
         List<HashMap<String, Object>> promotedStudent =  gradeService.promoteAllStudentsByGrade(gradeNo);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, promotedStudent ,"Successful", true));
