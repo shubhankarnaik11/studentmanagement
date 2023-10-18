@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Getter
-@AllArgsConstructor
 public class Subject {
 
     @Id
@@ -42,15 +41,12 @@ public class Subject {
     private List<Mark> marks;
 
     @JsonCreator
-    public Subject(@JsonProperty("subjectName") String subjectName, @JsonProperty("maxMark") Integer maxMark, @JsonProperty("passMark") Integer passMark, @JsonProperty("maxAttempt") Integer maxAttempt) {
+    public Subject( String subjectName, Integer maxMark,Integer passMark,Integer maxAttempt) {
         this.subjectName = subjectName;
         this.maxMark = maxMark;
         this.passMark = passMark;
         this.maxAttempt = maxAttempt;
     }
 
-//    public Subject( String subjectName) {
-//        this.subjectName = subjectName;
-//    }
 
 }
