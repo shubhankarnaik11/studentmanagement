@@ -1,0 +1,1 @@
+{ "entity":"student", "requestType":"put", "requestBody":{ "studentName": "Shubhankar", "rollNo": 1, "address": "string", "contactNumber": "8676008685", "fatherName": "abc", "motherName": "xyz", "gradeNo": 10}, "pathVariable": 1}

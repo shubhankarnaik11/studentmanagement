@@ -11,10 +11,13 @@ public class Message {
     @JsonProperty("entity")
     String entity;
 
-    @JsonProperty("type")
-    String type;
+    @JsonProperty("requestType")
+    String requestType;
 
-    @JsonProperty("data")
-    Object data;
+    @JsonProperty("requestBody")
+    Object requestBody;
+
+    @JsonProperty("pathVariable")
+    Integer pathVariable;
 
 }

@@ -10,6 +10,7 @@ import com.prat.student.repository.GradeRepository;
 import com.prat.student.repository.MarkRepository;
 import com.prat.student.repository.StudentRepository;
 import com.prat.student.service.StudentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.*;
 import java.lang.Math;
 
 @Service
+@Slf4j
 public class StudentServiceImpl implements StudentService {
 
     @Autowired
@@ -47,12 +49,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudentById(Integer studentId){
+        log.info("get student by id service");
         return findStudentByStudentId(studentId);
     }
 
     @Override
     public Student createStudent(StudentRequest newStudent){
-
+        log.info("add student service");
         Student student = new Student(newStudent.getStudentName(),newStudent.getRollNo(),
                 newStudent.getAddress(), newStudent.getContactNumber(), newStudent.getFatherName(),
                 newStudent.getMotherName(), findByGradeNo(newStudent.getGradeNo()));
@@ -70,12 +73,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student updateStudent(StudentRequest updatedStudent, Integer studentId) {
-
+        log.info("update student service");
         Student student = findStudentByStudentId(studentId);
 
         student.setStudentName(updatedStudent.getStudentName());
         student.setRollNo(updatedStudent.getRollNo());
         student.setAddress(updatedStudent.getAddress());
+        student.setContactNumber(updatedStudent.getContactNumber());
         student.setFatherName(updatedStudent.getFatherName());
         student.setMotherName(updatedStudent.getMotherName());
         student.setCurrentGrade(findByGradeNo(updatedStudent.getGradeNo()));
@@ -86,7 +90,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public boolean updateStudentMark(Integer studentId, HashMap<String, Float> subjectMark){
-
+        log.info("update mark service");
         Student student = findStudentByStudentId(studentId);
 
         Grade grade = student.getCurrentGrade();
@@ -99,7 +103,7 @@ public class StudentServiceImpl implements StudentService {
 
             if(subjectMark.containsKey(s.getSubjectName())){
                 int attemptNo = Math.max(mark.size()+1, 1);
-                Float singleMark = subjectMark.get(s.getSubjectName());
+                Float singleMark = Float.parseFloat(String.valueOf(subjectMark.get(s.getSubjectName())));
                 if ( attemptNo > s.getMaxAttempt()) throw new MaxAttemptExceededException("Max Attempt Exceeded for subject " + s.getSubjectName());
                 if( singleMark<0 || singleMark>s.getMaxMark()) throw new InvalidMarkException("Mark can be in the range [0,"+s.getMaxMark()+"] for " + s.getSubjectName());
                 Mark newMark = new Mark(singleMark,student,s, grade, attemptNo);
@@ -115,6 +119,7 @@ public class StudentServiceImpl implements StudentService {
         }
 
         markRepo.saveAll(markList);
+        log.info("exiting update mark service");
         return true;
     }
 

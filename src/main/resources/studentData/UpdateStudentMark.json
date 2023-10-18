@@ -1,0 +1,1 @@
+{ "entity":"student", "requestType":"updateMarks", "requestBody":{"Maths": 80}, "pathVariable": 2}

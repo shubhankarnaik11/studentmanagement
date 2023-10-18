@@ -1,11 +1,15 @@
 package com.prat.student.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
+@Setter
 public class StudentRequest {
 
     private String studentName;

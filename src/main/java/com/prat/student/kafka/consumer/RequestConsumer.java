@@ -13,6 +13,10 @@ public class RequestConsumer {
 
     @KafkaListener(topics = "Request", groupId="001")
     public void requestConsumer(String data){
-        krh.prepareDataAndForwardToRequestHandler(data);
+        try{
+            krh.prepareDataAndForwardToRequestHandler(data);
+        } catch (Exception e){
+            System.out.println("Catching exception");
+        }
     }
 }
