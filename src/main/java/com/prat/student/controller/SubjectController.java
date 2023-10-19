@@ -19,14 +19,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/subjects")
-public class SubjectController {
+public class SubjectController extends AbstractController {
     @Autowired
     SubjectServiceImpl subjectService;
 
 
     @Operation(summary = "Add new Subject")
     @PostMapping("/")
-    public ResponseEntity<ResponseDataObject> createSubject(@Valid @RequestBody SubjectRequest subject) {
+    public ResponseEntity<ResponseDataObject> createSubject(@Valid @RequestBody SubjectRequest subject) throws Exception {
         Subject newSubject = subjectService.createSubject(subject);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, newSubject,"Subject Created Successfully", true));
     }

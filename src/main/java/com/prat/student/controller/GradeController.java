@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/grades")
-public class GradeController {
+public class GradeController extends AbstractController{
     @Autowired
     GradeServiceImpl gradeService;
 

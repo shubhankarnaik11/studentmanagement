@@ -1,0 +1,1 @@
+{ "type": "student.update", "entityId": 1, "messageId": "1", "data": { "studentName": "Shubhankar", "rollNo": 1, "address": "string", "contactNumber": "8676008685", "fatherName": "abc", "motherName": "xyz", "gradeNo": 10 }}

@@ -2,17 +2,42 @@ package com.prat.student.exception;
 
 import com.prat.student.response.ResponseDataObject;
 import com.prat.student.response.ResponseObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.*;
 
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler {
+
+
+    private boolean isController(StackTraceElement sourceClassElement){
+
+        try {
+
+            Class<?> sourceClass = Class.forName(sourceClassElement.getClassName());
+            Class<?> destinationClass = Class.forName("com.prat.student.controller.AbstractController");
+            return sourceClass.getSuperclass() == destinationClass;
+
+        } catch (ClassNotFoundException ignored) {
+        }
+
+        return false;
+    }
+
+    private ResponseEntity<ResponseDataObject> getErrorObject(Exception exception, String errorMessage){
+
+        for(StackTraceElement errorClass : exception.getStackTrace()){
+                if(isController(errorClass)){
+                    return ResponseObject.getResponseObject(
+                            new ResponseDataObject(HttpStatus.NOT_FOUND, null, errorMessage, false)
+                    );
+                }
+        }
+        return null;
+    }
 
     @ExceptionHandler(StudentNotFoundException.class)
     public ResponseEntity<ResponseDataObject> exception(StudentNotFoundException exception) {
@@ -30,9 +55,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(GradeNotFoundException.class)
     public ResponseEntity<ResponseDataObject> exception(GradeNotFoundException exception) {
-        return ResponseObject.getResponseObject(
-                new ResponseDataObject(HttpStatus.NOT_FOUND, null ,exception.getErrorMessage(), false)
-        );
+//        switch (getErrorSource(exception)){
+//
+//        }
+        return null;
     }
 
     @ExceptionHandler(InvalidMarkException.class)
@@ -90,7 +116,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(JSONParserException.class)
     public ResponseEntity<ResponseDataObject> exception(JSONParserException exception) {
-        System.out.println("Here");
         return ResponseObject.getResponseObject(
                 new ResponseDataObject(HttpStatus.NOT_ACCEPTABLE, null ,exception.getErrorMessage(), false)
         );

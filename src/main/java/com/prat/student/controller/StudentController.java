@@ -1,5 +1,6 @@
 package com.prat.student.controller;
 
+import com.prat.student.Request.RequestHandler;
 import com.prat.student.entity.Student;
 import com.prat.student.model.StudentRequest;
 import com.prat.student.serviceimpl.StudentServiceImpl;
@@ -17,23 +18,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/student")
-public class StudentController {
+public class StudentController extends AbstractController{
 
     @Autowired
-    StudentServiceImpl studentService;
+    RequestHandler requestHandler;
 
 
     @Operation(summary = "Get All Students")
     @GetMapping("/")
     public ResponseEntity<ResponseDataObject> getStudents(){
-        List<Student> students = studentService.getAllStudents();
+        List<Student> students = requestHandler.getAllStudents();
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, students,"Successful", true));
     }
 
     @Operation(summary = "Get a student By Id")
     @GetMapping("/{studentId}")
     public ResponseEntity<ResponseDataObject> getStudentById(@PathVariable Integer studentId){
-        Student student = studentService.getStudentById(studentId);
+        Student student = requestHandler.getStudentById(studentId);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, student,"Successful", true));
     }
 
@@ -41,8 +42,7 @@ public class StudentController {
     @PostMapping("/")
     public ResponseEntity<ResponseDataObject> createStudent(@RequestBody @Valid StudentRequest newStudent) {
 
-        Student student = studentService.createStudent(newStudent);
-
+        Student student = requestHandler.createStudent(newStudent);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.CREATED, student,"Successful", true));
 
     }
@@ -51,14 +51,14 @@ public class StudentController {
     @Operation(summary = "Delete Student By Id")
     @DeleteMapping("/{studentId}")
     public ResponseEntity<ResponseDataObject> deleteStudent(@PathVariable Integer studentId) {
-        studentService.deleteStudent(studentId);
+        requestHandler.deleteStudent(studentId);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, studentId,"Deleted student with Id"+studentId, true));
     }
 
     @Operation(summary = "Update Student")
     @PutMapping("/{studentId}")
     public ResponseEntity<ResponseDataObject> updateStudent(@RequestBody @Valid StudentRequest updatedStudent, @PathVariable Integer studentId) {
-        Student student = studentService.updateStudent(updatedStudent, studentId);
+        Student student = requestHandler.updateStudent(updatedStudent, studentId);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, student,"Student Updated Successfully", true));
     }
 
@@ -66,7 +66,7 @@ public class StudentController {
     @Operation(summary = "Update Student Marks")
     @PutMapping("/update-marks/{studentId}")
     public ResponseEntity<ResponseDataObject> updateStudentMarks(@PathVariable Integer studentId, @RequestBody HashMap<String, Float> subjectMark) {
-        studentService.updateStudentMark(studentId, subjectMark);
+        requestHandler.updateStudentMark(studentId, subjectMark);
         return ResponseObject.getResponseObject(new ResponseDataObject(HttpStatus.OK, null,"Student Marks Updated Successfully", true));
     }
 

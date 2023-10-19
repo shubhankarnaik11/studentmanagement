@@ -2,10 +2,12 @@ package com.prat.student.model;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+@Data
 public class StudentRequest {
 
     private String studentName;

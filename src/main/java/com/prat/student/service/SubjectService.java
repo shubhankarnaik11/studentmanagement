@@ -6,7 +6,7 @@ import com.prat.student.model.SubjectRequest;
 import java.util.List;
 
 public interface SubjectService {
-    public abstract Subject createSubject(SubjectRequest subject);
+    public abstract Subject createSubject(SubjectRequest subject) throws Exception;
     public abstract List<Subject> getAllSubjects();
     public abstract Subject getSubjectById(Integer subjectId);
 

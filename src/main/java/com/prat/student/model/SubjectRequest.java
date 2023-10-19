@@ -1,9 +1,11 @@
 package com.prat.student.model;
 
 import jakarta.validation.constraints.*;
+import lombok.Data;
 import lombok.Getter;
 
 @Getter
+@Data
 public class SubjectRequest {
 
     @NotBlank(message = "Subject name cannot be blank")

@@ -21,7 +21,7 @@ public class SubjectServiceImpl implements SubjectService {
 
 
     @Override
-    public Subject createSubject(SubjectRequest subject){
+    public Subject createSubject (SubjectRequest subject) throws Exception {
 
         validateSubject(subject);
         Subject newSubject = new Subject(subject.getSubjectName(), subject.getMaxMark(), subject.getPassMark(), subject.getMaxAttempt());
