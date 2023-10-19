@@ -1,5 +1,6 @@
 package com.prat.student.kafka.consumer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prat.student.Request.RequestHandler;
 import com.prat.student.kafka.model.KafkaRequest;
@@ -25,20 +26,11 @@ public class RequestConsumer {
 
     @KafkaListener(topics = "Request", groupId="001")
     public void requestConsumer(String request){
-        System.out.println(request);
-
-
-
         KafkaResponse kafkaResponse = new KafkaResponse();
-
-
         kafkaResponse.setStatus("success");
-
         try {
             KafkaRequest msg = objectMapper.readValue(request, KafkaRequest.class);
             kafkaResponse.setMessageId(msg.getMessageId());
-
-
             Object res = null;
             switch (msg.getType()) {
                 case RequestTypes.STUDENT_ADD -> {
@@ -54,11 +46,9 @@ public class RequestConsumer {
             kafkaResponse.setData(res);
 
         }catch (Exception e){
-            System.out.println(e);
             kafkaResponse.setStatus("error");
-            kafkaResponse.setData(1);
-            System.out.println(kafkaResponse);
-            producer.produceErrorMessage(1);
+            kafkaResponse.getErrors().put("error while processing request", e.getMessage());
+            producer.produceErrorMessage(kafkaResponse);
         }
     }
 }
