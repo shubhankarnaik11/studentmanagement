@@ -1,1 +1,1 @@
-{ "type":"student.add", "data":{ "studentName": "Krishna", "rollNo": 1, "address": "string", "contactNumber": "8676008685", "fatherName": "abc", "motherName": "xyz", "gradeNo": 9}, "entityId": "", "messageId": "1"}
+{ "type":"student.add", "data":{ "studentName": "abcd", "rollNo": 3, "address": "string", "contactNumber": "8676008685", "fatherName": "abc", "motherName": "xyz", "gradeNo": 9}, "entityId": "", "messageId": "1"}

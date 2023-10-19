@@ -1,1 +1,1 @@
-{ "type":"student.add", "data":{},"entityId": "", "messageId": "1"}
+{ "type":"student.getAll", "data":{},"entityId": "", "messageId": "1"}

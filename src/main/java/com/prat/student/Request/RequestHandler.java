@@ -66,51 +66,51 @@ public class RequestHandler implements StudentService, GradeService, SubjectServ
 
     @Override
     public List<Grade> getGrades() {
-        return null;
+        return gradeService.getGrades();
     }
 
     @Override
     public Grade getGradeByGradeNo(Integer gradeNo) {
-        return null;
+        return gradeService.getGradeByGradeNo(gradeNo);
     }
 
     @Override
     public Grade createGrade(GradeRequest grade) {
-        return null;
+        return gradeService.createGrade(grade);
     }
 
     @Override
     public Grade addSubjectsToGrade(Integer grade, List<String> subjects) {
-        return null;
+        return gradeService.addSubjectsToGrade(grade, subjects);
     }
 
     @Override
     public List<HashMap<String, Object>> promoteAllStudentsByGrade(Integer gradeNo) {
-        return null;
+        return gradeService.promoteAllStudentsByGrade(gradeNo);
     }
 
     @Override
     public List<Student> getGradeStudents(Integer gradeNo) {
-        return null;
+        return gradeService.getGradeStudents(gradeNo);
     }
 
     @Override
     public List<HashMap<String, Object>> getNToppers(Integer gradeNo, Integer N) {
-        return null;
+        return gradeService.getNToppers(gradeNo, N);
     }
 
     @Override
     public Subject createSubject(SubjectRequest subject) throws Exception {
-        return null;
+        return subjectService.createSubject(subject);
     }
 
     @Override
     public List<Subject> getAllSubjects() {
-        return null;
+        return subjectService.getAllSubjects();
     }
 
     @Override
     public Subject getSubjectById(Integer subjectId) {
-        return null;
+        return subjectService.getSubjectById(subjectId);
     }
 }
