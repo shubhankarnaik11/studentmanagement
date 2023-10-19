@@ -1,5 +1,6 @@
 package com.prat.student.kafka.consumer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,12 +38,9 @@ public class RequestConsumer {
         log.info("consumed");
         KafkaResponse kafkaResponse = new KafkaResponse();
         kafkaResponse.setStatus("success");
-
         try {
             KafkaRequest msg = objectMapper.readValue(request, KafkaRequest.class);
             kafkaResponse.setMessageId(msg.getMessageId());
-
-
             Object res = null;
             log.info("entering switch case");
             switch (msg.getType()) {

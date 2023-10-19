@@ -13,21 +13,14 @@ public class Producer {
     @Autowired
     KafkaTemplate<String, Object> kafkaTemplate;
 
-    @Autowired
-    ObjectMapper objectMapper;
     public void produceResponseMessage(KafkaResponse response) {
         String topicName = "Response";
-        try {
-            kafkaTemplate.send(topicName, objectMapper.writeValueAsString(response));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        kafkaTemplate.send(topicName, response.toString());
     }
 
     public void produceErrorMessage(KafkaResponse response) {
         String topicName = "Error";
         kafkaTemplate.send(topicName, response.toString());
     }
-
 
 }
