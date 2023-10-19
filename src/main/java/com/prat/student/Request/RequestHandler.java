@@ -11,6 +11,8 @@ import com.prat.student.service.StudentService;
 import com.prat.student.service.SubjectService;
 import com.prat.student.serviceimpl.GradeServiceImpl;
 import com.prat.student.serviceimpl.StudentServiceImpl;
+import com.prat.student.serviceimpl.SubjectServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Component
+@Slf4j
 public class RequestHandler implements StudentService, GradeService, SubjectService {
 
     @Autowired
@@ -27,7 +30,7 @@ public class RequestHandler implements StudentService, GradeService, SubjectServ
     GradeServiceImpl gradeService;
 
     @Autowired
-    SubjectService subjectService;
+    SubjectServiceImpl subjectService;
 
 
     @Override
@@ -37,6 +40,7 @@ public class RequestHandler implements StudentService, GradeService, SubjectServ
 
     @Override
     public Student getStudentById(Integer studentId) {
+        log.info("student record with id {} : {}",studentId, studentService.getStudentById(studentId).getStudentName());
         return studentService.getStudentById(studentId);
     }
 

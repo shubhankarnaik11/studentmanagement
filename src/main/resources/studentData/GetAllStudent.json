@@ -1,1 +1,1 @@
-{ "entity":"student", "requestType":"getAll", "requestBody":{},"pathVariable": ""}
+{ "type":"student.add", "data":{},"entityId": "", "messageId": "1"}

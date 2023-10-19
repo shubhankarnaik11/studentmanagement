@@ -10,6 +10,7 @@ import com.prat.student.repository.GradeRepository;
 import com.prat.student.repository.MarkRepository;
 import com.prat.student.repository.StudentRepository;
 import com.prat.student.service.StudentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.*;
 import java.lang.Math;
 
 @Service
+@Slf4j
 public class StudentServiceImpl implements StudentService {
 
     @Autowired
@@ -47,6 +49,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudentById(Integer studentId){
+        log.info("inside get student service");
         return findStudentByStudentId(studentId);
     }
 

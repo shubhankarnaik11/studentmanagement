@@ -1,1 +1,1 @@
-{ "entity":"student", "requestType":"post", "requestBody":{ "studentName": "Krishna", "rollNo": 1, "address": "string", "contactNumber": "8676008685", "fatherName": "abc", "motherName": "xyz", "gradeNo": 9}, "pathVariable": ""}
+{ "type":"student.add", "data":{ "studentName": "Krishna", "rollNo": 1, "address": "string", "contactNumber": "8676008685", "fatherName": "abc", "motherName": "xyz", "gradeNo": 9}, "entityId": "", "messageId": "1"}
