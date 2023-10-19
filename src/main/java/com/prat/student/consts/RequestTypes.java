@@ -13,7 +13,7 @@ public class RequestTypes {
     public final static String GRADE_GET_ALL = "grade.getAll";
     public final static String GRADE_GET = "grade.get";
     public final static String GRADE_ADD = "grade.add";
-    public final static String GRADE_ADD_SUBJECTS = "grade.subjects";
+    public final static String GRADE_ADD_SUBJECTS = "grade.addSubjects";
     public final static String GRADE_PROMOTE = "grade.promote";
     public final static String GRADE_STUDENTS = "grade.students";
     public final static String GRADE_TOPPERS = "grade_toppers";

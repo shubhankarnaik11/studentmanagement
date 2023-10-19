@@ -1,13 +1,16 @@
 package com.prat.student.exception;
 
-import lombok.Getter;
 
-@Getter
 public class InvalidMarkException extends RuntimeException {
-    private String errorMessage;
+    private String message;
 
-    public InvalidMarkException(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public InvalidMarkException(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String getMessage(){
+        return message;
     }
 
 }

@@ -1,1 +1,1 @@
-{ "entity":"grade", "requestType":"getAll", "requestBody":{},"pathVariable": ""}
+{ "type":"grade.getAll", "data":{}, "entityId":"","messageId": "2"}

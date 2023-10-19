@@ -1,11 +1,14 @@
 package com.prat.student.exception;
 
-import lombok.Getter;
 
-@Getter
 public class SubjectAlreadyExistsException extends RuntimeException {
-    private String errorMessage;
+    private String message;
     public SubjectAlreadyExistsException(String errorMessage) {
-        this.errorMessage = errorMessage;
+        this.message = errorMessage;
+    }
+
+    @Override
+    public String getMessage(){
+        return message;
     }
 }

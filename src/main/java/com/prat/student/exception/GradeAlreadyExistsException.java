@@ -1,11 +1,14 @@
 package com.prat.student.exception;
 
-import lombok.Getter;
 
-@Getter
-public class GradeAlreadyExistsException extends RuntimeException {
-    private String errorMessage;
-    public GradeAlreadyExistsException(String errorMessage) {
-        this.errorMessage = errorMessage;
+public class GradeAlreadyExistsException extends RuntimeException{
+    private String message;
+    public GradeAlreadyExistsException(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String getMessage(){
+        return message;
     }
 }

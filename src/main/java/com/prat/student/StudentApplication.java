@@ -10,14 +10,14 @@ public class StudentApplication {
 	private static ConfigurableApplicationContext applicationContext;
 	public static void main(String[] args) {
 		applicationContext = SpringApplication.run(StudentApplication.class, args);
-//		displayAllBeans();
+		displayAllBeans();
 	}
 
-//	public static void displayAllBeans() {
-//		String[] allBeanNames = applicationContext.getBeanDefinitionNames();
-//		for(String beanName : allBeanNames) {
-//			System.out.println(beanName);
-//		}
-//	}
+	public static void displayAllBeans() {
+		String[] allBeanNames = applicationContext.getBeanDefinitionNames();
+		for(String beanName : allBeanNames) {
+			System.out.println(beanName);
+		}
+	}
 
 }

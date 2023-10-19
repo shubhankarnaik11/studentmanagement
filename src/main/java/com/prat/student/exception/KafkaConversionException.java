@@ -1,13 +1,16 @@
 package com.prat.student.exception;
 
-import lombok.Getter;
 
 
-@Getter
 public class KafkaConversionException extends RuntimeException {
-    private String errorMessage;
-    public KafkaConversionException(String errorMessage) {
-        this.errorMessage = errorMessage;
+    private String message;
+    public KafkaConversionException(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String getMessage(){
+        return message;
     }
 
 }

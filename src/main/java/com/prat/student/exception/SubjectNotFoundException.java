@@ -1,11 +1,14 @@
 package com.prat.student.exception;
 
-import lombok.Getter;
 
-@Getter
 public class SubjectNotFoundException extends RuntimeException {
-    private String errorMessage;
-    public SubjectNotFoundException(String errorMessage) {
-        this.errorMessage = errorMessage;
+    private String message;
+    public SubjectNotFoundException(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String getMessage(){
+        return message;
     }
 }

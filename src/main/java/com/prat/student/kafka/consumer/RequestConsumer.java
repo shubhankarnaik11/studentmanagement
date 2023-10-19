@@ -8,12 +8,14 @@ import com.prat.student.kafka.model.KafkaResponse;
 import com.prat.student.kafka.producer.Producer;
 import com.prat.student.model.GradeRequest;
 import com.prat.student.model.StudentRequest;
+import com.prat.student.model.SubjectListRequest;
 import com.prat.student.model.SubjectRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -94,9 +96,17 @@ public class RequestConsumer {
             }
             log.debug("response {}",objectMapper.writeValueAsString(res));
             kafkaResponse.setData(objectMapper.writeValueAsString(res));
+            System.out.println(kafkaResponse.getData());
             producer.produceResponseMessage(kafkaResponse);
+        }catch (RuntimeException e){
+
+            kafkaResponse.setStatus("error");
+            kafkaResponse.getErrors().put("error while processing request", e.getMessage());
+            producer.produceErrorMessage(kafkaResponse);
+
         }catch (Exception e){
             kafkaResponse.setStatus("error");
+            System.out.println(e);
             kafkaResponse.getErrors().put("error while processing request", e.getMessage());
             producer.produceErrorMessage(kafkaResponse);
         }

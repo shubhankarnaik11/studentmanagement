@@ -1,12 +1,15 @@
 package com.prat.student.exception;
 
-import lombok.Getter;
 
-@Getter
 public class InvalidInputException extends RuntimeException {
-    private String errorMessage;
+    private String message;
     public InvalidInputException(String errorMessage) {
-        this.errorMessage = errorMessage;
+        this.message = errorMessage;
+    }
+
+    @Override
+    public String getMessage(){
+        return message;
     }
 
 }

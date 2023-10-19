@@ -1,12 +1,15 @@
 package com.prat.student.exception;
 
-import lombok.Getter;
 
-@Getter
 public class GradeNotFoundException extends RuntimeException {
-    private String errorMessage;
-    public GradeNotFoundException(String errorMessage) {
-        this.errorMessage = errorMessage;
+    private String message;
+    public GradeNotFoundException(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String getMessage(){
+        return message;
     }
 
 }
