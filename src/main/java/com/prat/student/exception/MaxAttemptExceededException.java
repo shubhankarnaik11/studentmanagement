@@ -1,15 +1,9 @@
 package com.prat.student.exception;
 
-
-public class MaxAttemptExceededException extends RuntimeException {
-    private String message;
+public class MaxAttemptExceededException extends StudentManagementException{
     public MaxAttemptExceededException(String message) {
-        this.message = message;
+        update(MaxAttemptExceededException.class.getName(),message);
     }
 
-    @Override
-    public String getMessage(){
-        return message;
-    }
 
 }

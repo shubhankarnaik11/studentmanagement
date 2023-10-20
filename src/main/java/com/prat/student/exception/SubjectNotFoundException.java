@@ -1,14 +1,8 @@
 package com.prat.student.exception;
 
-
-public class SubjectNotFoundException extends RuntimeException {
+public class SubjectNotFoundException extends StudentManagementException{
     private String message;
     public SubjectNotFoundException(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String getMessage(){
-        return message;
+        update(SubjectNotFoundException.class.getName(), message);
     }
 }

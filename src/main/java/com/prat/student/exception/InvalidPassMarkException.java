@@ -1,15 +1,7 @@
 package com.prat.student.exception;
 
-
-public class InvalidPassMarkException extends RuntimeException {
-    private String message;
+public class InvalidPassMarkException extends StudentManagementException{
     public InvalidPassMarkException(String message) {
-        this.message = message;
+        update(InvalidPassMarkException.class.getName(), message);
     }
-
-    @Override
-    public String getMessage(){
-        return message;
-    }
-
 }

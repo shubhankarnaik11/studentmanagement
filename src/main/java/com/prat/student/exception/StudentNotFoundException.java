@@ -1,12 +1,6 @@
 package com.prat.student.exception;
 
-public class StudentNotFoundException extends RuntimeException {
-    private String message;
-    public StudentNotFoundException(String message) {
-        this.message = message;
-    }
-    @Override
-    public String getMessage(){
-        return message;
-    }
+public class StudentNotFoundException extends StudentManagementException{
+    public StudentNotFoundException(String message) {update(StudentNotFoundException.class.getName(), message);}
+
 }

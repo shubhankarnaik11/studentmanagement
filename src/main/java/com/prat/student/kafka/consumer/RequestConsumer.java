@@ -2,6 +2,7 @@ package com.prat.student.kafka.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prat.student.Request.RequestHandler;
+import com.prat.student.exception.StudentManagementException;
 import com.prat.student.kafka.model.KafkaRequest;
 import com.prat.student.consts.RequestTypes;
 import com.prat.student.kafka.model.KafkaResponse;
@@ -43,10 +44,8 @@ public class RequestConsumer {
             Object res = null;
             log.info("entering switch case");
             switch (msg.getType()) {
-
                 case RequestTypes.STUDENT_ADD -> {
                     res = requestHandler.createStudent(objectMapper.convertValue(msg.getData(), StudentRequest.class));
-
                 }
                 case RequestTypes.STUDENT_MODIFY -> {
                     res = requestHandler.updateStudent(objectMapper.convertValue(msg.getData(), StudentRequest.class), Integer.parseInt(msg.getEntityId()));
@@ -96,19 +95,14 @@ public class RequestConsumer {
             }
             log.debug("response {}",objectMapper.writeValueAsString(res));
             kafkaResponse.setData(objectMapper.writeValueAsString(res));
-            System.out.println(kafkaResponse.getData());
-            producer.produceResponseMessage(kafkaResponse);
-        }catch (RuntimeException e){
-
-            kafkaResponse.setStatus("error");
-            kafkaResponse.getErrors().put("error while processing request", e.getMessage());
-            producer.produceErrorMessage(kafkaResponse);
-
+        }catch (StudentManagementException e){
+            kafkaResponse.setData(e.getMessage());
         }catch (Exception e){
             kafkaResponse.setStatus("error");
-            System.out.println(e);
             kafkaResponse.getErrors().put("error while processing request", e.getMessage());
             producer.produceErrorMessage(kafkaResponse);
+        }finally {
+            producer.produceResponseMessage(kafkaResponse);
         }
     }
 }

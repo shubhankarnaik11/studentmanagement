@@ -1,1 +1,1 @@
-{ "type":"subject.add", "data":{"subjectName": "English", "maxMark": 100, "passMark": 35, "maxAttempt": 3},"entityId": "", "messageId": "1"}
+{ "type":"subject.add", "data":{"subjectName": "Hindi", "maxMark": 100, "passMark": 35, "maxAttempt": 3},"entityId": "", "messageId": "1"}

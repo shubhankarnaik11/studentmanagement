@@ -69,7 +69,7 @@ public class SubjectServiceTest {
     }
 
     @Test
-    public void createSubjectTest(){
+    public void createSubjectTest() throws Exception {
 
         when(subjectRepo.save(s1)).thenReturn(null);
 

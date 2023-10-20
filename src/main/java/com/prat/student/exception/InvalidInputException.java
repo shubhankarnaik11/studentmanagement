@@ -1,15 +1,8 @@
 package com.prat.student.exception;
 
-
-public class InvalidInputException extends RuntimeException {
-    private String message;
-    public InvalidInputException(String errorMessage) {
-        this.message = errorMessage;
-    }
-
-    @Override
-    public String getMessage(){
-        return message;
+public class InvalidInputException extends StudentManagementException{
+    public InvalidInputException(String message) {
+        update(InvalidInputException.class.getName(), message);
     }
 
 }

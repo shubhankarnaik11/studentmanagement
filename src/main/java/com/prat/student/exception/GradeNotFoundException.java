@@ -1,15 +1,8 @@
 package com.prat.student.exception;
 
-
-public class GradeNotFoundException extends RuntimeException {
-    private String message;
+public class GradeNotFoundException extends StudentManagementException{
     public GradeNotFoundException(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String getMessage(){
-        return message;
+        update(GradeNotFoundException.class.getName(), message);
     }
 
 }

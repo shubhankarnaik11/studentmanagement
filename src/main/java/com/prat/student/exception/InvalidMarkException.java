@@ -1,16 +1,7 @@
 package com.prat.student.exception;
 
-
-public class InvalidMarkException extends RuntimeException {
-    private String message;
-
+public class InvalidMarkException extends StudentManagementException{
     public InvalidMarkException(String message) {
-        this.message = message;
+        update(InvalidMarkException.class.getName(), message);
     }
-
-    @Override
-    public String getMessage(){
-        return message;
-    }
-
 }
