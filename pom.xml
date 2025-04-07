@@ -107,6 +107,35 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.11.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpecRootDirectory>/Users/shubhankarnaik/Documents/projects/student/src/main/resources/static/</inputSpecRootDirectory>
+                            <verbose>false</verbose>
+                            <generatorName>fbp-codegen-quality</generatorName>
+                            <output>${project.basedir}</output>
+                            <configOptions>
+                                <sourceFolder>src/main/java</sourceFolder>
+                                <documentationProvider>source</documentationProvider>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.infosys.fbp.platform</groupId>
+                        <artifactId>fbp-codegen-quality-openapi-generator</artifactId>
+                        <version>1.0.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
 		</plugins>
 	</build>
 
