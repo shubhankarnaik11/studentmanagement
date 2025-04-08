@@ -119,7 +119,7 @@
                         <configuration>
                             <inputSpecRootDirectory>/Users/shubhankarnaik/Documents/projects/student/src/main/resources/static/</inputSpecRootDirectory>
                             <verbose>false</verbose>
-                            <generatorName>fbp-codegen-quality</generatorName>
+                            <generatorName>fbp-codegen-code</generatorName>
                             <output>${project.basedir}</output>
                             <configOptions>
                                 <sourceFolder>src/main/java</sourceFolder>
@@ -131,10 +131,24 @@
                 <dependencies>
                     <dependency>
                         <groupId>com.infosys.fbp.platform</groupId>
-                        <artifactId>fbp-codegen-quality-openapi-generator</artifactId>
+                        <artifactId>fbp-codegen-code-openapi-generator</artifactId>
                         <version>1.0.0</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
 		</plugins>
 	</build>
